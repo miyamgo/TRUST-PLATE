@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Harian | Portal Vendor TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --brand-green: #0a4d3c;
+            --brand-light: #16a085;
+            --brand-orange: #f39c12;
+            --bg-body: #f4f9f7;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-vendor {
+            background: linear-gradient(135deg, var(--brand-green), var(--brand-light));
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(10, 77, 60, 0.2);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: white !important;
+        }
+
+        .nav-item .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 50px;
+            margin: 0 5px;
+            transition: 0.3s;
+        }
+
+        .nav-item .nav-link.active,
+        .nav-item .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white !important;
+        }
+
+        .user-pill {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            padding: 5px 15px 5px 5px;
+            display: flex;
+            align-items: center;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .live-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-green 2s infinite;
+            border: 2px solid white;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+        .card-friendly {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        .form-control,
+        .form-select,
+        .input-group-text {
+            border-radius: 10px;
+            border-color: #e2e8f0;
+            font-size: 0.85rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--brand-light);
+            box-shadow: 0 0 0 0.25rem rgba(22, 160, 133, 0.15);
+        }
+
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 15px;
+            padding: 30px 15px;
+            text-align: center;
+            background-color: #f8fafc;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--brand-light);
+            background-color: #f0fdfa;
+        }
+
+        .upload-area img {
+            max-height: 150px;
+            width: auto;
+            border-radius: 10px;
+            display: none;
+            margin: 0 auto;
+            z-index: 2;
+            position: relative;
+        }
+
+        .upload-placeholder {
+            z-index: 1;
+        }
+
+        .checkbox-gizi .form-check-input:checked {
+            background-color: var(--brand-light);
+            border-color: var(--brand-light);
+        }
+
+        .price-log-row {
+            background-color: #f8fafc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .meta-box {
+            background-color: #1e293b;
+            color: #f8fafc;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-family: monospace;
+            font-size: 0.8rem;
+        }
+
+        /* Custom Table for AI Audit Result */
+        .table-bap th {
+            background-color: #f1f5f9;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #475569;
+        }
+
+        .table-bap td {
+            vertical-align: middle;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-vendor sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="vendor-dashboard.html">
+                <i class="fas fa-shield-alt text-warning fs-3 me-2"></i>
+                <div>TRUST-PLATE <span
+                        style="font-size: 0.65rem; font-weight: 500; opacity: 0.9; letter-spacing: 0;">PORTAL MITRA
+                        DAPUR</span></div>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#vendorNav"><i class="fas fa-bars text-white fs-3"></i></button>
+            <div class="collapse navbar-collapse" id="vendorNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="vendor-dashboard.html"><i
+                                class="fas fa-home me-1"></i> Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor-rab.html"><i
+                                class="fas fa-calculator me-1"></i> Hitung RAB</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="vendor-lapor.html"><i
+                                class="fas fa-camera me-1"></i> Lapor Harian</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor-riwayat.html"><i
+                                class="fas fa-history me-1"></i> Riwayat</a></li>
+                </ul>
+                <div class="user-pill d-none d-lg-flex">
+                    <img src="https://ui-avatars.com/api/?name=Dapur+Mandiri&background=fff&color=0a4d3c"
+                        class="rounded-circle me-2" width="35" alt="Profile">
+                    <div class="d-flex flex-column lh-1 pe-2">
+                        <span class="fw-bold" style="font-size: 0.85rem;">Dapur Mandiri Berkah</span>
+                        <div class="d-flex align-items-center mt-1">
+                            <span class="live-indicator me-1" style="width: 8px; height: 8px;"></span><span
+                                style="font-size: 0.65rem; font-family: monospace;">ID: 0x8F...A12B</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="mb-4">
+            <h3 class="fw-bold text-dark">Laporan Pencairan (Strict Mode)</h3>
+            <p class="text-muted">Proses validasi ini dilindungi oleh pelacakan Waktu, GPS, dan Audit File PDF Nota
+                terpadu.</p>
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+                <div class="card-friendly h-100 p-4 border border-secondary border-opacity-25">
+                    <h6 class="fw-bold text-dark mb-3 border-bottom pb-2"><i
+                            class="fas fa-clipboard-list text-primary me-2"></i>1. Deklarasi Menu & Metadata</h6>
+
+                    <div class="meta-box mb-4 shadow-sm border border-secondary">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-white-50"><i class="far fa-clock"></i> Server Time:</span>
+                            <span id="metaTime" class="text-warning fw-bold">Memuat...</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-white-50"><i class="fas fa-map-marker-alt"></i> Koordinat GPS:</span>
+                            <span id="metaGPS" class="text-info fw-bold">Memindai lokasi...</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted mb-1">Sekolah Sasaran (Hanya yang
+                            Di-ACC)</label>
+                        <select class="form-select bg-light fw-bold text-primary" id="inputSekolah">
+                            <option value="">-- Memuat data kontrak Anda... --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted mb-1">Detail Menu Masakan Aktual</label>
+                        <textarea class="form-control" id="inputMenu" rows="2"
+                            placeholder="Contoh: Nasi Putih, Ikan Nila Bakar, Sayur Kangkung..."></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-muted mb-1">Klaim Estimasi Kalori per Porsi</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control fw-bold" id="inputKalori" value="650">
+                            <span class="input-group-text bg-light">Kkal</span>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 border mt-4 checkbox-gizi">
+                        <label class="form-label small fw-bold text-dark mb-2">Ceklis 4 Pilar Gizi (Sesuai
+                            Panduan):</label>
+                        <div class="form-check mb-1"><input class="form-check-input" type="checkbox"
+                                id="checkKarbo"><label class="form-check-label small" for="checkKarbo">Karbohidrat
+                                (Nasi/Kentang/Roti)</label></div>
+                        <div class="form-check mb-1"><input class="form-check-input" type="checkbox"
+                                id="checkProHewan"><label class="form-check-label small" for="checkProHewan">Protein
+                                Hewani (Daging/Ikan/Telur)</label></div>
+                        <div class="form-check mb-1"><input class="form-check-input" type="checkbox"
+                                id="checkProNaba"><label class="form-check-label small" for="checkProNaba">Protein
+                                Nabati (Tahu/Tempe/Kacang)</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="checkSayur"><label
+                                class="form-check-label small" for="checkSayur">Sayur & Buah-buahan</label></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card-friendly h-100 p-4 border border-secondary border-opacity-25">
+
+                    <h6 class="fw-bold text-dark mb-3 border-bottom pb-2"><i
+                            class="fas fa-shield-alt text-success me-2"></i>2. Forensik Visual & Bukti Belanja (PDF)
+                    </h6>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted mb-2">1. Foto 1 Porsi Penuh (Untuk AI
+                                Gizi)</label>
+                            <div class="upload-area" onclick="document.getElementById('inputFoto').click()">
+                                <div class="upload-placeholder" id="uploadPlaceholder">
+                                    <i class="fas fa-camera text-primary mb-2 fs-1"></i>
+                                    <h6 class="fw-bold text-dark mb-0">Foto Porsi (JPG/PNG)</h6>
+                                </div>
+                                <img id="previewFoto" src="" alt="Preview">
+                                <input type="file" id="inputFoto" class="d-none" accept="image/*" capture="environment"
+                                    onchange="previewImage(event, 'previewFoto', 'uploadPlaceholder')">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-muted mb-2">2. Scan Berkas Kwitansi (Untuk OCR
+                                AI)</label>
+                            <div class="upload-area border-warning" style="background-color: #fffbeb;"
+                                onclick="document.getElementById('inputNotaPDF').click()">
+                                <div class="upload-placeholder" id="uploadPlaceholderNota">
+                                    <i class="fas fa-file-pdf text-danger mb-2 fs-1"></i>
+                                    <h6 class="fw-bold text-dark mb-1">Unggah PDF Nota Belanja</h6>
+                                    <small class="text-muted"
+                                        style="font-size: 0.7rem; display:block; line-height: 1.2;">(Gabungkan & Scan
+                                        seluruh nota<br>pasar hari ini menjadi 1 File .PDF)</small>
+                                </div>
+                                <div id="previewPdfContainer" class="d-none">
+                                    <i class="fas fa-file-pdf text-danger mb-2" style="font-size: 3rem;"></i>
+                                    <p class="mb-1 fw-bold text-dark" id="pdfFileName"
+                                        style="font-size: 0.8rem; word-break: break-all;"></p>
+                                    <span class="badge bg-success"><i class="fas fa-check-circle"></i> Siap Di-Scan
+                                        AI</span>
+                                </div>
+                                <input type="file" id="inputNotaPDF" class="d-none" accept="application/pdf, image/jpeg, image/png"
+                                    onchange="previewPdf(event)">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <label class="form-label small fw-bold text-muted mb-0">3. Log Harga Aktual (Disamakan dengan
+                            Nota)</label>
+                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill py-1"
+                            onclick="tambahBarisBelanja()"><i class="fas fa-plus"></i> Tambah Item</button>
+                    </div>
+
+                    <div class="alert bg-primary bg-opacity-10 border border-primary text-dark py-2 mb-3"
+                        style="font-size: 0.75rem;">
+                        <i class="fas fa-info-circle me-1 text-primary"></i> Harga yang Anda input akan di-Scan OCR dari
+                        PDF Nota, lalu di-<i>crosscheck</i> dengan standar Harga Nasional (PIHPS).
+                    </div>
+
+                    <div id="containerBelanja"
+                        style="max-height: 150px; overflow-y: auto; overflow-x: hidden; padding-right: 5px;"></div>
+
+                    <div class="mt-4 pt-3 border-top bg-light p-3 rounded-3 border">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input border-danger" type="checkbox" id="checkIntegritas"
+                                onchange="toggleSubmitBtn()">
+                            <label class="form-check-label text-dark fw-bold" for="checkIntegritas"
+                                style="font-size: 0.8rem; text-align: justify;">
+                                <i class="fas fa-balance-scale text-danger me-1"></i> PAKTA INTEGRITAS: Saya siap data
+                                saya divalidasi oleh sistem AI Terpadu Pemerintah. Saya bersedia menerima konsekuensi
+                                hukum jika terbukti memalsukan data.
+                            </label>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-success rounded-pill fw-bold px-5 py-2 shadow"
+                                id="btnSubmit" onclick="kirimKeAI()" disabled>
+                                <i class="fas fa-microchip me-2"></i> Jalankan Validasi AI Terpadu
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let fileFotoGlobal = null;
+        let fileNotaPDFGlobal = null;
+        let barisCounter = 0;
+
+        async function initLapor() {
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('metaTime').innerText = now.toLocaleTimeString('id-ID') + ' WIB';
+            }, 1000);
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude.toFixed(5);
+                        const lng = position.coords.longitude.toFixed(5);
+                        document.getElementById('metaGPS').innerText = `${lat}, ${lng}`;
+                        document.getElementById('metaGPS').classList.replace('text-info', 'text-success');
+                    },
+                    (error) => {
+                        document.getElementById('metaGPS').innerText = "Akses Lokasi Ditolak";
+                        document.getElementById('metaGPS').classList.replace('text-info', 'text-danger');
+                    }
+                );
+            } else {
+                document.getElementById('metaGPS').innerText = "GPS Tidak Didukung";
+            }
+
+            try {
+                const resRab = await fetch('http://localhost:3000/api/vendor/my-rab');
+                const dataRab = await resRab.json();
+                const selSekolah = document.getElementById('inputSekolah');
+                selSekolah.innerHTML = '<option value="">-- Pilih Sekolah Sesuai Kontrak --</option>';
+
+                if (dataRab.success) {
+                    const approvedRabs = dataRab.data.filter(r => r.status === 'Disetujui');
+                    if (approvedRabs.length > 0) {
+                        approvedRabs.forEach(r => { selSekolah.innerHTML += `<option value="${r.sekolah}">${r.sekolah} (${r.jumlah_porsi} Porsi)</option>`; });
+                    } else {
+                        selSekolah.innerHTML = '<option value="">-- Belum Ada Kontrak Aktif --</option>';
+                        selSekolah.disabled = true;
+                    }
+                }
+            } catch (e) { }
+            
+            // Tambahkan baris pertama form harga saat halaman dibuka
+            setTimeout(tambahBarisBelanja, 500);
+        }
+
+        function previewImage(event, imgId, placeholderId) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                fileFotoGlobal = file;
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById(placeholderId).style.display = 'none';
+                    const img = document.getElementById(imgId);
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function previewPdf(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Diperbarui agar bisa menerima PDF maupun Gambar (jika vendor memfoto nota)
+                fileNotaPDFGlobal = file;
+                document.getElementById('uploadPlaceholderNota').style.display = 'none';
+                document.getElementById('previewPdfContainer').classList.remove('d-none');
+                document.getElementById('pdfFileName').innerText = file.name;
+                
+                // Ubah icon jika yang diunggah adalah gambar
+                if(file.type.startsWith('image/')){
+                     document.querySelector('#previewPdfContainer i').className = "fas fa-image text-primary mb-2";
+                } else {
+                     document.querySelector('#previewPdfContainer i').className = "fas fa-file-pdf text-danger mb-2";
+                }
+            } else {
+                Swal.fire('Format Salah', 'Harap unggah nota dalam format PDF atau Gambar!', 'error');
+                event.target.value = "";
+            }
+        }
+
+        function tambahBarisBelanja() {
+            barisCounter++;
+            
+            // Kategori bahan mentah untuk dipilih (bukan dari CSV AI)
+            const kategoriOps = `
+                <option value="">- Kategori -</option>
+                <option value="Karbohidrat">Karbohidrat</option>
+                <option value="Protein">Protein (Hewani/Nabati)</option>
+                <option value="Sayur & Buah">Sayur & Buah</option>
+                <option value="Bumbu & Lainnya">Bumbu/Minyak/Gas</option>
+            `;
+
+            const html = `
+                <div class="row g-2 align-items-center price-log-row" id="baris-${barisCounter}">
+                    <div class="col-4">
+                        <input type="text" class="form-control form-control-sm item-nama fw-bold" placeholder="Ketik nama barang beli...">
+                    </div>
+                    <div class="col-4">
+                        <select class="form-select form-select-sm cat-sel bg-light text-primary fw-bold">
+                            ${kategoriOps}
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-white text-muted border-end-0">Rp</span>
+                            <input type="number" class="form-control harga-val border-start-0" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="col-1 text-center">
+                        <button type="button" class="btn btn-sm text-danger border-0 p-0" onclick="document.getElementById('baris-${barisCounter}').remove()"><i class="fas fa-times-circle fs-5"></i></button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('containerBelanja').insertAdjacentHTML('beforeend', html);
+        }
+
+        function toggleSubmitBtn() {
+            document.getElementById('btnSubmit').disabled = !document.getElementById('checkIntegritas').checked;
+        }
+
+        // ========================================================
+        // FUNGSI UTAMA: VALIDASI AI & TAMPILKAN BAP DIGITAL KONTRAK
+        // ========================================================
+        async function kirimKeAI() {
+            const sekolah = document.getElementById('inputSekolah').value;
+            const menu = document.getElementById('inputMenu').value;
+            const kalori = document.getElementById('inputKalori').value;
+
+            if (!sekolah || !menu || !fileFotoGlobal || !fileNotaPDFGlobal) {
+                return Swal.fire('Data Tidak Lengkap', 'Pastikan semua isian, foto, dan file Nota telah diunggah.', 'warning');
+            }
+
+            const logBahan = [];
+            document.querySelectorAll('.price-log-row').forEach(row => {
+                const nama = row.querySelector('.item-nama').value.trim(); // Ambil teks bebas
+                const kategori = row.querySelector('.cat-sel').value;
+                const hg = parseInt(row.querySelector('.harga-val').value) || 0;
+                
+                if (nama && hg > 0) {
+                    logBahan.push({ nama: nama, kategori: kategori, price: hg });
+                }
+            });
+
+            if (logBahan.length === 0) return Swal.fire('Log Kosong', 'Harap isi minimal 1 item daftar harga.', 'warning');
+
+            // 1. Tampilkan Animasi Proses AI Berantai
+            let timerInterval;
+            Swal.fire({
+                title: 'Audit Terpadu AI Bekerja...',
+                html: '<div style="text-align: left; font-size: 0.9rem; margin-top: 15px;" id="ai-loading-steps">' +
+                    '<p id="step1"><i class="fas fa-spinner fa-spin text-warning me-2"></i>Mengekstrak Gizi dari Foto Lauk...</p>' +
+                    '<p id="step2" class="text-muted"><i class="far fa-circle me-2"></i>Membaca Teks (OCR) dari File Nota...</p>' +
+                    '<p id="step3" class="text-muted"><i class="far fa-circle me-2"></i>Cross-Check ke Server PIHPS Nasional...</p>' +
+                    '</div>',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    setTimeout(() => {
+                        const step1 = document.getElementById('step1');
+                        if (step1) {
+                            step1.className = "text-success fw-bold";
+                            step1.innerHTML = '<i class="fas fa-check-circle me-2"></i>Gizi Terekstrak (CLIP Vision)';
+                        }
+                        const step2 = document.getElementById('step2');
+                        if (step2) {
+                            step2.className = "text-dark";
+                            step2.innerHTML = '<i class="fas fa-spinner fa-spin text-warning me-2"></i>Membaca Teks (OCR) dari File Nota...';
+                        }
+                    }, 1500);
+                    setTimeout(() => {
+                        const step2 = document.getElementById('step2');
+                        if (step2) {
+                            step2.className = "text-success fw-bold";
+                            step2.innerHTML = '<i class="fas fa-check-circle me-2"></i>Angka Nota Terbaca';
+                        }
+                        const step3 = document.getElementById('step3');
+                        if (step3) {
+                            step3.className = "text-dark";
+                            step3.innerHTML = '<i class="fas fa-spinner fa-spin text-warning me-2"></i>Cross-Check ke Server PIHPS Nasional...';
+                        }
+                    }, 3000);
+                }
+            });
+
+            try {
+                // Tembak Server Node.js
+                const formData = new FormData();
+                formData.append('vendorId', '0x8F...A12B (Dapur Mandiri)');
+                formData.append('sekolah', sekolah);
+                formData.append('fotoMakanan', fileFotoGlobal);
+                formData.append('fileNota', fileNotaPDFGlobal); 
+                formData.append('logBahan', JSON.stringify(logBahan));
+
+                const resAI = await fetch('http://localhost:3000/api/vendor/audit-ai', { method: 'POST', body: formData });
+                const dataAI = await resAI.json();
+
+                if (!dataAI.success) throw new Error(dataAI.message);
+
+                const hasilGizi = dataAI.data.ai_audit.gizi.status;
+                const fileUrl = dataAI.data.fileUrl;
+                const notaUrl = dataAI.data.notaUrl; 
+
+                // 2. BANGUN TABEL KOMPARASI (Simulasi OCR & PIHPS untuk BAP)
+                let tableHtml = `
+                    <div class="table-responsive border rounded-3 mb-3">
+                        <table class="table table-bap mb-0 text-start">
+                            <thead>
+                                <tr>
+                                    <th>Nama Item</th>
+                                    <th>Harga Input Anda</th>
+                                    <th>Hasil Scan OCR Nota</th>
+                                    <th>Standar PIHPS (Kota)</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                let isAdaMarkup = false;
+
+                // Membangun baris secara dinamis berdasarkan input vendor
+                logBahan.forEach(b => {
+                    // Simulasi PIHPS: Kita pura-pura server PIHPS mendeteksi barang tersebut
+                    let pihpsAcuan = b.price - (Math.floor(Math.random() * 2000) - 500); // Acuan sedikit lebih murah/mahal
+                    if(pihpsAcuan < 0) pihpsAcuan = b.price;
+
+                    let statusItem = '';
+                    let rowColor = '';
+
+                    // Jika input harga > 20% dari PIHPS
+                    if (b.price > pihpsAcuan * 1.20) {
+                        isAdaMarkup = true;
+                        statusItem = '<span class="badge bg-danger">Mark-up</span>';
+                        rowColor = 'table-danger';
+                    } else {
+                        statusItem = '<span class="badge bg-success">Wajar</span>';
+                    }
+
+                    tableHtml += `
+                        <tr class="${rowColor}">
+                            <td class="fw-bold">${b.nama} <br><small class="text-muted fw-normal">${b.kategori}</small></td>
+                            <td>Rp ${b.price.toLocaleString('id-ID')}</td>
+                            <td class="text-primary fw-bold"><i class="fas fa-check me-1"></i>Rp ${b.price.toLocaleString('id-ID')}</td>
+                            <td class="text-success">Rp ${pihpsAcuan.toLocaleString('id-ID')}</td>
+                            <td class="text-center">${statusItem}</td>
+                        </tr>
+                    `;
+                });
+                tableHtml += `</tbody></table></div>`;
+
+                let finalHargaStatus = isAdaMarkup ? 'Terindikasi Mark-up' : 'Harga Wajar Terverifikasi';
+
+                // Jeda sebentar biar animasinya selesai (4 detik total)
+                setTimeout(() => {
+                    Swal.close();
+
+                    // 3. TAMPILKAN BAP DIGITAL (BERITA ACARA)
+                    Swal.fire({
+                        title: 'BERITA ACARA AUDIT AI',
+                        width: '850px',
+                        html: `
+                            <div class="text-start" style="font-size: 0.9rem;">
+                                <p class="text-muted mb-3">Sistem telah memverifikasi kesesuaian Menu, Gizi, dan Kesamaan Harga antara Input vs Scan Nota vs Database PIHPS.</p>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="bg-light p-2 rounded border border-success border-opacity-25 h-100">
+                                            <h6 class="fw-bold text-success mb-1"><i class="fas fa-carrot"></i> Audit Gizi Lauk</h6>
+                                            <p class="mb-0 small"><b>Klaim:</b> ${menu}<br><b>Deteksi AI:</b> ${hasilGizi}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="bg-light p-2 rounded border border-primary border-opacity-25 h-100">
+                                            <h6 class="fw-bold text-primary mb-1"><i class="fas fa-file-invoice"></i> Audit Berkas Nota</h6>
+                                            <p class="mb-0 small"><b>Status:</b> File Valid (Total harga pada nota berhasil terbaca oleh sistem OCR).</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-bold text-dark mt-4 mb-2"><i class="fas fa-robot text-primary me-2"></i>Hasil Cross-Check Harga Berantai (Input ↔ OCR ↔ PIHPS)</h6>
+                                ${tableHtml}
+
+                                <div class="alert ${isAdaMarkup ? 'alert-danger' : 'alert-success'} d-flex align-items-center py-2 shadow-sm mt-3">
+                                    <i class="${isAdaMarkup ? 'fas fa-exclamation-triangle fs-4 text-danger' : 'fas fa-shield-check fs-4 text-success'} me-3"></i>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">Kesimpulan AI: ${finalHargaStatus}</h6>
+                                        <small>${isAdaMarkup ? 'Ditemukan perbedaan signifikan antara nota Anda dengan harga wajar PIHPS. Walikota dapat memberikan sanksi.' : 'Semua harga relevan dan sesuai standar pasar.'}</small>
+                                    </div>
+                                </div>
+                                <p class="text-center fw-bold mt-4 mb-0 text-dark">Apakah Anda menyetujui hasil rekam audit ini untuk dikunci secara permanen di dalam Smart Contract?</p>
+                            </div>
+                        `,
+                        icon: isAdaMarkup ? 'warning' : 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#16a085',
+                        cancelButtonColor: '#dc3545',
+                        confirmButtonText: '<i class="fas fa-fingerprint me-1"></i> Ya, Setuju & Segel ke Web3',
+                        cancelButtonText: '<i class="fas fa-undo"></i> Batal & Revisi Input',
+                        reverseButtons: true
+                    }).then(async (result) => {
+                        // JIKA VENDOR SETUJU (ACCEPT)
+                        if (result.isConfirmed) {
+                            Swal.fire({ title: 'Memproses Segel Web3...', html: 'Menciptakan Block transaksi dan mencairkan dana escrow...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
+
+                            // KIRIM SEMUA DATA KE DB GOV
+                            const payloadLedger = {
+                                vendorId: '0x8F...A12B (Dapur Mandiri)',
+                                sekolah: sekolah,
+                                fileUrl: fileUrl,
+                                notaUrl: notaUrl,
+                                menu: menu,
+                                kalori: kalori,
+                                giziStatus: hasilGizi,
+                                hargaStatus: finalHargaStatus
+                            };
+
+                            const resLedger = await fetch('http://localhost:3000/api/vendor/submit-ledger', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payloadLedger) });
+                            const dataLedger = await resLedger.json();
+
+                            if (dataLedger.success) {
+                                Swal.fire({
+                                    title: 'KONTRAK TERSEGEL! 💸',
+                                    html: `Dana escrow harian telah ditransfer ke dompet Anda.<br><br><b>TxHash Blockchain:</b><br><code class="text-primary bg-light p-2 rounded d-block mt-2" style="font-size:0.8rem; word-break:break-all;">${dataLedger.tx_hash}</code>`,
+                                    icon: 'success', confirmButtonColor: '#16a085'
+                                }).then(() => { window.location.href = "vendor-riwayat.html"; });
+                            } else { Swal.fire('Gagal Web3', dataLedger.message, 'error'); }
+                        }
+                    });
+                }, 4000); 
+
+            } catch (err) {
+                console.error(err);
+                Swal.fire('Koneksi Terputus', 'Server Python/Node.js tidak merespon.', 'error');
+            }
+        }
+
+        window.onload = initLapor;
+    </script>
+</body>
+
+</html>

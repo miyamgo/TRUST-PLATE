@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2G Audit Dapur Umum | TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-gov: #1a252f;
+            --accent-gov: #e67e22;
+            --bg-dashboard: #f0f3f5;
+        }
+
+        body {
+            background-color: var(--bg-dashboard);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            background-color: var(--primary-gov);
+            min-height: 100vh;
+            color: #ecf0f1;
+        }
+
+        .nav-link {
+            color: #bdc3c7;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        /* Card Styling */
+        .card-dash {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-box {
+            background-color: white;
+            border-radius: 50px;
+            padding: 5px 15px;
+            border: 1px solid #ced4da;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            box-shadow: none;
+            width: 100%;
+        }
+
+        /* Table Styling */
+        .table-audit th {
+            background-color: #f8f9fa;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #7f8c8d;
+        }
+
+        .table-audit td {
+            vertical-align: middle;
+        }
+
+        .score-badge {
+            font-size: 0.9em;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse p-3">
+                <div class="text-center mb-4 mt-2 border-bottom border-secondary pb-3">
+                    <i class="fas fa-shield-alt text-success fs-2 mb-2"></i>
+                    <h5 class="fw-bold text-white mb-0">TRUST-PLATE</h5>
+                    <small class="text-muted" style="font-size: 0.7rem;">GOV COMMAND CENTER</small>
+                </div>
+
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html"><i class="fas fa-chart-line me-2"></i> Ringkasan
+                            Eksekutif</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="approval.html">
+                            <i class="fas fa-file-signature me-2"></i> Verifikasi & Kontrak
+                            <span class="badge bg-danger ms-2 rounded-pill">5</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="audit.html"><i class="fas fa-users-cog me-2"></i> Audit Dapur
+                            Umum</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ledger.html"><i class="fas fa-cube me-2"></i> Ledger Blockchain</a>
+                    </li>
+                </ul>
+
+                <div class="mt-auto pt-5 mt-5">
+                    <a href="index.html" class="btn btn-outline-secondary w-100 btn-sm"><i
+                            class="fas fa-sign-out-alt me-2"></i>Portal Publik</a>
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+
+                <div
+                    class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+                    <div>
+                        <h2 class="fw-bold mb-0 text-dark">Direktori & Audit Dapur Umum</h2>
+                        <p class="text-muted small">Kelola status, berikan sanksi, dan pantau rapor kinerja seluruh
+                            vendor MBG yang aktif.</p>
+                    </div>
+                    <div class="btn-toolbar mb-2 mb-md-0 d-flex gap-2">
+                        <div class="search-box d-flex align-items-center me-2">
+                            <i class="fas fa-search text-muted me-2"></i>
+                            <input type="text" placeholder="Cari nama vendor atau NIB..." style="width: 250px;">
+                        </div>
+                        <button class="btn btn-primary fw-bold"><i class="fas fa-filter me-1"></i> Filter</button>
+                        <button class="btn btn-outline-secondary"><i class="fas fa-file-export me-1"></i> Export
+                            Excel</button>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="card card-dash bg-white border-0 border-start border-4 border-primary">
+                            <div class="card-body py-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-1 small fw-bold">TOTAL VENDOR AKTIF</h6>
+                                    <h4 class="fw-bold mb-0">1,284</h4>
+                                </div>
+                                <i class="fas fa-store text-primary opacity-50 fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-dash bg-white border-0 border-start border-4 border-success">
+                            <div class="card-body py-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-1 small fw-bold">KINERJA SANGAT BAIK</h6>
+                                    <h4 class="fw-bold mb-0 text-success">942</h4>
+                                </div>
+                                <i class="fas fa-award text-success opacity-50 fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-dash bg-white border-0 border-start border-4 border-warning">
+                            <div class="card-body py-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-1 small fw-bold">DALAM PENGAWASAN (SP-1)</h6>
+                                    <h4 class="fw-bold mb-0 text-warning">56</h4>
+                                </div>
+                                <i class="fas fa-eye text-warning opacity-50 fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-dash bg-white border-0 border-start border-4 border-danger">
+                            <div class="card-body py-3 d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="text-muted mb-1 small fw-bold">KONTRAK DIBEKUKAN</h6>
+                                    <h4 class="fw-bold mb-0 text-danger">12</h4>
+                                </div>
+                                <i class="fas fa-ban text-danger opacity-50 fs-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card card-dash mb-4">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-audit mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="ps-4">Profil Dapur Umum</th>
+                                        <th>Distribusi</th>
+                                        <th class="text-center">Kepatuhan Gizi (AI)</th>
+                                        <th class="text-center">Trust Score</th>
+                                        <th>Status Kontrak</th>
+                                        <th>Tindakan Lanjut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-success text-white rounded-circle d-flex justify-content-center align-items-center me-3 fw-bold"
+                                                    style="width: 40px; height: 40px; font-size: 1.2rem;">M</div>
+                                                <div>
+                                                    <h6 class="fw-bold text-dark mb-0">Dapur Mandiri Berkah</h6>
+                                                    <small class="text-muted"><i
+                                                            class="fas fa-fingerprint me-1"></i>0x8F...A12B</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold text-dark" style="font-size: 0.9rem;">Kec. Banyumanik
+                                            </div>
+                                            <small class="text-muted">450 Porsi/hari</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text-success fw-bold">100% Valid</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="score-badge bg-primary text-white">98.5</span>
+                                        </td>
+                                        <td><span
+                                                class="badge bg-success bg-opacity-10 text-success border border-success"><i
+                                                    class="fas fa-check-circle me-1"></i> Aktif Berjalan</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                                data-bs-target="#vendorProfileModal">Lihat Rapor</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="table-warning border-warning">
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-warning text-white rounded-circle d-flex justify-content-center align-items-center me-3 fw-bold"
+                                                    style="width: 40px; height: 40px; font-size: 1.2rem;">H</div>
+                                                <div>
+                                                    <h6 class="fw-bold text-dark mb-0">Harapan Jaya Food</h6>
+                                                    <small class="text-muted"><i
+                                                            class="fas fa-fingerprint me-1"></i>0x9B...4C11</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold text-dark" style="font-size: 0.9rem;">Kec. Ngaliyan
+                                            </div>
+                                            <small class="text-muted">600 Porsi/hari</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text-warning fw-bold text-dark">82% Valid</span><br>
+                                            <small class="text-danger" style="font-size: 0.7rem;">4x Mark-up
+                                                Terdeteksi</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="score-badge bg-warning text-dark">85.4</span>
+                                        </td>
+                                        <td><span
+                                                class="badge bg-warning bg-opacity-10 text-dark border border-warning"><i
+                                                    class="fas fa-exclamation-circle me-1"></i> Dalam Pengawasan
+                                                (SP-1)</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-outline-dark fw-bold" data-bs-toggle="modal"
+                                                data-bs-target="#vendorProfileModal">Audit Khusus</button>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="table-danger border-danger opacity-75">
+                                        <td class="ps-4">
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-danger text-white rounded-circle d-flex justify-content-center align-items-center me-3 fw-bold"
+                                                    style="width: 40px; height: 40px; font-size: 1.2rem;">M</div>
+                                                <div>
+                                                    <h6 class="fw-bold text-danger mb-0">Katering Maju Mundur</h6>
+                                                    <small class="text-muted"><i
+                                                            class="fas fa-fingerprint me-1"></i>0x5D...2F99</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold text-dark" style="font-size: 0.9rem;">Kec. Semarang
+                                                Utara</div>
+                                            <small class="text-muted">300 Porsi/hari</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="text-danger fw-bold">60% Valid</span><br>
+                                            <small class="text-danger" style="font-size: 0.7rem;">Gizi Buruk
+                                                Berulang</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="score-badge bg-danger text-white">42.1</span>
+                                        </td>
+                                        <td><span class="badge bg-danger text-white"><i class="fas fa-ban me-1"></i>
+                                                Kontrak Dibekukan</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger fw-bold shadow-sm">Cabut Izin</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <div class="modal fade" id="vendorProfileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
+
+                <div class="modal-header bg-dark text-white border-0 py-3">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-id-card me-2"></i> Rapor Kinerja Vendor & Tindakan
+                        Pendisiplinan</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-4 bg-light">
+                    <div class="row mb-4 bg-white p-3 rounded shadow-sm border border-warning mx-0">
+                        <div class="col-md-7 border-end">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="bg-warning text-white rounded-circle d-flex justify-content-center align-items-center me-3 fw-bold fs-3"
+                                    style="width: 60px; height: 60px;">H</div>
+                                <div>
+                                    <h4 class="fw-bold text-dark mb-0">Harapan Jaya Food</h4>
+                                    <span class="badge bg-warning text-dark mt-1"><i class="fas fa-eye me-1"></i>
+                                        Status: SP-1 Aktif</span>
+                                </div>
+                            </div>
+                            <p class="small text-muted mb-1"><strong>Alamat:</strong> Jl. Prof Hamka No. 12, Ngaliyan
+                            </p>
+                            <p class="small text-muted mb-1"><strong>Pemilik:</strong> Bpk. Haryanto (0812-3344-5566)
+                            </p>
+                            <p class="small text-muted mb-0"><strong>Target Harian:</strong> 600 Porsi (SDN 02 Ngaliyan,
+                                SMPN 16)</p>
+                        </div>
+                        <div class="col-md-5 d-flex flex-column justify-content-center align-items-center text-center">
+                            <h6 class="text-muted small fw-bold mb-1">TRUST SCORE (BLOKCHAIN)</h6>
+                            <h1 class="display-4 fw-bold text-warning mb-0">85.4</h1>
+                            <span class="text-danger small fw-bold"><i class="fas fa-arrow-down me-1"></i> Turun 4.2
+                                poin (Bulan ini)</span>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i
+                            class="fas fa-clipboard-list text-danger me-2"></i>Log Pelanggaran Terdeteksi AI (30 Hari
+                        Terakhir)</h6>
+                    <div class="table-responsive bg-white rounded shadow-sm mb-4">
+                        <table class="table table-sm table-bordered mb-0 small">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tanggal Lapor</th>
+                                    <th>Sistem AI</th>
+                                    <th>Jenis Anomali</th>
+                                    <th>Bukti (Tx Hash)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>09 Mar 2026</td>
+                                    <td><span class="badge bg-primary">Isolation Forest</span></td>
+                                    <td class="text-danger">Mark-up harga Telur Ayam (+15% dari wajar)</td>
+                                    <td><code class="text-muted">0x2a1f...9b8c</code></td>
+                                </tr>
+                                <tr>
+                                    <td>05 Mar 2026</td>
+                                    <td><span class="badge bg-success">MobileNetV2</span></td>
+                                    <td class="text-warning text-dark">Porsi Lauk Protein (Ayam) Kurang dari 50gr</td>
+                                    <td><code class="text-muted">0x8c7d...1a2b</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i
+                            class="fas fa-gavel text-dark me-2"></i>Formulir Pendisiplinan Vendor</h6>
+                    <div class="bg-white p-3 rounded shadow-sm">
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-muted">Pilih Tindakan / Sanksi</label>
+                            <select class="form-select border-danger">
+                                <option value="">-- Pilih Sanksi Administratif --</option>
+                                <option value="sp2">Naikkan Status menjadi SP-2 (Surat Peringatan 2)</option>
+                                <option value="potong">Potong Pembayaran Tagihan Bulan Ini (Denda)</option>
+                                <option value="suspend" class="text-danger fw-bold">BEKUKAN KONTRAK (Blacklist)</option>
+                                <option value="clear" class="text-success fw-bold">Cabut SP-1 (Kembali Normal)</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-bold text-muted">Catatan Auditor Negara</label>
+                            <textarea class="form-control" rows="2"
+                                placeholder="Masukkan alasan pemberian sanksi..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer bg-white border-top py-3 d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary fw-bold"
+                        data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-dark fw-bold px-4 shadow"
+                        onclick="alert('Keputusan terekam di sistem dan notifikasi sanksi telah dikirim ke Vendor Harapan Jaya Food.')">
+                        <i class="fas fa-save me-2"></i> Terapkan Sanksi & Kunci di Blockchain
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+id,kategori,nama_menu,kalori
+I01,Karbohidrat,Nasi,130
+I02,Karbohidrat,Kentang,77
+I03,Karbohidrat,Mie,138
+I04,Karbohidrat,Roti,265
+I05,Karbohidrat,Jagung,96
+I06,Protein,Daging Ayam,239
+I07,Protein,Daging Sapi,250
+I08,Protein,Daging Kambing,294
+I09,Protein,Ikan,206
+I10,Protein,Telur,155
+I11,Protein,Tahu,76
+I12,Protein,Tempe,192
+I13,Sayur,Tomat,18
+I14,Sayur,Timun,16
+I15,Sayur,Wortel,41
+I16,Sayur,Kubis,25
+I17,Sayur,Brokoli,34
+I18,Sayur,Kangkung,19
+I19,Sayur,Bayam,23
+I20,Sayur,Lalapan,15
+I21,Buah,Pisang,89
+I22,Buah,Jeruk,47
+I23,Buah,Apel,52
+I24,Buah,Mangga,60
+I25,Bumbu,Sambal,40
+I26,Bumbu,Kecap,53
+I27,Bumbu,Saus,29
+I28,Minuman,Susu,60
+I29,Minuman,Teh,2
+I30,Minuman,Kopi,1

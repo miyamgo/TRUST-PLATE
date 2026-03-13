@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRUST-PLATE | Transparansi Program Makan Bergizi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-trust: #0f4c3a;
+            /* Hijau Pinus Gelap */
+            --secondary-trust: #16a085;
+            /* Teal */
+            --accent-trust: #f39c12;
+            /* Kuning Peringatan/Aksi */
+            --bg-light: #f8fbfb;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+        }
+
+        .navbar-custom {
+            background-color: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .text-brand {
+            color: var(--primary-trust) !important;
+        }
+
+        /* Hero Section Gradient (Lebih elegan dan relevan dengan pangan/kesehatan) */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-trust), #136a51, var(--secondary-trust));
+            color: white;
+            padding: 70px 0;
+            border-radius: 0 0 40px 40px;
+        }
+
+        .card-custom {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Penyesuaian Border Banner Statistik untuk Mobile */
+        .stat-col {
+            padding: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .stat-border {
+                border-right: 1px solid #e9ecef;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .stat-border {
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .hero-section {
+                padding: 50px 0;
+                border-radius: 0 0 25px 25px;
+            }
+        }
+
+        .table-responsive {
+            border-radius: 15px;
+        }
+
+        .table thead {
+            background-color: #f1f5f5 !important;
+        }
+
+        .rank-up {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .rank-down {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .rank-stay {
+            color: #95a5a6;
+            font-weight: bold;
+        }
+
+        .score-badge {
+            font-size: 1.1em;
+            padding: 8px 15px;
+            background-color: var(--primary-trust) !important;
+            border-radius: 10px;
+        }
+
+        .btn-custom-warning {
+            background-color: var(--accent-trust);
+            border: none;
+            color: white;
+        }
+
+        .btn-custom-warning:hover {
+            background-color: #d68910;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-custom py-3 sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-brand fs-4" href="#">
+                <i class="fas fa-shield-alt me-2 text-success"></i>TRUST-PLATE
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end mt-3 mt-lg-0" id="navbarNav">
+                <div class="d-flex flex-column flex-lg-row gap-2">
+                    <a href="auth-vendor.html" class="btn btn-outline-success fw-bold px-4 rounded-pill">
+                        <i class="fas fa-store me-1"></i> Portal Vendor
+                    </a>
+                    <a href="auth-gov.html" class="btn btn-success fw-bold px-4 rounded-pill"
+                        style="background-color: var(--primary-trust); border: none;">
+                        <i class="fas fa-building me-1"></i> Akses Pemerintah
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero-section text-center mb-5">
+        <div class="container px-4">
+            <h1 class="display-5 fw-bold mb-3 text-white">Kawal Transparansi Gizi Nasional</h1>
+            <p class="lead mb-4 opacity-75" style="max-width: 700px; margin: 0 auto;">Sistem monitoring
+                terdesentralisasi berbasis AI dan Blockchain untuk Program Makan Bergizi Gratis.</p>
+
+            <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                <a href="report-public.html" class="btn btn-custom-warning btn-lg fw-bold px-4 rounded-pill shadow-sm">
+                    <i class="fas fa-bullhorn me-2"></i> Lapor Temuan Publik
+                </a>
+
+                <a href="#" class="btn btn-outline-light btn-lg fw-bold px-4 rounded-pill">
+                    <i class="fas fa-search me-2"></i> Audit Data Publik
+                </a>
+            </div>
+
+            <div class="mt-5 mx-auto" style="max-width: 1000px;">
+                <div class="card card-custom bg-white">
+                    <div class="card-body p-2">
+                        <div class="row text-center g-0">
+                            <div class="col-md-3 stat-col stat-border">
+                                <h6 class="text-muted fw-bold mb-1" style="font-size: 0.85rem;">Total Dapur Umum</h6>
+                                <h3 class="fw-bold text-dark mb-0">1,284</h3>
+                            </div>
+                            <div class="col-md-3 stat-col stat-border">
+                                <h6 class="text-muted fw-bold mb-1" style="font-size: 0.85rem;">Porsi Tervalidasi (Bulan
+                                    Ini)</h6>
+                                <h3 class="fw-bold mb-0" style="color: var(--secondary-trust);">845.2K</h3>
+                            </div>
+                            <div class="col-md-3 stat-col stat-border">
+                                <h6 class="text-muted fw-bold mb-1" style="font-size: 0.85rem;">Potensi Kebocoran
+                                    Dicegah</h6>
+                                <h3 class="fw-bold text-danger mb-0">Rp 4.2 Miliar</h3>
+                            </div>
+                            <div class="col-md-3 stat-col">
+                                <h6 class="text-muted fw-bold mb-1" style="font-size: 0.85rem;">Status Blockchain PoA
+                                </h6>
+                                <h3 class="fw-bold mb-0" style="color: var(--primary-trust);"><i
+                                        class="fas fa-link me-2"></i>Aktif</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <section class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+
+                <div
+                    class="d-flex flex-column flex-md-row gap-3 justify-content-between align-items-center mb-4 p-3 bg-white rounded-pill shadow-sm px-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-filter text-muted"></i>
+                        <span class="fw-bold text-muted">Filter Peringkat:</span>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 justify-content-center">
+                        <select class="form-select form-select-sm w-auto border-0 bg-light rounded-pill px-3 fw-bold">
+                            <option value="all">Semua Wilayah</option>
+                            <option value="jateng" selected>Jawa Tengah</option>
+                        </select>
+                        <select class="form-select form-select-sm w-auto border-0 bg-light rounded-pill px-3 fw-bold">
+                            <option value="semarang" selected>Kota Semarang</option>
+                        </select>
+                        <select class="form-select form-select-sm w-auto border-0 text-white rounded-pill px-3 fw-bold"
+                            style="background-color: var(--secondary-trust);">
+                            <option value="bulan_ini" selected>Bulan Ini (Maret)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="card card-custom border-0 overflow-hidden">
+                    <div
+                        class="card-header bg-white p-4 border-bottom-0 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+                        <h5 class="mb-0 fw-bold text-dark">
+                            <i class="fas fa-trophy text-warning me-2"></i> Leaderboard Integritas Vendor (Top 5)
+                        </h5>
+                        <span class="badge rounded-pill opacity-75" style="background-color: var(--secondary-trust);"><i
+                                class="fas fa-circle text-white me-1" style="font-size: 0.5rem;"></i> Live Update</span>
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0 text-nowrap">
+                                <thead class="table-light text-muted small">
+                                    <tr>
+                                        <th class="ps-4 text-center">Rank</th>
+                                        <th>Nama Dapur Umum / Vendor</th>
+                                        <th>Area Distribusi</th>
+                                        <th class="text-center">Kepatuhan Gizi (AI)<br><small
+                                                class="fw-normal opacity-75">Rata-rata Bulanan</small></th>
+                                        <th class="text-center">Integritas Harga (AI)<br><small
+                                                class="fw-normal opacity-75">Rata-rata Bulanan</small></th>
+                                        <th class="text-center pe-4">Trust Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="ps-4 text-center">
+                                            <h5 class="mb-0 fw-bold">1</h5>
+                                            <small class="rank-up"><i class="fas fa-caret-up"></i> 1</small>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold text-dark">Dapur Mandiri Berkah</div>
+                                            <small class="text-muted"><i
+                                                    class="fas fa-fingerprint me-1"></i>0x8F...A12B</small>
+                                        </td>
+                                        <td class="text-muted">Kec. Banyumanik</td>
+                                        <td class="text-center">
+                                            <span class="fw-bold text-success">100%</span><br>
+                                            <small class="text-muted" style="font-size: 0.75rem;">30/30 Valid</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="fw-bold text-success">100%</span><br>
+                                            <small class="text-muted" style="font-size: 0.75rem;">0 Anomali</small>
+                                        </td>
+                                        <td class="text-center pe-4"><span class="badge score-badge">98.5</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="ps-4 text-center">
+                                            <h5 class="mb-0 fw-bold">2</h5>
+                                            <small class="rank-down"><i class="fas fa-caret-down"></i> 1</small>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold text-dark">Katering Ibu Siti</div>
+                                            <small class="text-muted"><i
+                                                    class="fas fa-fingerprint me-1"></i>0x3C...9D4F</small>
+                                        </td>
+                                        <td class="text-muted">Kec. Tembalang</td>
+                                        <td class="text-center">
+                                            <span class="fw-bold text-success">96%</span><br>
+                                            <small class="text-muted" style="font-size: 0.75rem;">29/30 Valid</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="fw-bold text-success">100%</span><br>
+                                            <small class="text-muted" style="font-size: 0.75rem;">0 Anomali</small>
+                                        </td>
+                                        <td class="text-center pe-4"><span class="badge score-badge">97.2</span></td>
+                                    </tr>
+                                    <tr style="background-color: #fff5f5;">
+                                        <td class="ps-4 text-center">
+                                            <h5 class="mb-0 fw-bold text-danger">5</h5>
+                                            <small class="rank-down"><i class="fas fa-caret-down"></i> 3</small>
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold text-danger">Katering Maju Mundur</div>
+                                            <small class="text-danger"><i
+                                                    class="fas fa-fingerprint me-1"></i>0x5D...2F99</small>
+                                        </td>
+                                        <td class="text-muted">Kec. Semarang Utara</td>
+                                        <td class="text-center">
+                                            <span class="fw-bold text-danger">60%</span><br>
+                                            <small class="text-danger" style="font-size: 0.75rem;">Sering Gagal
+                                                Standar</small>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="fw-bold text-danger">43%</span><br>
+                                            <small class="text-danger" style="font-size: 0.75rem;">Terdeteksi
+                                                Mark-up</small>
+                                        </td>
+                                        <td class="text-center pe-4"><span
+                                                class="badge bg-danger score-badge">42.1</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-light border-0 text-center py-3">
+                        <small class="text-muted"><i class="fas fa-info-circle me-1"></i> Skor dihitung oleh Machine
+                            Learning berdasarkan akumulasi riwayat laporan harian secara on-chain.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container mb-5">
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-lg-7">
+                <div class="card card-custom h-100 bg-white">
+                    <div class="card-body p-4">
+                        <h6 class="fw-bold border-bottom pb-3 mb-4 text-dark"><i class="fas fa-project-diagram me-2"
+                                style="color: var(--secondary-trust);"></i>Arsitektur TRUST-PLATE</h6>
+                        <div class="row text-center g-3">
+                            <div class="col-6 col-md-3">
+                                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                    style="width: 50px; height: 50px; background-color: #e8f6f3; color: var(--secondary-trust);">
+                                    <i class="fas fa-mobile-alt fs-5"></i>
+                                </div>
+                                <h6 class="fw-bold" style="font-size: 0.9rem;">1. Input</h6>
+                                <p class="text-muted" style="font-size: 0.75rem;">Vendor upload foto & harga</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                    style="width: 50px; height: 50px; background-color: #eef2f3; color: #34495e;">
+                                    <i class="fas fa-brain fs-5"></i>
+                                </div>
+                                <h6 class="fw-bold" style="font-size: 0.9rem;">2. AI Check</h6>
+                                <p class="text-muted" style="font-size: 0.75rem;">Verifikasi Gizi & Anomali</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                    style="width: 50px; height: 50px; background-color: #fef5e7; color: #f39c12;">
+                                    <i class="fas fa-link fs-5"></i>
+                                </div>
+                                <h6 class="fw-bold" style="font-size: 0.9rem;">3. Blockchain</h6>
+                                <p class="text-muted" style="font-size: 0.75rem;">Data dikunci ke jaringan PoA</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-2"
+                                    style="width: 50px; height: 50px; background-color: #eaf2f8; color: #3498db;">
+                                    <i class="fas fa-chart-pie fs-5"></i>
+                                </div>
+                                <h6 class="fw-bold" style="font-size: 0.9rem;">4. Analitik B2G</h6>
+                                <p class="text-muted" style="font-size: 0.75rem;">Pantauan Dashboard Gov</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card card-custom h-100" style="background-color: var(--primary-trust); color: #ecf0f1;">
+                    <div class="card-header border-bottom border-secondary pt-4 pb-3">
+                        <h6 class="mb-0 fw-bold"><i class="fas fa-bolt text-warning me-2"></i>Live Smart Contracts</h6>
+                    </div>
+                    <div class="card-body p-4" style="font-family: monospace; font-size: 0.8rem; overflow-y: hidden;">
+                        <div class="mb-3 border-bottom border-secondary pb-3">
+                            <span style="color: var(--secondary-trust);">TX:</span> 0x7f2a...9b1e<br>
+                            <span class="opacity-75">ID: 0x8F...A12B | Stat: <span
+                                    class="text-success fw-bold">Verified</span></span>
+                        </div>
+                        <div class="mb-3 border-bottom border-secondary pb-3">
+                            <span style="color: var(--secondary-trust);">TX:</span> 0x3c4d...8a2f<br>
+                            <span class="opacity-75">ID: 0x3C...9D4F | Stat: <span
+                                    class="text-success fw-bold">Verified</span></span>
+                        </div>
+                        <div class="mb-2">
+                            <span style="color: var(--secondary-trust);">TX:</span> 0x1e9b...4d7c<br>
+                            <span class="opacity-75">ID: 0x5D...2F99 | Stat: <span
+                                    class="text-danger fw-bold">Flagged</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-white text-center py-4 mt-auto border-top">
+        <div class="container small text-muted fw-bold">
+            &copy; 2026 TRUST-PLATE. Membangun Kepercayaan Pangan Nusantara.<br>
+            <span class="opacity-75 fw-normal">Powered by Node.js, Python (Scikit-Learn), and Blockchain PoA.</span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

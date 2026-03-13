@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Audit | Portal Vendor TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root {
+            --brand-green: #0a4d3c;
+            --brand-light: #16a085;
+            --brand-orange: #f39c12;
+            --bg-body: #f4f9f7;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* NAVBAR ATAS KONSISTEN */
+        .navbar-vendor {
+            background: linear-gradient(135deg, var(--brand-green), var(--brand-light));
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(10, 77, 60, 0.2);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: white !important;
+        }
+
+        .nav-item .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 50px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item .nav-link:hover,
+        .nav-item .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white !important;
+        }
+
+        .user-pill {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            padding: 5px 15px 5px 5px;
+            display: flex;
+            align-items: center;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .live-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-green 2s infinite;
+            border: 2px solid white;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+        /* KARTU & INPUT FRIENDLY */
+        .card-friendly {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        .btn-friendly {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 8px 20px;
+            transition: 0.3s;
+        }
+
+        .form-control,
+        .form-select,
+        .input-group-text {
+            border-radius: 10px;
+            border-color: #e2e8f0;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--brand-light);
+            box-shadow: 0 0 0 0.25rem rgba(22, 160, 133, 0.15);
+        }
+
+        /* TxHash Styling */
+        .tx-hash {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            color: #2980b9;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .tx-hash:hover {
+            background-color: #e0f2fe;
+            border-color: #3498db;
+        }
+
+        .table-ledger th {
+            background-color: #f8fafc;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #64748b;
+            font-weight: 700;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .table-ledger td {
+            vertical-align: middle;
+            padding: 15px 10px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-vendor sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="vendor-dashboard.html">
+                <i class="fas fa-shield-alt text-warning fs-3 me-2"></i>
+                <div>
+                    TRUST-PLATE
+                    <span style="font-size: 0.65rem; font-weight: 500; opacity: 0.9; letter-spacing: 0;">PORTAL MITRA
+                        DAPUR</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#vendorNav">
+                <i class="fas fa-bars text-white fs-3"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="vendorNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="vendor-dashboard.html"><i
+                                class="fas fa-home me-1"></i> Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor-rab.html"><i
+                                class="fas fa-calculator me-1"></i> Hitung RAB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor-lapor.html"><i class="fas fa-camera me-1"></i>
+                            Lapor Harian</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="vendor-riwayat.html"><i
+                                class="fas fa-history me-1"></i> Riwayat</a></li>
+                </ul>
+
+                <div class="user-pill d-none d-lg-flex">
+                    <img src="https://ui-avatars.com/api/?name=Dapur+Mandiri&background=fff&color=0a4d3c"
+                        class="rounded-circle me-2" width="35" alt="Profile">
+                    <div class="d-flex flex-column lh-1 pe-2">
+                        <span class="fw-bold" style="font-size: 0.85rem;">Dapur Mandiri Berkah</span>
+                        <div class="d-flex align-items-center mt-1">
+                            <span class="live-indicator me-1" style="width: 8px; height: 8px;"></span>
+                            <span style="font-size: 0.65rem; font-family: monospace;">ID: 0x8F...A12B</span>
+                        </div>
+                    </div>
+                    <a href="auth-vendor.html" class="ms-3 text-white opacity-75 hover-opacity-100" title="Keluar"><i
+                            class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+
+        <div class="mb-4">
+            <h3 class="fw-bold text-dark">Buku Besar Transaksi (Ledger)</h3>
+            <p class="text-muted">Rekam jejak seluruh dokumen, audit AI, dan smart contract yang tersimpan secara
+                immutable.</p>
+        </div>
+
+        <div class="card-friendly mb-4">
+            <div class="card-body p-4">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-5">
+                        <div class="input-group">
+                            <span class="input-group-text bg-white text-muted border-end-0"><i
+                                    class="fas fa-search"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0"
+                                placeholder="Cari TxHash, Sekolah, atau Tanggal...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select text-muted fw-bold">
+                            <option value="" selected>Semua Jenis Dokumen</option>
+                            <option value="rab">Pengajuan RAB</option>
+                            <option value="laporan">Laporan Harian (Gizi & Harga)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <button class="btn btn-outline-secondary btn-friendly me-2"><i class="fas fa-filter me-1"></i>
+                            Filter</button>
+                        <button class="btn btn-primary btn-friendly shadow-sm"><i class="fas fa-download me-1"></i>
+                            Unduh CSV</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-friendly mb-5">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-ledger align-middle mb-0 text-center">
+                        <thead>
+                            <tr>
+                                <th class="py-3 text-start ps-4">Tanggal & Waktu</th>
+                                <th class="py-3">Jenis Transaksi</th>
+                                <th class="py-3">Status Audit AI</th>
+                                <th class="py-3">Status Jaringan</th>
+                                <th class="py-3 text-start">Identitas (TxHash)</th>
+                                <th class="py-3 pe-4">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 0.9rem;">
+
+                            <tr>
+                                <td class="text-start ps-4">
+                                    <div class="fw-bold text-dark fs-6">12 Mar 2026</div>
+                                    <small class="text-muted">08:15:22 WIB</small>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge bg-primary bg-opacity-10 text-primary border border-primary px-3 py-2 rounded-pill"><i
+                                            class="fas fa-camera me-1"></i> Laporan Harian</span>
+                                    <div class="small text-muted mt-2 fw-bold">SDN 01 Banyumanik</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column align-items-center gap-1">
+                                        <span class="badge bg-success rounded-pill px-2">Gizi Valid</span>
+                                        <span class="badge bg-success rounded-pill px-2">Harga Wajar</span>
+                                    </div>
+                                </td>
+                                <td><span class="text-success fw-bold small"><i class="fas fa-check-double me-1"></i>
+                                        Terkonfirmasi</span></td>
+                                <td class="text-start">
+                                    <span class="tx-hash" onclick="copyTx('0x9f1b2c3d8a7e6b5c4d3e')"><i
+                                            class="far fa-copy me-2 text-muted"></i>0x9f1b...4d3e</span>
+                                </td>
+                                <td class="pe-4">
+                                    <button class="btn btn-dark btn-friendly px-3" data-bs-toggle="modal"
+                                        data-bs-target="#buktiModal">Lihat Bukti</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-start ps-4">
+                                    <div class="fw-bold text-dark fs-6">11 Mar 2026</div>
+                                    <small class="text-muted">07:45:10 WIB</small>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge bg-primary bg-opacity-10 text-primary border border-primary px-3 py-2 rounded-pill"><i
+                                            class="fas fa-camera me-1"></i> Laporan Harian</span>
+                                    <div class="small text-muted mt-2 fw-bold">SMPN 16 Semarang</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column align-items-center gap-1">
+                                        <span class="badge bg-success rounded-pill px-2">Gizi Valid</span>
+                                        <span class="badge bg-success rounded-pill px-2">Harga Wajar</span>
+                                    </div>
+                                </td>
+                                <td><span class="text-success fw-bold small"><i class="fas fa-check-double me-1"></i>
+                                        Terkonfirmasi</span></td>
+                                <td class="text-start">
+                                    <span class="tx-hash" onclick="copyTx('0x3c4d8a2f1e9b7c6d5a')"><i
+                                            class="far fa-copy me-2 text-muted"></i>0x3c4d...5a9b</span>
+                                </td>
+                                <td class="pe-4">
+                                    <button class="btn btn-dark btn-friendly px-3" data-bs-toggle="modal"
+                                        data-bs-target="#buktiModal">Lihat Bukti</button>
+                                </td>
+                            </tr>
+
+                            <tr class="bg-danger bg-opacity-10">
+                                <td class="text-start ps-4">
+                                    <div class="fw-bold text-danger fs-6">09 Mar 2026</div>
+                                    <small class="text-danger opacity-75">06:30:00 WIB</small>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge bg-primary bg-opacity-10 text-primary border border-primary px-3 py-2 rounded-pill"><i
+                                            class="fas fa-camera me-1"></i> Laporan Harian</span>
+                                    <div class="small text-danger fw-bold mt-2">SDN 01 Banyumanik</div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column align-items-center gap-1">
+                                        <span class="badge bg-success rounded-pill px-2">Gizi Valid</span>
+                                        <span class="badge bg-danger rounded-pill px-2"
+                                            title="Harga Telur jauh di atas HET PIHPS"><i
+                                                class="fas fa-exclamation-triangle me-1"></i> Anomali Harga</span>
+                                    </div>
+                                </td>
+                                <td><span class="text-danger fw-bold small"><i class="fas fa-times-circle me-1"></i>
+                                        Batal</span></td>
+                                <td class="text-start">
+                                    <span class="text-muted fst-italic small"><i class="fas fa-ban me-1"></i> Ditolak
+                                        Smart Contract</span>
+                                </td>
+                                <td class="pe-4">
+                                    <button class="btn btn-outline-danger btn-friendly px-3 bg-white"
+                                        data-bs-toggle="modal" data-bs-target="#errorModal">Detail Error</button>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td class="text-start ps-4">
+                                    <div class="fw-bold text-dark fs-6">02 Jan 2026</div>
+                                    <small class="text-muted">14:20:55 WIB</small>
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge bg-secondary bg-opacity-10 text-dark border border-secondary px-3 py-2 rounded-pill"><i
+                                            class="fas fa-file-signature me-1"></i> Pengajuan RAB</span>
+                                    <div class="small text-muted mt-2 fw-bold">SDN 01 Banyumanik</div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-dark bg-opacity-10 text-dark rounded-pill px-2"><i
+                                            class="fas fa-user-check me-1"></i> Verifikasi Pemkot</span>
+                                </td>
+                                <td><span class="text-success fw-bold small"><i class="fas fa-check-double me-1"></i>
+                                        Terkonfirmasi</span></td>
+                                <td class="text-start">
+                                    <span class="tx-hash" onclick="copyTx('0x1e9b4d7c8a2f3b4c5d')"><i
+                                            class="far fa-copy me-2 text-muted"></i>0x1e9b...c5df</span>
+                                </td>
+                                <td class="pe-4">
+                                    <button class="btn btn-dark btn-friendly px-3"
+                                        onclick="alert('Membuka rincian Smart Contract Kontrak Kerja di Blockchain Explorer...')">Buka
+                                        Kontrak</button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center p-4 bg-light">
+                    <span class="small text-muted fw-bold">Menampilkan 1-4 dari 45 entri</span>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item disabled"><a class="page-link rounded-start-pill"
+                                    href="#">Sebelumnya</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link rounded-end-pill" href="#">Selanjutnya</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="buktiModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
+                <div class="modal-header bg-success text-white border-0 py-3 px-4">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-check-circle me-2"></i> Bukti Laporan Terverifikasi
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+
+                    <div class="mb-4 bg-white p-3 rounded-4 shadow-sm border">
+                        <small class="text-muted fw-bold d-block mb-1">ID TRANSAKSI (BLOCKCHAIN TX HASH)</small>
+                        <code class="text-primary fs-6">0x9f1b2c3d8a7e6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f</code>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-md-5 text-center">
+                            <h6 class="fw-bold text-dark mb-3">Foto Porsi (Bukti Fisik)</h6>
+                            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60"
+                                class="img-fluid rounded-4 shadow-sm border border-2 border-white" alt="Bukti Makanan">
+                        </div>
+
+                        <div class="col-md-7">
+                            <h6 class="fw-bold text-dark mb-3">Hasil Audit AI Server</h6>
+
+                            <div
+                                class="d-flex align-items-center mb-3 p-3 bg-white rounded-4 shadow-sm border-start border-4 border-success">
+                                <div class="bg-success bg-opacity-10 p-2 rounded-circle me-3">
+                                    <i class="fas fa-camera text-success fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-dark">MobileNetV2 (Ekstraksi Gizi)</h6>
+                                    <p class="mb-0 small text-muted">Nasi, Ayam, Sayur terdeteksi valid. (Confidence:
+                                        98%)</p>
+                                </div>
+                            </div>
+
+                            <div
+                                class="d-flex align-items-center p-3 bg-white rounded-4 shadow-sm border-start border-4 border-success">
+                                <div class="bg-success bg-opacity-10 p-2 rounded-circle me-3">
+                                    <i class="fas fa-shield-check text-success fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-1 text-dark">Isolation Forest (Deteksi Harga)</h6>
+                                    <p class="mb-0 small text-muted">Total modal Rp 585.500 wajar sesuai API PIHPS
+                                        Nasional.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-white border-top py-3 px-4 d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary btn-friendly px-4"
+                        data-bs-dismiss="modal">Tutup</button>
+                    <button type="button" class="btn btn-success btn-friendly px-4 shadow-sm"><i
+                            class="fas fa-download me-2"></i> Unduh Berita Acara</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0" style="border-radius: 20px; overflow: hidden;">
+                <div class="modal-header bg-danger text-white border-0 py-3 px-4">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-exclamation-triangle me-2"></i> Transaksi Ditolak
+                        Sistem</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light text-center">
+
+                    <div class="mb-3">
+                        <i class="fas fa-times-circle text-danger drop-shadow" style="font-size: 4.5rem;"></i>
+                    </div>
+
+                    <h4 class="fw-bold text-dark mb-2">Anomali Harga Terdeteksi!</h4>
+                    <p class="text-muted mb-4 small px-3">Sistem <b>AI Isolation Forest</b> menolak laporan Anda karena
+                        harga input <b>Telur Ayam</b> melebihi batas Harga Eceran Tertinggi (HET) yang ditetapkan PIHPS
+                        untuk wilayah Semarang hari ini.</p>
+
+                    <div class="bg-white p-3 rounded-4 shadow-sm border text-start">
+                        <p class="mb-1 small text-muted fw-bold">Pesan Error Smart Contract:</p>
+                        <code class="text-danger">0xReverted...ErrorPriceMarkup_ThresholdExceeded</code>
+                    </div>
+
+                </div>
+                <div class="modal-footer bg-white border-top py-3 px-4 justify-content-center">
+                    <button type="button" class="btn btn-danger btn-friendly px-5 w-100 shadow-sm"
+                        data-bs-dismiss="modal">Saya Mengerti</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="copyAlert" class="position-fixed bottom-0 end-0 p-4" style="z-index: 1050; display: none;">
+        <div class="bg-dark text-white px-4 py-3 rounded-pill shadow-lg fw-bold">
+            <i class="fas fa-check-circle text-success me-2 fs-5"></i> TxHash berhasil disalin!
+        </div>
+    </div>
+
+    <script>
+        function copyTx(hash) {
+            navigator.clipboard.writeText(hash).then(() => {
+                const alertBox = document.getElementById('copyAlert');
+                alertBox.style.display = 'block';
+                setTimeout(() => { alertBox.style.display = 'none'; }, 2500);
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

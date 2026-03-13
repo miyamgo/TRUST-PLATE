@@ -1,0 +1,16 @@
+id,kategori,nama_item,satuan,harga_acuan
+K01,Karbohidrat,Beras Medium,Kg,13700
+K02,Karbohidrat,Beras Premium,Kg,15500
+K03,Karbohidrat,Kentang Mentah,Kg,18000
+K04,Karbohidrat,Mie Telur Kering,Pcs,4500
+P01,Protein Hewani,Daging Ayam Fillet,Kg,38000
+P02,Protein Hewani,Telur Ayam Ras,Kg,28000
+P03,Protein Hewani,Ikan Lele Segar,Kg,25000
+P04,Protein Hewani,Daging Sapi (Giling),Kg,120000
+N01,Protein Nabati,Tahu Putih,Pcs,1000
+N02,Protein Nabati,Tempe Kedelai,Pcs,2500
+N03,Protein Nabati,Kacang Hijau,Kg,22000
+S01,Sayur & Buah,Sayur Bayam,Ikat,3500
+S02,Sayur & Buah,Wortel Segar,Kg,14000
+S03,Sayur & Buah,Pisang Ambon,Sisir,20000
+S04,Sayur & Buah,Jeruk Nipis,Kg,15000

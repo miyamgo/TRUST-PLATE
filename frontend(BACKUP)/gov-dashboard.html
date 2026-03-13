@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat Komando | TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <style>
+        :root {
+            --gov-sidebar: #1a252f;
+            --gov-bg: #f4f7f6;
+            --accent-green: #16a085;
+            --accent-blue: #2980b9;
+            --accent-red: #e74c3c;
+            --accent-yellow: #f1c40f;
+        }
+        
+        body { background-color: var(--gov-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        /* Sidebar Styling */
+        .sidebar { background-color: var(--gov-sidebar); min-height: 100vh; color: white; padding-top: 20px; }
+        .sidebar-brand { text-align: center; margin-bottom: 40px; }
+        .sidebar-brand i { color: var(--accent-green); font-size: 2.5rem; margin-bottom: 10px; }
+        .sidebar-brand h4 { font-weight: 900; letter-spacing: 1px; margin-bottom: 0; }
+        .sidebar-brand small { color: #7f8c8d; font-size: 0.65rem; letter-spacing: 1px; }
+
+        .nav-link { color: #bdc3c7; padding: 15px 20px; margin-bottom: 5px; font-weight: 500; font-size: 0.95rem; border-left: 4px solid transparent; transition: 0.3s; }
+        .nav-link i { width: 30px; text-align: center; }
+        .nav-link:hover { color: white; background-color: rgba(255,255,255,0.05); }
+        .nav-link.active { color: white; background-color: #2c3e50; border-left: 4px solid var(--accent-green); font-weight: 600; }
+
+        /* Animasi Dot Hijau (Pulsing) */
+        .live-indicator { width: 10px; height: 10px; background-color: #2ecc71; border-radius: 50%; display: inline-block; animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+
+        /* Card Styling */
+        .card-dash { border: none; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); background-color: white; }
+        
+        /* Top Cards (Warna Garis Atas) */
+        .card-top-blue { border-top: 4px solid var(--accent-blue); }
+        .card-top-green { border-top: 4px solid var(--accent-green); }
+        .card-top-red { border-top: 4px solid var(--accent-red); }
+        .card-top-yellow { border-top: 4px solid var(--accent-yellow); }
+
+        .metric-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; color: #7f8c8d; font-weight: 700; margin-bottom: 5px; }
+        .metric-value { font-size: 2rem; font-weight: 900; color: #2c3e50; margin-bottom: 0; }
+
+        /* Custom Scrollbar for feeds */
+        .feed-container::-webkit-scrollbar { width: 5px; }
+        .feed-container::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 5px; }
+        
+        /* Animasi Ping Merah */
+        .pulse-red { width: 10px; height: 10px; background-color: var(--accent-red); border-radius: 50%; display: inline-block; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); } 100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); } }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar position-fixed" style="z-index: 100;">
+                <div class="sidebar-brand">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>TRUST-PLATE</h4>
+                    <small>Monitoring Program MBG</small>
+                </div>
+                
+                <ul class="nav flex-column mb-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat Kendali</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Dashboard Eksekutif</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check"></i> Pengadaan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gov-audit.html"><i class="fas fa-users-cog"></i> Investigasi Mitra </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Jejak Audit</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+                
+                <div class="d-flex flex-column flex-md-row align-items-center mb-4 pb-3 border-bottom">
+                    
+                    <div class="d-flex align-items-center pe-4 me-4 border-end">
+                        <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 55px; height: 55px; font-size: 1.4rem; font-weight: bold;">
+                            AP
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor)</h4>
+                            <div class="d-flex align-items-center gap-3 mt-1">
+                                <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm" style="font-size: 0.85rem; font-family: monospace;">ID: GOV-AUDIT-01</span>
+                                <div class="d-flex flex-column justify-content-center" style="line-height: 1.2;">
+                                    <span class="text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS JARINGAN</span>
+                                    <span class="text-success fw-bold" style="font-size: 0.9rem;">
+                                        <span class="live-indicator me-1"></span> SYNCED
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h2 class="fw-bold mb-1" style="color: #2c3e50;">Pusat Kendali Operasi</h2>
+                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Wilayah: Provinsi Jawa Tengah | Periode: 12 Maret 2026</p>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-3">
+                        <div class="card card-dash card-top-blue h-100 p-3">
+                            <div class="metric-title">TOTAL ANGGARAN DISALURKAN</div>
+                            <h3 class="metric-value">Rp 12.8 M</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-dash card-top-green h-100 p-3">
+                            <div class="metric-title">PORSI SESUAI GIZI (AI)</div>
+                            <h3 class="metric-value" style="color: var(--accent-green);">845,210</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-dash card-top-red h-100 p-3">
+                            <div class="metric-title">POTENSI MARK-UP DICEGAH</div>
+                            <h3 class="metric-value" style="color: var(--accent-red);">Rp 4.2 M</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card card-dash card-top-yellow h-100 p-3">
+                            <div class="metric-title">VENDOR PERLU DIINVESTIGASI</div>
+                            <h3 class="metric-value" style="color: #d35400;">14 <span class="fs-5 text-muted fw-normal">Dapur</span></h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-8">
+                        <div class="card card-dash h-100 border-0">
+                            <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                                <h6 class="fw-bold mb-0 text-dark"><i class="fas fa-map-marked-alt text-primary me-2"></i>Radar Geospasial Dapur Umum (SPPG)</h6>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success"><i class="fas fa-satellite me-1"></i> Sat-Link Aktif</span>
+                            </div>
+                            <div class="card-body p-0 position-relative">
+                                <div id="govMap" style="height: 450px; width: 100%; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; z-index: 1;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card card-dash h-100 border-0">
+                            <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                                <h6 class="fw-bold mb-0 text-danger"><i class="fas fa-bell me-2"></i>Live Alert (Publik & AI)</h6>
+                                <span class="pulse-red"></span>
+                            </div>
+                            <div class="card-body p-0 feed-container" style="height: 450px; overflow-y: auto;">
+                                
+                                <div class="p-3 border-bottom bg-danger bg-opacity-10 border-start border-4 border-danger">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="badge bg-danger font-monospace">TRP-992-BX4</span>
+                                        <small class="text-danger fw-bold" style="font-size: 0.7rem;">BARU SAJA</small>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Laporan Publik: Makanan Basi & Porsi Kurang</h6>
+                                    <div class="small text-muted mb-2"><i class="fas fa-school text-danger me-1"></i> SDN 01 Banyumanik</div>
+                                    <p class="text-dark mb-3" style="font-size: 0.8rem; line-height: 1.4;">"Nasi yang diterima siswa berbau menyengat dan lauk ayam sangat kecil tidak sesuai standar."</p>
+                                    <button class="btn btn-danger w-100 btn-sm fw-bold shadow-sm">Bekukan Dana Vendor & Investigasi</button>
+                                </div>
+
+                                <div class="p-3 border-bottom border-start border-4 border-warning bg-warning bg-opacity-10">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="badge bg-warning text-dark font-monospace">AI-FLAG-771</span>
+                                        <small class="text-muted" style="font-size: 0.7rem;">1 Jam Lalu</small>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Anomali Harga (Mark-up)</h6>
+                                    <div class="small text-muted mb-2"><i class="fas fa-store text-warning me-1"></i> Dapur Sejahtera Ngaliyan</div>
+                                    <p class="text-dark mb-0" style="font-size: 0.8rem; line-height: 1.4;">Isolation Forest mendeteksi harga Telur Rp 38.000/Kg (HET PIHPS: Rp 28.000). Transaksi Auto-Reject.</p>
+                                </div>
+                                
+                                <div class="p-3 border-bottom border-start border-4 border-secondary">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <span class="badge bg-secondary font-monospace">SYS-WARN-02</span>
+                                        <small class="text-muted" style="font-size: 0.7rem;">3 Jam Lalu</small>
+                                    </div>
+                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Keterlambatan Laporan</h6>
+                                    <div class="small text-muted mb-0"><i class="fas fa-clock text-secondary me-1"></i> 12 Dapur Umum belum submit foto hari ini.</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 pb-4">
+                    <div class="col-md-6">
+                        <div class="card card-dash h-100 border-0 shadow-sm">
+                            <div class="card-header bg-white border-bottom py-3">
+                                <h6 class="fw-bold mb-0 text-success"><i class="fas fa-trophy me-2"></i>Vendor Kinerja Terbaik</h6>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-hover mb-0 align-middle">
+                                    <tbody>
+                                        <tr>
+                                            <td class="ps-4" style="width: 50px;"><h4 class="mb-0 text-muted fw-bold">1</h4></td>
+                                            <td>
+                                                <div class="fw-bold text-dark fs-6">Dapur Mandiri Berkah</div>
+                                                <code class="text-muted bg-light px-1 rounded small">ID: 0x8F...A12B</code>
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <div class="fs-4 fw-bold text-success">98.5</div>
+                                                <small class="text-muted" style="font-size: 0.65rem;">TRUST SCORE</small>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="ps-4"><h4 class="mb-0 text-muted fw-bold">2</h4></td>
+                                            <td>
+                                                <div class="fw-bold text-dark fs-6">CV. Pangan Nusantara</div>
+                                                <code class="text-muted bg-light px-1 rounded small">ID: 0x2A...C449</code>
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <div class="fs-4 fw-bold text-success">96.2</div>
+                                                <small class="text-muted" style="font-size: 0.65rem;">TRUST SCORE</small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card card-dash h-100 border-0 shadow-sm">
+                            <div class="card-header bg-white border-bottom py-3">
+                                <h6 class="fw-bold mb-0 text-danger"><i class="fas fa-skull-crossbones me-2"></i>Vendor Blacklist Watch</h6>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="table table-hover mb-0 align-middle">
+                                    <tbody>
+                                        <tr class="bg-danger bg-opacity-10 border-start border-4 border-danger">
+                                            <td class="ps-3" style="width: 50px;"><i class="fas fa-exclamation-circle text-danger fs-4"></i></td>
+                                            <td>
+                                                <div class="fw-bold text-dark fs-6">Dapur Sejahtera Ngaliyan</div>
+                                                <span class="badge bg-danger mt-1">SP-1 (Mark-up Harga)</span>
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <div class="fs-4 fw-bold text-danger">45.0</div>
+                                                <small class="text-muted" style="font-size: 0.65rem;">TRUST SCORE</small>
+                                            </td>
+                                        </tr>
+                                        <tr class="bg-warning bg-opacity-10 border-start border-4 border-warning">
+                                            <td class="ps-3"><i class="fas fa-exclamation-triangle text-warning fs-4"></i></td>
+                                            <td>
+                                                <div class="fw-bold text-dark fs-6">PT. Boga Maju</div>
+                                                <span class="badge bg-warning text-dark mt-1">Sering Terlambat</span>
+                                            </td>
+                                            <td class="text-end pe-4">
+                                                <div class="fs-4 fw-bold text-warning">62.8</div>
+                                                <small class="text-muted" style="font-size: 0.65rem;">TRUST SCORE</small>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            
+            // ==========================================
+            // 1. RENDER PETA INTERAKTIF (Radar SPPG)
+            // ==========================================
+            const map = L.map('govMap', { zoomControl: false }).setView([-7.0051, 110.4381], 12);
+            L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+            // Menggunakan basemap CartoDB Positron (Terang/Bersih)
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap &copy; CartoDB',
+                subdomains: 'abcd',
+                maxZoom: 20
+            }).addTo(map);
+
+            const iconAman = L.divIcon({ html: '<div style="width:14px;height:14px;background-color:#16a085;border-radius:50%;border:2px solid white;box-shadow:0 0 5px rgba(0,0,0,0.3);"></div>', className: 'custom-icon', iconSize: [14, 14], iconAnchor: [7, 7] });
+            const iconBahaya = L.divIcon({ html: '<div style="width:20px;height:20px;background-color:#e74c3c;border-radius:50%;border:3px solid white;animation:pulse 1s infinite;"></div>', className: 'custom-icon', iconSize: [20, 20], iconAnchor: [10, 10] });
+
+            // Titik Aman
+            L.marker([-7.0733, 110.4206], { icon: iconAman }).addTo(map).bindPopup("<b>Dapur Mandiri Berkah</b><br><span class='text-success'>Status: Aman</span>");
+            L.marker([-6.9932, 110.4215], { icon: iconAman }).addTo(map);
+            L.marker([-7.0150, 110.4500], { icon: iconAman }).addTo(map);
+            L.marker([-7.0250, 110.4100], { icon: iconAman }).addTo(map);
+            L.marker([-6.9800, 110.4600], { icon: iconAman }).addTo(map);
+
+            // Titik Bahaya (Nyambung dengan Laporan Publik TRP-992-BX4)
+            L.marker([-7.0650, 110.4250], { icon: iconBahaya }).addTo(map).bindPopup("<b class='text-danger'>SDN 01 Banyumanik</b><br><small>Dilaporkan: Makanan Basi</small>").openPopup();
+            
+            // Titik Bahaya AI (Dapur Sejahtera Ngaliyan)
+            L.marker([-6.9850, 110.3500], { icon: iconBahaya }).addTo(map).bindPopup("<b class='text-danger'>Dapur Sejahtera Ngaliyan</b><br><small>Dilaporkan: Mark-up Harga (AI)</small>");
+
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Mitra | Portal Vendor TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --brand-green: #0a4d3c;
+            /* Hijau Index.html */
+            --brand-light: #16a085;
+            --brand-orange: #f39c12;
+            --bg-body: #f4f9f7;
+            /* Background super lembut */
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* NAVBAR ATAS (Menggantikan Sidebar) */
+        .navbar-vendor {
+            background: linear-gradient(135deg, var(--brand-green), var(--brand-light));
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(10, 77, 60, 0.2);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: white !important;
+        }
+
+        .nav-item .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 50px;
+            /* Lekukan Friendly */
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item .nav-link:hover,
+        .nav-item .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white !important;
+        }
+
+        /* Pill Profil Pengguna di Kanan Atas */
+        .user-pill {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            padding: 5px 15px 5px 5px;
+            display: flex;
+            align-items: center;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animasi Dot Hijau */
+        .live-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-green 2s infinite;
+            border: 2px solid white;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+        /* KARTU FRIENDLY (Lekukan Besar & Shadow Lembut) */
+        .card-friendly {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .card-friendly:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-vendor sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="vendor-dashboard.html">
+                <i class="fas fa-shield-alt text-warning fs-3 me-2"></i>
+                <div>
+                    TRUST-PLATE
+                    <span style="font-size: 0.65rem; font-weight: 500; opacity: 0.9; letter-spacing: 0;">PORTAL MITRA
+                        DAPUR</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#vendorNav">
+                <i class="fas fa-bars text-white fs-3"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="vendorNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="vendor-dashboard.html"><i class="fas fa-home me-1"></i>
+                            Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vendor-rab.html"><i class="fas fa-calculator me-1"></i> Hitung RAB</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vendor-lapor.html"><i class="fas fa-camera me-1"></i> Lapor Harian</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vendor-riwayat.html"><i class="fas fa-history me-1"></i> Riwayat</a>
+                    </li>
+                </ul>
+
+                <div class="user-pill d-none d-lg-flex">
+                    <img src="https://ui-avatars.com/api/?name=Dapur+Mandiri&background=fff&color=0a4d3c"
+                        class="rounded-circle me-2" width="35" alt="Profile">
+                    <div class="d-flex flex-column lh-1 pe-2">
+                        <span class="fw-bold" style="font-size: 0.85rem;">Dapur Mandiri Berkah</span>
+                        <div class="d-flex align-items-center mt-1">
+                            <span class="live-indicator me-1" style="width: 8px; height: 8px;"></span>
+                            <span style="font-size: 0.65rem; font-family: monospace;">ID: 0x8F...A12B</span>
+                        </div>
+                    </div>
+                    <a href="auth-vendor.html" class="ms-3 text-white opacity-75 hover-opacity-100" title="Keluar"><i
+                            class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+
+        <div class="mb-4">
+            <h3 class="fw-bold text-dark">Selamat Datang, Dapur Mandiri! 👋</h3>
+            <p class="text-muted">Pantau performa harian Anda, trust score, dan pencairan dana di sini.</p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card-friendly h-100 p-4 border-bottom border-4 border-success">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted fw-bold mb-0">TRUST SCORE ANDA</h6>
+                        <div class="icon-circle bg-success bg-opacity-10 text-success"><i class="fas fa-star"></i></div>
+                    </div>
+                    <h2 class="fw-bold text-success mb-0" style="font-size: 2.5rem;">98.5 <span
+                            class="fs-5 text-muted fw-normal">/ 100</span></h2>
+                    <p class="small text-success mt-2 mb-0 fw-bold"><i class="fas fa-arrow-up me-1"></i> Performa Sangat
+                        Baik</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-friendly h-100 p-4 border-bottom border-4" style="border-color: var(--brand-light);">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted fw-bold mb-0">DANA DICAIRKAN (BULAN INI)</h6>
+                        <div class="icon-circle bg-primary bg-opacity-10 text-primary"><i class="fas fa-wallet"></i>
+                        </div>
+                    </div>
+                    <h2 class="fw-bold text-dark mb-0" style="font-size: 2.2rem;">Rp 38.2 Juta</h2>
+                    <p class="small text-muted mt-2 mb-0"><i class="fas fa-check-circle text-primary me-1"></i> Otomatis
+                        via Smart Contract</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-friendly h-100 p-4 border-bottom border-4 border-warning">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-muted fw-bold mb-0">TARGET PORSI HARIAN</h6>
+                        <div class="icon-circle bg-warning bg-opacity-10 text-warning"><i
+                                class="fas fa-box-open text-dark"></i></div>
+                    </div>
+                    <h2 class="fw-bold text-dark mb-0" style="font-size: 2.5rem;">450 <span
+                            class="fs-5 text-muted fw-normal">Porsi</span></h2>
+                    <p class="small text-muted mt-2 mb-0"><i class="fas fa-school text-warning me-1"></i> SDN 01
+                        Banyumanik</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="card-friendly h-100 p-4">
+                    <h5 class="fw-bold text-dark mb-1">Statistik Laporan AI Anda</h5>
+                    <p class="text-muted small mb-4">Jumlah porsi yang lolos verifikasi AI dalam 5 hari terakhir.</p>
+                    <canvas id="vendorChart" height="120"></canvas>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card-friendly h-100 p-4">
+                    <h5 class="fw-bold text-dark mb-4">Pemberitahuan Sistem</h5>
+
+                    <div class="d-flex mb-4">
+                        <div class="icon-circle bg-success bg-opacity-10 text-success me-3 flex-shrink-0"
+                            style="width: 40px; height: 40px; font-size: 1rem;"><i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h6 class="fw-bold text-dark mb-0">Pencairan Berhasil</h6>
+                                <small class="text-muted" style="font-size: 0.7rem;">Hari ini</small>
+                            </div>
+                            <p class="mb-0 small text-muted lh-sm">Dana laporan tanggal 11 Maret sebesar Rp 6.660.000
+                                telah masuk ke rekening Anda.</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="icon-circle bg-primary bg-opacity-10 text-primary me-3 flex-shrink-0"
+                            style="width: 40px; height: 40px; font-size: 1rem;"><i class="fas fa-info"></i></div>
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <h6 class="fw-bold text-dark mb-0">Info Harga Pasar</h6>
+                                <small class="text-muted" style="font-size: 0.7rem;">Kemarin</small>
+                            </div>
+                            <p class="mb-0 small text-muted lh-sm">Batas Harga Eceran Tertinggi (HET) Telur Ayam di
+                                wilayah Semarang naik menjadi Rp 29.500/Kg berdasarkan API PIHPS.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const ctx = document.getElementById('vendorChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'],
+                datasets: [{
+                    label: 'Porsi Lolos Audit',
+                    data: [450, 450, 450, 450, 450],
+                    backgroundColor: '#16a085',
+                    borderRadius: 8,
+                    barThickness: 30
+                }]
+            },
+            options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { borderDash: [2, 4] } }, x: { grid: { display: false } } } }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

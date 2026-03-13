@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Besar Riwayat | Portal Vendor TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root { --brand-green: #0a4d3c; --brand-light: #16a085; --brand-orange: #f39c12; --bg-body: #f4f9f7; }
+        body { background-color: var(--bg-body); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        .navbar-vendor { background: linear-gradient(135deg, var(--brand-green), var(--brand-light)); padding: 12px 0; box-shadow: 0 4px 15px rgba(10, 77, 60, 0.2); }
+        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: white !important; }
+        .nav-item .nav-link { color: rgba(255, 255, 255, 0.8); font-weight: 600; padding: 8px 16px; border-radius: 50px; margin: 0 5px; transition: 0.3s; }
+        .nav-item .nav-link.active, .nav-item .nav-link:hover { background-color: rgba(255, 255, 255, 0.2); color: white !important; }
+        
+        /* CSS Untuk Profile Pill di Navbar */
+        .user-pill { background-color: rgba(0, 0, 0, 0.2); border-radius: 50px; padding: 5px 15px 5px 5px; display: flex; align-items: center; color: white; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .live-indicator { width: 10px; height: 10px; background-color: #2ecc71; border-radius: 50%; display: inline-block; animation: pulse-green 2s infinite; border: 2px solid white; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+
+        .card-friendly { background: white; border: none; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03); overflow: hidden; }
+        .table-history th { background-color: #f8fafc; font-size: 0.8rem; text-transform: uppercase; color: #64748b; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
+        .table-history td { vertical-align: middle; }
+        .img-thumbnail-custom { width: 70px; height: 70px; object-fit: cover; border-radius: 12px; border: 2px solid #e2e8f0; transition: 0.3s; cursor: pointer; }
+        .img-thumbnail-custom:hover { transform: scale(1.1); border-color: var(--brand-light); }
+
+        .hash-box { background-color: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 8px; padding: 5px 10px; font-family: monospace; font-size: 0.85rem; color: #334155; display: inline-flex; align-items: center; gap: 8px; width: fit-content;}
+        .hash-box i.fa-copy { cursor: pointer; color: var(--brand-light); }
+        .hash-box i.fa-copy:hover { color: var(--brand-green); }
+
+        .nav-pills .nav-link { color: #64748b; font-weight: 600; border-radius: 50px; padding: 10px 25px; margin-right: 10px; border: 1px solid transparent;}
+        .nav-pills .nav-link.active { background-color: var(--brand-light); color: white; box-shadow: 0 4px 10px rgba(22, 160, 133, 0.3); }
+        .nav-pills .nav-link:not(.active):hover { border-color: #cbd5e1; background-color: white;}
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-vendor sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="vendor-dashboard.html">
+                <i class="fas fa-shield-alt text-warning fs-3 me-2"></i>
+                <div>
+                    TRUST-PLATE
+                    <span style="font-size: 0.65rem; font-weight: 500; opacity: 0.9; letter-spacing: 0;">PORTAL MITRA DAPUR</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#vendorNav">
+                <i class="fas fa-bars text-white fs-3"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="vendorNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="vendor-dashboard.html"><i class="fas fa-home me-1"></i> Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor-rab.html"><i class="fas fa-calculator me-1"></i> Hitung RAB</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor-lapor.html"><i class="fas fa-camera me-1"></i> Lapor Harian</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="vendor-riwayat.html"><i class="fas fa-history me-1"></i> Riwayat</a></li>
+                </ul>
+
+                <div class="user-pill d-none d-lg-flex">
+                    <img src="https://ui-avatars.com/api/?name=Dapur+Mandiri&background=fff&color=0a4d3c" class="rounded-circle me-2" width="35" alt="Profile">
+                    <div class="d-flex flex-column lh-1 pe-2">
+                        <span class="fw-bold" style="font-size: 0.85rem;">Dapur Mandiri Berkah</span>
+                        <div class="d-flex align-items-center mt-1">
+                            <span class="live-indicator me-1" style="width: 8px; height: 8px;"></span>
+                            <span style="font-size: 0.65rem; font-family: monospace;">ID: 0x8F...A12B</span>
+                        </div>
+                    </div>
+                    <a href="index.html" class="ms-3 text-white opacity-75 hover-opacity-100" title="Keluar"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <h3 class="fw-bold text-dark mb-1"><i class="fas fa-book-open text-primary me-2"></i>Buku Besar Transaksi (Ledger)</h3>
+                <p class="text-muted mb-0">Pantau status RAB dan riwayat laporan harian yang diamankan oleh Blockchain.</p>
+            </div>
+            <button class="btn btn-outline-secondary rounded-pill fw-bold px-4 shadow-sm" onclick="loadAllData()">
+                <i class="fas fa-sync-alt me-1"></i> Segarkan Data
+            </button>
+        </div>
+
+        <ul class="nav nav-pills mb-4" id="ledgerTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="rab-tab" data-bs-toggle="pill" data-bs-target="#rab-pane" type="button" role="tab">
+                    <i class="fas fa-file-invoice-dollar me-1"></i> Riwayat Pengajuan RAB
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="laporan-tab" data-bs-toggle="pill" data-bs-target="#laporan-pane" type="button" role="tab">
+                    <i class="fas fa-camera me-1"></i> Laporan Harian (Escrow)
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="ledgerTabsContent">
+            
+            <div class="tab-pane fade show active" id="rab-pane" role="tabpanel">
+                <div class="card-friendly border border-secondary border-opacity-10 p-2">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-history mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="ps-4" width="15%">Waktu Pengajuan</th>
+                                    <th width="20%">Sekolah Sasaran</th>
+                                    <th width="15%">Nilai Proyek</th>
+                                    <th width="20%">Status Evaluasi</th>
+                                    <th width="30%">Bukti Smart Contract (TxHash)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyRiwayatRAB">
+                                <tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-success mb-2"></div><p>Menarik data RAB...</p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="laporan-pane" role="tabpanel">
+                <div class="card-friendly border border-secondary border-opacity-10 p-2">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-history mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="ps-4" width="15%">Waktu Laporan</th>
+                                    <th width="20%">Distribusi Sekolah</th>
+                                    <th width="12%" class="text-center">Foto Bukti</th>
+                                    <th width="23%">Hasil Audit AI</th>
+                                    <th width="30%">Bukti Pencairan Web3</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyRiwayatLaporan">
+                                <tr><td colspan="5" class="text-center py-5"><div class="spinner-border text-success mb-2"></div><p>Menarik data Laporan Harian...</p></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="modalFoto" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 bg-transparent shadow-none">
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center pt-0">
+                    <img id="imgPreview" src="" class="img-fluid rounded-4 shadow-lg border border-white border-4" style="max-height: 70vh;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi Utama
+        async function loadAllData() {
+            await loadRiwayatRAB();
+            await loadRiwayatHarian();
+        }
+
+        // ==========================================
+        // 1. FUNGSI LOAD TABEL RAB
+        // ==========================================
+        async function loadRiwayatRAB() {
+            const tbody = document.getElementById('tbodyRiwayatRAB');
+            try {
+                const response = await fetch('http://localhost:3000/api/vendor/my-rab');
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    tbody.innerHTML = '';
+                    result.data.forEach(item => {
+                        const d = new Date(item.created_at);
+                        const tgl = d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+                        const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute:'2-digit' });
+
+                        let badgeHtml = '';
+                        let hashHtml = '';
+
+                        if (item.status === 'Disetujui') {
+                            badgeHtml = '<span class="badge bg-success px-3 py-2"><i class="fas fa-check-circle me-1"></i> Disetujui (ACC)</span>';
+                            const fullHash = item.tx_hash || '';
+                            if(fullHash) {
+                                const shortHash = `${fullHash.substring(0, 10)}...${fullHash.substring(fullHash.length - 8)}`;
+                                hashHtml = `
+                                    <div class="hash-box" title="${fullHash}">
+                                        <i class="fas fa-link text-primary"></i>
+                                        <span>${shortHash}</span>
+                                        <i class="fas fa-copy" onclick="copyToClipboard('${fullHash}')" title="Salin Hash"></i>
+                                    </div>
+                                    <div class="mt-1 small fw-bold text-success"><i class="fas fa-shield-check me-1"></i> Kontrak Terkunci</div>
+                                `;
+                            } else {
+                                hashHtml = `<span class="text-danger small"><i class="fas fa-exclamation-triangle"></i> Gagal Merekam Web3</span>`;
+                            }
+                        } 
+                        else if (item.status === 'Ditolak') {
+                            badgeHtml = '<span class="badge bg-danger px-3 py-2"><i class="fas fa-times-circle me-1"></i> Ditolak Pemkot</span>';
+                            hashHtml = `<span class="text-danger small fw-bold"><i class="fas fa-edit me-1"></i> Revisi: ${item.pesan_revisi || '-'}</span>`;
+                        } 
+                        else {
+                            badgeHtml = '<span class="badge bg-warning text-dark px-3 py-2"><i class="fas fa-clock me-1"></i> Menunggu Review</span>';
+                            hashHtml = '<span class="text-muted small">Menunggu evaluasi auditor.</span>';
+                        }
+
+                        const tr = `
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold text-dark">${tgl}</div>
+                                    <small class="text-muted"><i class="far fa-clock me-1"></i>${jam} WIB</small>
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-primary">${item.sekolah}</div>
+                                    <span class="badge bg-light text-dark border mt-1">${item.jumlah_porsi} Porsi/Hari</span>
+                                </td>
+                                <td class="fw-bold text-dark">Rp ${Number(item.total_anggaran).toLocaleString('id-ID')}</td>
+                                <td>${badgeHtml}</td>
+                                <td>${hashHtml}</td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += tr;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-5 text-muted"><i class="fas fa-file-invoice-dollar fs-1 mb-3 d-block opacity-50"></i> Belum ada pengajuan RAB.</td></tr>';
+                }
+            } catch (error) {
+                console.error("Error Get RAB:", error);
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-5 text-danger fw-bold"><i class="fas fa-exclamation-triangle me-2"></i> Gagal terhubung ke server.</td></tr>';
+            }
+        }
+
+        // ==========================================
+        // 2. FUNGSI LOAD TABEL LAPORAN HARIAN
+        // ==========================================
+        async function loadRiwayatHarian() {
+            const tbody = document.getElementById('tbodyRiwayatLaporan');
+            try {
+                const response = await fetch('http://localhost:3000/api/vendor/riwayat');
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    tbody.innerHTML = '';
+                    result.data.forEach(item => {
+                        const d = new Date(item.created_at);
+                        const tgl = d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+                        const jam = d.toLocaleTimeString('id-ID', { hour: '2-digit', minute:'2-digit' });
+
+                        const isGiziAman = item.gizi_status.toLowerCase().includes('standar') || item.gizi_status.toLowerCase().includes('memenuhi');
+                        const isHargaAman = item.harga_status.toLowerCase().includes('wajar') || item.harga_status.toLowerCase().includes('terverifikasi');
+                        
+                        const badgeGizi = isGiziAman ? `<span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 mb-1"><i class="fas fa-carrot"></i> Gizi Lolos</span>` : `<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 mb-1"><i class="fas fa-times"></i> ${item.gizi_status}</span>`;
+                        const badgeHarga = isHargaAman ? `<span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25"><i class="fas fa-tag"></i> Harga Wajar</span>` : `<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25"><i class="fas fa-radiation-alt"></i> Mark-up</span>`;
+
+                        const fullHash = item.tx_hash || '';
+                        const shortHash = fullHash ? `${fullHash.substring(0, 10)}...${fullHash.substring(fullHash.length - 8)}` : '';
+                        const hashHtml = fullHash ? `
+                            <div class="hash-box" title="${fullHash}">
+                                <i class="fas fa-link text-success"></i>
+                                <span>${shortHash}</span>
+                                <i class="fas fa-copy" onclick="copyToClipboard('${fullHash}')" title="Salin Hash"></i>
+                            </div>
+                            <div class="mt-1 small fw-bold text-success"><i class="fas fa-check-double me-1"></i> Dana Escrow Cair</div>
+                        ` : `<span class="text-danger small"><i class="fas fa-exclamation-triangle"></i> Menunggu Sync Jaringan</span>`;
+
+                        const imgUrl = item.file_url ? `http://localhost:3000${item.file_url}` : 'https://via.placeholder.com/150?text=No+Image';
+
+                        const tr = `
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold text-dark">${tgl}</div>
+                                    <small class="text-muted"><i class="far fa-clock me-1"></i>${jam} WIB</small>
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-primary">${item.sekolah || 'Data Sekolah'}</div>
+                                    <small class="text-muted">ID: ${item.vendor_id.substring(0,8)}...</small>
+                                </td>
+                                <td class="text-center">
+                                    <img src="${imgUrl}" class="img-thumbnail-custom" onclick="lihatFoto('${imgUrl}')" title="Klik untuk perbesar">
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column align-items-start">
+                                        ${badgeGizi}
+                                        ${badgeHarga}
+                                    </div>
+                                </td>
+                                <td>${hashHtml}</td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += tr;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-5 text-muted"><i class="fas fa-camera fs-1 mb-3 d-block opacity-50"></i> Belum ada laporan harian yang disubmit.</td></tr>';
+                }
+            } catch (error) {
+                console.error("Error Get Laporan:", error);
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-5 text-danger fw-bold"><i class="fas fa-exclamation-triangle me-2"></i> Gagal terhubung ke Server.</td></tr>';
+            }
+        }
+
+        // ==========================================
+        // UTILITY FUNCTIONS
+        // ==========================================
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({
+                    title: 'Tersalin!', text: 'TxHash Blockchain berhasil disalin ke clipboard.',
+                    icon: 'success', toast: true, position: 'top-end', showConfirmButton: false, timer: 2000
+                });
+            });
+        }
+
+        function lihatFoto(url) {
+            document.getElementById('imgPreview').src = url;
+            new bootstrap.Modal(document.getElementById('modalFoto')).show();
+        }
+
+        // Muat data otomatis saat halaman dibuka
+        window.onload = loadAllData;
+    </script>
+</body>
+</html>

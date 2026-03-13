@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lapor Temuan Publik | TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-trust: #0f4c3a;
+            --secondary-trust: #16a085;
+            --bg-light: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Navbar Publik */
+        .navbar-public {
+            background-color: var(--primary-trust);
+            padding: 15px 0;
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        /* Header Hero */
+        .hero-lapor {
+            background: linear-gradient(135deg, var(--primary-trust), var(--secondary-trust));
+            color: white;
+            padding: 60px 0 100px 0;
+            text-align: center;
+        }
+
+        /* Form Card */
+        .lapor-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: none;
+            margin-top: -60px;
+            /* Overlapping effect */
+            margin-bottom: 50px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--secondary-trust);
+            box-shadow: 0 0 0 0.25rem rgba(22, 160, 133, 0.25);
+        }
+
+        /* Area Upload Foto */
+        #dropZone {
+            border: 2px dashed #bdc3c7;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        #dropZone:hover {
+            border-color: var(--secondary-trust);
+            background-color: #e8f6f3;
+        }
+
+        #imagePreview {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            z-index: 5;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-trust);
+            color: white;
+            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 8px;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #0a3528;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-public shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <i class="fas fa-shield-alt fs-3 me-2 text-warning"></i>
+                <div>
+                    TRUST-PLATE
+                    <span style="font-size: 0.7rem; font-weight: 500; opacity: 0.8; letter-spacing: 0;">PORTAL PENGADUAN
+                        MASYARAKAT</span>
+                </div>
+            </a>
+            <a href="index.html" class="btn btn-outline-light btn-sm fw-bold rounded-pill px-4"><i
+                    class="fas fa-arrow-left me-1"></i> Kembali ke Beranda</a>
+        </div>
+    </nav>
+
+    <section class="hero-lapor">
+        <div class="container">
+            <h1 class="fw-bold mb-3">Lapor Temuan MBG</h1>
+            <p class="lead mb-0 opacity-75">Suara Anda mengawal kualitas gizi anak bangsa. Laporkan jika ada makanan
+                basi, porsi kurang, atau indikasi kecurangan.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card lapor-card p-4 p-md-5">
+
+                    <div class="alert bg-warning bg-opacity-10 border border-warning text-dark mb-4 pb-2">
+                        <div class="d-flex">
+                            <i class="fas fa-user-secret text-warning fs-4 me-3 mt-1"></i>
+                            <div>
+                                <h6 class="fw-bold mb-1">Perlindungan Whistleblower Aktif</h6>
+                                <p class="small mb-0">Identitas Anda akan dienkripsi. Laporan ini diteruskan langsung ke
+                                    <b>Inspektorat / BPK</b> tanpa melalui pihak sekolah atau vendor.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="formPengaduan">
+                        <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i
+                                class="fas fa-map-marker-alt text-danger me-2"></i>1. Lokasi & Waktu Temuan</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">Nama Sekolah / Lokasi Distribusi
+                                    <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Contoh: SDN 01 Banyumanik"
+                                    required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">Tanggal Kejadian <span
+                                        class="text-danger">*</span></label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-muted">Waktu Menerima Makanan</label>
+                                <input type="time" class="form-control">
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i
+                                class="fas fa-exclamation-circle text-warning me-2"></i>2. Detail Pengaduan</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">Kategori Temuan <span
+                                        class="text-danger">*</span></label>
+                                <select class="form-select" required>
+                                    <option value="" selected disabled>Pilih jenis masalah...</option>
+                                    <option value="basi">Makanan Basi / Berbau / Tidak Layak Konsumsi</option>
+                                    <option value="kurang">Porsi Sangat Sedikit / Tidak Sesuai Standar</option>
+                                    <option value="terlambat">Distribusi Sangat Terlambat (Melewati Jam Makan)</option>
+                                    <option value="kemasan">Kemasan Rusak / Terbuka / Tidak Higienis</option>
+                                    <option value="fiktif">Siswa Tidak Menerima Makanan Sama Sekali</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label small fw-bold text-muted">Ceritakan Detail Kejadian <span
+                                        class="text-danger">*</span></label>
+                                <textarea class="form-control" rows="4"
+                                    placeholder="Jelaskan secara singkat apa yang Anda temukan..." required></textarea>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i
+                                class="fas fa-camera text-primary me-2"></i>3. Unggah Bukti Foto <span
+                                class="text-danger">*</span></h6>
+                        <div class="mb-4">
+                            <div id="dropZone" class="mb-2 shadow-sm">
+                                <input class="position-absolute w-100 h-100 opacity-0 top-0 start-0" type="file"
+                                    id="fotoBukti" accept="image/*" required style="cursor: pointer; z-index: 10;">
+                                <img id="imagePreview" src="" alt="Preview Bukti">
+
+                                <div id="uploadPlaceholder" class="text-center" style="z-index: 1;">
+                                    <i class="fas fa-cloud-upload-alt text-secondary mb-2" style="font-size: 3rem;"></i>
+                                    <h6 class="fw-bold text-dark mb-1">Ketuk untuk Ambil Foto</h6>
+                                    <p class="small text-muted mb-0 px-3">Foto makanan, label kemasan, atau kondisi yang
+                                        bermasalah.</p>
+                                </div>
+
+                                <div id="changePhotoBtn" class="position-absolute bottom-0 mb-2"
+                                    style="display: none; z-index: 15;">
+                                    <span class="badge bg-dark bg-opacity-75 px-3 py-2"><i
+                                            class="fas fa-sync-alt me-1"></i> Ganti foto</span>
+                                </div>
+                            </div>
+                            <small class="text-muted"><i class="fas fa-info-circle me-1"></i> Maksimal ukuran file 5MB
+                                (JPG/PNG).</small>
+                        </div>
+
+                        <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i
+                                class="fas fa-id-card text-success me-2"></i>4. Data Pelapor (Opsional)</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-12 mb-2">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="anonimToggle" checked>
+                                    <label class="form-check-label fw-bold text-success" for="anonimToggle">Sembunyikan
+                                        Identitas Saya (Lapor Anonim)</label>
+                                </div>
+                            </div>
+
+                            <div id="dataDiri" style="display: none;"
+                                class="row g-3 m-0 p-0 border-start border-3 border-success ps-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Nama Lengkap</label>
+                                    <input type="text" class="form-control" placeholder="Nama Anda">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold text-muted">Hubungan dengan Sekolah</label>
+                                    <select class="form-select">
+                                        <option value="ortu">Orang Tua / Wali Murid</option>
+                                        <option value="guru">Guru / Staf Sekolah</option>
+                                        <option value="warga">Warga Sekitar</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label small fw-bold text-muted">No. HP / WhatsApp (Untuk
+                                        konfirmasi auditor)</label>
+                                    <input type="number" class="form-control" placeholder="0812xxxxxx">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="mb-4">
+                        <div class="d-grid">
+                            <button type="submit" class="btn-submit fs-5 shadow" id="btnSubmit">
+                                <i class="fas fa-paper-plane me-2"></i> Kirim Laporan ke Pemerintah
+                            </button>
+                        </div>
+                    </form>
+
+                    <div id="loadingSection" class="text-center py-5" style="display: none;">
+                        <div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;" role="status">
+                        </div>
+                        <h5 class="fw-bold">Mengamankan Laporan...</h5>
+                        <p class="text-muted small">Mengenkrpsi data identitas dan mengirim ke server Inspektorat.</p>
+                    </div>
+
+                    <div id="successSection" class="text-center py-5" style="display: none;">
+                        <i class="fas fa-check-circle text-success mb-3" style="font-size: 5rem;"></i>
+                        <h4 class="fw-bold text-dark">Laporan Berhasil Diterima!</h4>
+                        <p class="text-muted">Terima kasih atas kepedulian Anda. Laporan Anda telah masuk ke Sistem
+                            Pengawasan Pemerintah dengan nomor tiket pengaduan:</p>
+                        <div class="bg-light p-3 rounded border mb-4 d-inline-block">
+                            <h3 class="fw-bold text-primary tracking-widest mb-0">TRP-992-BX4</h3>
+                        </div>
+                        <p class="small text-danger fw-bold"><i class="fas fa-lock me-1"></i> Identitas Anda kami jamin
+                            kerahasiaannya.</p>
+                        <a href="index.html" class="btn btn-outline-success fw-bold px-4 mt-3">Kembali ke Beranda</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <h5 class="fw-bold text-white mb-1"><i class="fas fa-shield-alt text-success me-2"></i>TRUST-PLATE</h5>
+            <p class="small text-white-50 mb-0">Platform Audit Cerdas & Transparansi Pengadaan Makan Bergizi Gratis.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Logika Preview Foto
+        const inputFoto = document.getElementById('fotoBukti');
+        const imgPreview = document.getElementById('imagePreview');
+        const placeholder = document.getElementById('uploadPlaceholder');
+        const changeBtn = document.getElementById('changePhotoBtn');
+
+        inputFoto.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    changeBtn.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Logika Toggle Anonim
+        const anonimToggle = document.getElementById('anonimToggle');
+        const dataDiri = document.getElementById('dataDiri');
+
+        anonimToggle.addEventListener('change', function () {
+            if (this.checked) {
+                dataDiri.style.display = 'none';
+            } else {
+                dataDiri.style.display = 'flex';
+            }
+        });
+
+        // Logika Submit Form
+        document.getElementById('formPengaduan').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            this.style.display = 'none';
+            document.getElementById('loadingSection').style.display = 'block';
+
+            // Simulasi proses enkripsi dan pengiriman (2 detik)
+            setTimeout(() => {
+                document.getElementById('loadingSection').style.display = 'none';
+                document.getElementById('successSection').style.display = 'block';
+                window.scrollTo(0, 0); // Scroll ke atas setelah berhasil
+            }, 2000);
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

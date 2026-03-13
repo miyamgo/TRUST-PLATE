@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lapor Harian (AI) | Portal Vendor TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        :root {
+            --brand-green: #0a4d3c;
+            --brand-light: #16a085;
+            --brand-orange: #f39c12;
+            --bg-body: #f4f9f7;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* NAVBAR ATAS KONSISTEN */
+        .navbar-vendor {
+            background: linear-gradient(135deg, var(--brand-green), var(--brand-light));
+            padding: 12px 0;
+            box-shadow: 0 4px 15px rgba(10, 77, 60, 0.2);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: white !important;
+        }
+
+        .nav-item .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 50px;
+            margin: 0 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item .nav-link:hover,
+        .nav-item .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white !important;
+        }
+
+        .user-pill {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            padding: 5px 15px 5px 5px;
+            display: flex;
+            align-items: center;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .live-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse-green 2s infinite;
+            border: 2px solid white;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+        /* KARTU & INPUT FRIENDLY */
+        .card-friendly {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        .btn-friendly {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 12px 25px;
+            transition: 0.3s;
+        }
+
+        .form-control,
+        .form-select,
+        .input-group-text {
+            border-radius: 10px;
+            border-color: #e2e8f0;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--brand-light);
+            box-shadow: 0 0 0 0.25rem rgba(22, 160, 133, 0.15);
+        }
+
+        /* Area Upload Foto */
+        #dropZone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 20px;
+            background-color: #f8fafc;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #dropZone:hover {
+            border-color: var(--brand-light);
+            background-color: #f0fdf4;
+        }
+
+        #imagePreview {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            z-index: 5;
+        }
+
+        .table-input th {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #64748b;
+            font-weight: 700;
+            border-bottom: 2px solid #f1f5f9;
+            background-color: #f8fafc;
+        }
+
+        .table-input td {
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-vendor sticky-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="vendor-dashboard.html">
+                <i class="fas fa-shield-alt text-warning fs-3 me-2"></i>
+                <div>
+                    TRUST-PLATE
+                    <span style="font-size: 0.65rem; font-weight: 500; opacity: 0.9; letter-spacing: 0;">PORTAL MITRA
+                        DAPUR</span>
+                </div>
+            </a>
+
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#vendorNav">
+                <i class="fas fa-bars text-white fs-3"></i>
+            </button>
+
+            <div class="collapse navbar-collapse" id="vendorNav">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="vendor-dashboard.html"><i
+                                class="fas fa-home me-1"></i> Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor-rab.html"><i
+                                class="fas fa-calculator me-1"></i> Hitung RAB</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="vendor-lapor.html"><i
+                                class="fas fa-camera me-1"></i> Lapor Harian</a></li>
+                    <li class="nav-item"><a class="nav-link" href="vendor-riwayat.html"><i
+                                class="fas fa-history me-1"></i> Riwayat</a></li>
+                </ul>
+
+                <div class="user-pill d-none d-lg-flex">
+                    <img src="https://ui-avatars.com/api/?name=Dapur+Mandiri&background=fff&color=0a4d3c"
+                        class="rounded-circle me-2" width="35" alt="Profile">
+                    <div class="d-flex flex-column lh-1 pe-2">
+                        <span class="fw-bold" style="font-size: 0.85rem;">Dapur Mandiri Berkah</span>
+                        <div class="d-flex align-items-center mt-1">
+                            <span class="live-indicator me-1" style="width: 8px; height: 8px;"></span>
+                            <span style="font-size: 0.65rem; font-family: monospace;">ID: 0x8F...A12B</span>
+                        </div>
+                    </div>
+                    <a href="auth-vendor.html" class="ms-3 text-white opacity-75 hover-opacity-100" title="Keluar"><i
+                            class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+
+        <div class="mb-4">
+            <h3 class="fw-bold text-dark">Lapor Distribusi Harian</h3>
+            <p class="text-muted">Lengkapi data bahan baku dan unggah bukti foto porsi untuk dicocokkan oleh AI Server.
+            </p>
+        </div>
+
+        <div class="card-friendly mb-4 border border-success border-opacity-25 border-2">
+            <div
+                class="card-header bg-success bg-opacity-10 py-3 px-4 px-md-5 border-bottom border-success border-opacity-25 text-success d-flex justify-content-between align-items-center">
+                <h6 class="fw-bold mb-0" style="color: #0a4d3c;"><i class="fas fa-robot me-2"></i> Audit Harian Otomatis
+                    (Smart Contract)</h6>
+                <span class="badge rounded-pill bg-success text-white px-3 py-2"><i
+                        class="far fa-calendar-alt me-1"></i> 12 Maret 2026</span>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+
+                <div id="formSection">
+                    <form id="vendorForm">
+                        <div class="row g-5">
+
+                            <div class="col-lg-7 border-end pe-lg-5">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="fw-bold text-dark mb-0"><i
+                                            class="fas fa-receipt text-primary me-2"></i>1. Log Pengadaan Bahan Baku
+                                    </h6>
+                                    <button type="button"
+                                        class="btn btn-sm btn-outline-primary rounded-pill fw-bold px-3"
+                                        onclick="tambahBaris()"><i class="fas fa-plus me-1"></i> Tambah Item</button>
+                                </div>
+
+                                <div
+                                    class="alert bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 small py-2 mb-4 rounded-3">
+                                    <i class="fas fa-info-circle me-1"></i> Harga yang diinput akan divalidasi oleh
+                                    <b>AI Isolation Forest</b> dengan HET Pasar hari ini.
+                                </div>
+
+                                <div class="table-responsive mb-4">
+                                    <table class="table table-borderless table-input" id="tabelBahan">
+                                        <thead>
+                                            <tr>
+                                                <th width="30%">Nama Bahan</th>
+                                                <th width="20%">Kategori</th>
+                                                <th width="20%">Kuantitas</th>
+                                                <th width="25%">Harga/Satuan</th>
+                                                <th width="5%" class="text-center"><i class="fas fa-cog"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbodyBahan">
+                                            <tr>
+                                                <td><input type="text" class="form-control form-control-sm fw-bold"
+                                                        value="Beras Medium" required></td>
+                                                <td>
+                                                    <select class="form-select form-select-sm text-secondary" required>
+                                                        <option value="karbo" selected>Karbohidrat</option>
+                                                        <option value="protein">Protein</option>
+                                                        <option value="sayur">Sayur / Buah</option>
+                                                        <option value="bumbu">Bumbu</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="number" class="form-control item-qty" value="15"
+                                                            oninput="hitungTotalHarian()" required>
+                                                        <span class="input-group-text bg-white">Kg</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group input-group-sm">
+                                                        <span class="input-group-text bg-light">Rp</span>
+                                                        <input type="number" class="form-control item-price"
+                                                            value="13700" oninput="hitungTotalHarian()" required>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm text-danger border-0"
+                                                        onclick="hapusBaris(this)" disabled><i
+                                                            class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control form-control-sm fw-bold"
+                                                        value="Ayam Fillet" required></td>
+                                                <td>
+                                                    <select class="form-select form-select-sm text-secondary" required>
+                                                        <option value="karbo">Karbohidrat</option>
+                                                        <option value="protein" selected>Protein</option>
+                                                        <option value="sayur">Sayur / Buah</option>
+                                                        <option value="bumbu">Bumbu</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group input-group-sm">
+                                                        <input type="number" class="form-control item-qty" value="10"
+                                                            oninput="hitungTotalHarian()" required>
+                                                        <span class="input-group-text bg-white">Kg</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="input-group input-group-sm">
+                                                        <span class="input-group-text bg-light">Rp</span>
+                                                        <input type="number" class="form-control item-price"
+                                                            value="38000" oninput="hitungTotalHarian()" required>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm text-danger border-0"
+                                                        onclick="hapusBaris(this)"><i class="fas fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3 rounded-4 shadow-sm"
+                                    style="background: linear-gradient(135deg, #1a252f, #2c3e50);">
+                                    <span class="fw-bold opacity-75">Estimasi Pengeluaran Modal Harian:</span>
+                                    <h3 class="fw-bold mb-0 text-success">Rp <span id="grandTotalDisplay">585.500</span>
+                                    </h3>
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-5 ps-lg-4 d-flex flex-column">
+                                <h6 class="fw-bold text-dark mb-3"><i class="fas fa-camera text-primary me-2"></i>2.
+                                    Pindai Bukti Visual Porsi</h6>
+
+                                <div id="dropZone" class="text-center flex-grow-1 shadow-sm mb-3">
+                                    <input class="position-absolute w-100 h-100 opacity-0 top-0 start-0" type="file"
+                                        id="fotoMakanan" accept="image/*" required
+                                        style="cursor: pointer; z-index: 10;">
+                                    <img id="imagePreview" src="" alt="Preview Makanan">
+
+                                    <div id="uploadPlaceholder" style="z-index: 1;">
+                                        <i class="fas fa-cloud-upload-alt text-primary mb-3"
+                                            style="font-size: 3.5rem;"></i>
+                                        <h6 class="fw-bold text-dark mb-1">Ketuk untuk Ambil Foto Porsi</h6>
+                                        <p class="small text-muted mb-0 px-4">Pastikan komponen Karbohidrat, Protein,
+                                            dan Sayur terlihat jelas oleh kamera.</p>
+                                    </div>
+
+                                    <div id="changePhotoBtn" class="position-absolute bottom-0 mb-3"
+                                        style="display: none; z-index: 15;">
+                                        <span
+                                            class="badge rounded-pill bg-dark bg-opacity-75 px-3 py-2 border border-secondary shadow"><i
+                                                class="fas fa-sync-alt me-1"></i> Ketuk untuk ganti foto</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-5 border-secondary border-opacity-25">
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-friendly btn-success shadow px-5 fs-5" id="btnSubmit">
+                                <i class="fas fa-microchip me-2"></i> Eksekusi Audit AI Server
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="loadingOverlay" style="display: none; padding: 60px 0;" class="text-center">
+                    <div class="spinner-border text-success mb-4"
+                        style="width: 4rem; height: 4rem; border-width: 0.35em;" role="status"></div>
+                    <h4 class="fw-bold text-dark">Mengirim Payload ke Jaringan...</h4>
+                    <div class="text-muted small mt-3">
+                        <p class="mb-1"><i class="fas fa-check-circle text-success me-1"></i> Membaca Tabel Dinamis &
+                            Harga (Isolation Forest)...</p>
+                        <p class="mb-1"><i class="fas fa-check-circle text-success me-1"></i> Mengekstrak fitur foto
+                            (CNN MobileNetV2)...</p>
+                        <p class="mb-0"><i class="fas fa-spinner fa-spin text-primary me-1"></i> Memvalidasi kecocokan
+                            Smart Contract...</p>
+                    </div>
+                </div>
+
+                <div id="resultSection" style="display: none;">
+                    <div class="alert bg-success bg-opacity-10 border border-success text-center mb-5 py-4 rounded-4">
+                        <i class="fas fa-check-circle text-success fs-1 mb-2"></i>
+                        <h3 class="fw-bold text-success mb-1">Laporan Tervalidasi Sistem!</h3>
+                        <p class="text-dark mb-0">Tidak ditemukan mark-up. Gizi visual sesuai standar spesifikasi.</p>
+                    </div>
+
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm bg-light rounded-4">
+                                <div class="card-body p-4 d-flex align-items-center">
+                                    <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 me-3"><i
+                                            class="fas fa-camera fs-3"></i></div>
+                                    <div>
+                                        <h6 class="text-muted fw-bold mb-1" style="font-size: 0.75rem;">AUDIT VISUAL
+                                            (MobileNetV2)</h6>
+                                        <h5 class="fw-bold text-dark mb-1">Memenuhi Standar</h5>
+                                        <p class="text-muted small mb-0">Nasi, Ayam, Telur terdeteksi valid.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm bg-light rounded-4">
+                                <div class="card-body p-4 d-flex align-items-center">
+                                    <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 me-3"><i
+                                            class="fas fa-shield-check fs-3"></i></div>
+                                    <div>
+                                        <h6 class="text-muted fw-bold mb-1" style="font-size: 0.75rem;">AUDIT HARGA
+                                            (Isolation Forest)</h6>
+                                        <h5 class="fw-bold text-dark mb-1">Harga Terverifikasi</h5>
+                                        <p class="text-muted small mb-0">Total estimasi modal sesuai dengan batas HET
+                                            pasar.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="d-flex flex-column flex-md-row justify-content-between align-items-center bg-dark text-white p-4 rounded-4 shadow-sm">
+                        <div class="mb-3 mb-md-0 px-2">
+                            <i class="fas fa-lock text-warning me-2 fs-5"></i> Menyetujui berarti Anda menandatangani
+                            <b>Smart Contract harian</b> ke Blockchain.
+                        </div>
+                        <div class="d-flex w-100 w-md-auto justify-content-end">
+                            <button class="btn btn-friendly btn-outline-light me-2 px-4"
+                                onclick="location.reload()">Batal / Edit</button>
+                            <button class="btn btn-friendly btn-warning text-dark px-4 shadow"
+                                onclick="simpanKeBlockchain()">
+                                <i class="fas fa-signature me-1"></i> Tanda Tangani Ledger
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function tambahBaris() {
+            const tbody = document.getElementById('tbodyBahan');
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td><input type="text" class="form-control form-control-sm fw-bold" placeholder="Ketik nama bahan..." required></td>
+                <td>
+                    <select class="form-select form-select-sm text-secondary" required>
+                        <option value="">Pilih...</option>
+                        <option value="karbo">Karbohidrat</option>
+                        <option value="protein">Protein</option>
+                        <option value="sayur">Sayur / Buah</option>
+                        <option value="bumbu">Bumbu</option>
+                    </select>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm">
+                        <input type="number" class="form-control item-qty" value="0" oninput="hitungTotalHarian()" required>
+                        <span class="input-group-text bg-white text-muted">Kg</span>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text bg-light text-muted">Rp</span>
+                        <input type="number" class="form-control item-price" value="0" oninput="hitungTotalHarian()" required>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <button type="button" class="btn btn-sm text-danger border-0" onclick="hapusBaris(this)"><i class="fas fa-trash"></i></button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        function hapusBaris(btn) { btn.closest('tr').remove(); hitungTotalHarian(); }
+
+        function hitungTotalHarian() {
+            let total = 0;
+            const rows = document.querySelectorAll('#tbodyBahan tr');
+            rows.forEach(row => {
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                total += (qty * price);
+            });
+            document.getElementById('grandTotalDisplay').innerText = total.toLocaleString('id-ID');
+        }
+
+        window.onload = function () { hitungTotalHarian(); };
+
+        const inputFoto = document.getElementById('fotoMakanan');
+        const imgPreview = document.getElementById('imagePreview');
+        const placeholder = document.getElementById('uploadPlaceholder');
+        const changeBtn = document.getElementById('changePhotoBtn');
+
+        inputFoto.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'block';
+                    placeholder.style.display = 'none';
+                    changeBtn.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('vendorForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('loadingOverlay').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                document.getElementById('resultSection').style.display = 'block';
+            }, 2500);
+        });
+
+        function simpanKeBlockchain() {
+            alert("PENANDATANGANAN BERHASIL!\n\nLaporan Harian (Tabel Log Bahan & Bukti Visual) telah dienkripsi dan dikirim ke Node Validator PoA.\n\nTransaction Hash: 0x9f1b2c3d8a7e6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f");
+            window.location.href = "vendor-riwayat.html";
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

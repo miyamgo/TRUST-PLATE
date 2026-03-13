@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2G Verifikasi & Procurement | TRUST-PLATE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --gov-sidebar: #1a252f;
+            --gov-bg: #f4f7f6;
+            --accent-green: #16a085;
+            --accent-blue: #0d6efd;
+            --accent-red: #dc3545;
+            --accent-yellow: #f1c40f;
+        }
+
+        body { background-color: var(--gov-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        /* Sidebar Styling */
+        .sidebar { background-color: var(--gov-sidebar); min-height: 100vh; color: white; padding-top: 20px; }
+        .sidebar-brand { text-align: center; margin-bottom: 40px; }
+        .sidebar-brand i { color: var(--accent-green); font-size: 2.5rem; margin-bottom: 10px; }
+        .sidebar-brand h4 { font-weight: 900; letter-spacing: 1px; margin-bottom: 0; }
+        .sidebar-brand small { color: #7f8c8d; font-size: 0.65rem; letter-spacing: 1px; }
+
+        .nav-link { color: #bdc3c7; padding: 15px 20px; margin-bottom: 5px; font-weight: 500; font-size: 0.95rem; border-left: 4px solid transparent; transition: 0.3s; }
+        .nav-link i { width: 30px; text-align: center; }
+        .nav-link:hover { color: white; background-color: rgba(255, 255, 255, 0.05); }
+        .nav-link.active { color: white; background-color: #2c3e50; border-left: 4px solid var(--accent-green); font-weight: 600; }
+
+        .live-indicator { width: 10px; height: 10px; background-color: #2ecc71; border-radius: 50%; display: inline-block; animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+
+        .nav-tabs .nav-link { color: #7f8c8d; font-weight: 600; border: none; border-bottom: 3px solid transparent; padding: 12px 20px; font-size: 0.95rem; }
+        .nav-tabs .nav-link.active { color: #1a252f; border-bottom: 3px solid var(--accent-blue); background: transparent; }
+        .card-dash { border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); background-color: white; }
+        .table-alert th { background-color: #f8f9fa; font-size: 0.85rem; text-transform: uppercase; color: #7f8c8d; }
+        .table-alert td { vertical-align: middle; }
+        .table-audit th { background-color: #e9ecef; font-size: 0.8rem; color: #495057; }
+        .table-audit td { font-size: 0.9rem; vertical-align: middle; }
+    </style>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar position-fixed" style="z-index: 100;">
+                <div class="sidebar-brand">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>TRUST-PLATE</h4>
+                    <small>Monitoring Program MBG</small>
+                </div>
+                <ul class="nav flex-column mb-auto">
+                    <li class="nav-item"><a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat Kendali</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Dashboard Eksekutif</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="gov-approval.html"><i class="fas fa-clipboard-check"></i> Pengadaan</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-audit.html"><i class="fas fa-users-cog"></i> Investigasi Mitra</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Jejak Audit</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+                </ul>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
+
+                <div class="d-flex flex-column flex-md-row align-items-center mb-4 pb-3 border-bottom">
+                    <div class="d-flex align-items-center pe-4 me-4 border-end">
+                        <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 55px; height: 55px; font-size: 1.4rem; font-weight: bold;">AP</div>
+                        <div>
+                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor)</h4>
+                            <div class="d-flex align-items-center gap-3 mt-1">
+                                <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm" style="font-size: 0.85rem; font-family: monospace;">ID: GOV-AUDIT-01</span>
+                                <div class="d-flex flex-column justify-content-center" style="line-height: 1.2;">
+                                    <span class="text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS JARINGAN</span>
+                                    <span class="text-success fw-bold" style="font-size: 0.9rem;"><span class="live-indicator me-1"></span> SYNCED</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="fw-bold mb-1" style="color: #2c3e50;">Manajemen Pengadaan</h2>
+                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Persetujuan Akun, Evaluasi RAB, dan Log Auto-Escrow Harian.</p>
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs mb-4" id="approvalTabs" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="akun-tab" data-bs-toggle="tab" data-bs-target="#akun-pane" type="button" role="tab"><i class="fas fa-user-plus me-2 text-primary"></i> 1. Verifikasi Akun Baru</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" id="rab-tab" data-bs-toggle="tab" data-bs-target="#rab-pane" type="button" role="tab" onclick="loadRAB()"><i class="fas fa-file-invoice-dollar me-2 text-warning"></i> 2. Pengajuan RAB</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" id="laporan-tab" data-bs-toggle="tab" data-bs-target="#laporan-pane" type="button" role="tab" onclick="loadPencairan()"><i class="fas fa-robot me-2 text-success"></i> 3. Log Escrow Harian</button></li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="tab-pane fade show active" id="akun-pane" role="tabpanel">
+                        <div class="card card-dash mb-4 border-top border-4 border-primary">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-alert mb-0 align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th class="ps-4 py-3">Nama Calon Vendor</th>
+                                                <th class="py-3">Legalitas (NIB & NIK)</th>
+                                                <th class="py-3">Kapasitas Harian</th>
+                                                <th class="py-3">Lokasi Dapur</th>
+                                                <th class="py-3">Status Berkas</th>
+                                                <th class="py-3">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="ps-4 fw-bold text-dark">Dapur Sentral Harapan</td>
+                                                <td><code class="text-dark bg-white px-2 py-1 rounded border shadow-sm">9120391023910</code></td>
+                                                <td>1,500 Porsi</td>
+                                                <td>Kec. Coblong</td>
+                                                <td><span class="text-success fw-bold"><i class="fas fa-check-circle me-1"></i>Lengkap (OSS)</span></td>
+                                                <td><button class="btn btn-sm btn-primary fw-bold px-3 shadow-sm"><i class="fas fa-search me-1"></i> Tinjau</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="rab-pane" role="tabpanel">
+                        <div class="card card-dash mb-4 border-top border-4 border-warning">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-alert mb-0 align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th class="ps-4 py-3">Vendor Pengaju</th>
+                                                <th class="py-3">Sekolah Tujuan</th>
+                                                <th class="py-3">Jumlah Porsi</th>
+                                                <th class="py-3">Total Anggaran (Rp)</th>
+                                                <th class="py-3">Status</th>
+                                                <th class="py-3 pe-4 text-end">Aksi Kontrak</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabelRAB">
+                                            <tr><td colspan="6" class="text-center py-4">Memuat data RAB... <i class="fas fa-spinner fa-spin"></i></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="laporan-pane" role="tabpanel">
+                        <div class="alert bg-success bg-opacity-10 border border-success d-flex align-items-center mb-4">
+                            <i class="fas fa-info-circle text-success fs-4 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold text-success mb-1">Sistem Auto-Escrow Aktif</h6>
+                                <p class="mb-0 small text-dark">Data di bawah ini adalah log pencairan otomatis tanpa intervensi manual.</p>
+                            </div>
+                        </div>
+                        <div class="card card-dash mb-4 border-top border-4 border-success">
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-alert mb-0 align-middle">
+                                        <thead>
+                                            <tr>
+                                                <th class="ps-4 py-3">Vendor Aktif</th>
+                                                <th class="py-3">Tanggal & Jam</th>
+                                                <th class="py-3">TxHash Bukti AI</th>
+                                                <th class="py-3">Status Transfer</th>
+                                                <th class="py-3 pe-4 text-end">Aksi Darurat</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabelPencairan">
+                                            <tr><td colspan="5" class="text-center py-4">Memuat log... <i class="fas fa-spinner fa-spin"></i></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="modal fade" id="detailRabModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
+                <div class="modal-header bg-warning text-dark border-0 py-3 px-4">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-search-dollar me-2"></i> Dokumen Forensik RAB Vendor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    
+                    <div class="row mb-3 bg-white p-3 rounded shadow-sm border border-secondary border-opacity-10 mx-0">
+                        <div class="col-md-6 border-end">
+                            <small class="text-muted fw-bold d-block mb-1">Identitas Mitra Dapur:</small>
+                            <h5 class="fw-bold text-dark mb-0" id="modalVendorNama">Memuat...</h5>
+                        </div>
+                        <div class="col-md-6 ps-md-4">
+                            <small class="text-muted fw-bold d-block mb-1">Distribusi ke Sekolah:</small>
+                            <h5 class="fw-bold text-primary mb-0" id="modalSekolah">Memuat...</h5>
+                            <small class="text-muted" id="modalLokasiDetail">Lokasi Detail Memuat...</small>
+                        </div>
+                    </div>
+
+                    <div id="auditAlertBox" class="mb-4"></div>
+                    
+                    <h6 class="fw-bold text-dark mb-2"><i class="fas fa-list text-primary me-2"></i>Audit Rincian Harga per 1 Porsi (HPP)</h6>
+                    <div class="table-responsive bg-white rounded shadow-sm border border-secondary border-opacity-25 mb-4">
+                        <table class="table table-hover table-audit mb-0">
+                            <thead>
+                                <tr>
+                                    <th width="15%">Kategori</th>
+                                    <th width="25%">Nama Item</th>
+                                    <th width="15%">Kebutuhan</th>
+                                    <th width="15%" class="text-primary">Harga Vendor</th>
+                                    <th width="15%" class="text-success">Standar PIHPS</th>
+                                    <th width="15%" class="text-center">Status Sistem</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodyDetailBahan"></tbody>
+                            <tfoot class="bg-light border-top">
+                                <tr>
+                                    <td colspan="3" class="text-end fw-bold text-muted">Ops. Kemasan & Bumbu:</td>
+                                    <td class="fw-bold text-dark" id="dtlKemasan">Rp 0</td>
+                                    <td colspan="2" class="text-muted small">Fixed Value</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-end fw-bold text-muted">Ongkos Kurir Distribusi:</td>
+                                    <td class="fw-bold text-dark" id="dtlDistribusi">Rp 0</td>
+                                    <td colspan="2" class="text-muted small">Auto-Calculated by Map</td>
+                                </tr>
+                                <tr class="bg-warning bg-opacity-10 border-top border-warning">
+                                    <td colspan="3" class="text-end fw-bold text-dark fs-6">TOTAL HPP 1 PORSI:</td>
+                                    <td class="fw-bold text-danger fs-6" id="dtlPerPorsi">Rp 0</td>
+                                    <td colspan="2"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center bg-dark text-white p-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #1a252f, #2c3e50);">
+                        <div>
+                            <span class="small text-white-50 fw-bold"><i class="fas fa-calculator me-1"></i> KALKULASI TOTAL PROYEK</span><br>
+                            <span class="small text-warning">Dikali <span id="dtlJumlahPorsi">0</span> Porsi per Hari</span>
+                        </div>
+                        <h2 class="fw-bold text-success mb-0" id="dtlTotalAnggaran">Rp 0</h2>
+                    </div>
+                </div>
+                
+                <div class="modal-footer bg-white border-top py-3 px-4 flex-wrap" id="modalAksiFooter">
+                    <div id="revisiBox" class="w-100 mb-3" style="display: none;">
+                        <label class="fw-bold text-danger small mb-1"><i class="fas fa-edit me-1"></i> Berikan Alasan Penolakan / Revisi:</label>
+                        <textarea class="form-control border-danger bg-danger bg-opacity-10 text-danger fw-bold" id="inputPesanRevisi" rows="2" placeholder="Cth: Harga ayam terlalu tinggi, terindikasi mark-up..."></textarea>
+                    </div>
+
+                    <div class="w-100 d-flex justify-content-between" id="grupTombolAksi">
+                        <button type="button" class="btn btn-outline-danger fw-bold px-4" id="btnTolakRAB" onclick="tampilkanFormRevisi()"><i class="fas fa-times me-1"></i> Tolak Dokumen</button>
+                        <button type="button" class="btn btn-danger fw-bold px-4 shadow" id="btnKirimTolak" style="display: none;" onclick="kirimPenolakan()"><i class="fas fa-paper-plane me-1"></i> Kirim Penolakan</button>
+                        <button type="button" class="btn btn-success fw-bold shadow px-4" id="btnAccRAB" onclick="prosesAccRAB()"><i class="fas fa-link me-1"></i> ACC & Kunci di Blockchain</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentRabId = null;
+
+        async function loadRAB() {
+            const tbody = document.getElementById('tabelRAB');
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Memuat data... <i class="fas fa-spinner fa-spin"></i></td></tr>';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/gov/list-rab');
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    tbody.innerHTML = '';
+                    result.data.forEach(item => {
+                        const statusBadge = item.status === 'Disetujui' ? 'bg-success' : 
+                                           item.status === 'Ditolak' ? 'bg-danger' : 'bg-warning text-dark';
+                        
+                        let rincianJson = "{}";
+                        if (item.rincian_bahan) { try { rincianJson = JSON.stringify(item.rincian_bahan).replace(/'/g, "&apos;"); } catch(e){} }
+
+                        const tr = `
+                            <tr>
+                                <td class="ps-4 fw-bold text-dark">${item.vendor_id.substring(0, 20)}...</td>
+                                <td>${item.sekolah}</td>
+                                <td><span class="badge bg-light text-dark border">${item.jumlah_porsi} Anak</span></td>
+                                <td class="fw-bold text-dark fs-6">Rp ${Number(item.total_anggaran).toLocaleString('id-ID')}</td>
+                                <td>
+                                    <span class="badge ${statusBadge}">${item.status}</span>
+                                    ${item.tx_hash ? `<br><small class="text-primary fw-bold" style="font-size:0.75rem;"><i class="fas fa-link"></i> Web3 Locked</small>` : ''}
+                                </td>
+                                <td class="pe-4 text-end">
+                                    <button class="btn btn-sm btn-primary fw-bold shadow-sm" 
+                                        onclick='bukaModalRAB(${item.id}, "${item.vendor_id}", "${item.sekolah}", ${item.jumlah_porsi}, ${item.total_anggaran}, ${rincianJson}, "${item.status}", "${item.pesan_revisi || ''}")'>
+                                        <i class="fas fa-search me-1"></i> Forensik Detail
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += tr;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada pengajuan RAB.</td></tr>';
+                }
+            } catch (error) {
+                console.error("Error Load RAB:", error);
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> Gagal terhubung ke Database.</td></tr>';
+            }
+        }
+
+        function bukaModalRAB(id, vendor, sekolah, porsi, total, rincianText, status, pesanRevisiLama) {
+            currentRabId = id; 
+            
+            document.getElementById('modalVendorNama').innerText = vendor;
+            document.getElementById('modalSekolah').innerText = sekolah;
+            document.getElementById('dtlJumlahPorsi').innerText = porsi.toLocaleString('id-ID');
+            document.getElementById('dtlTotalAnggaran').innerText = 'Rp ' + Number(total).toLocaleString('id-ID');
+            
+            let rincian = {};
+            if(typeof rincianText === 'string') { try { rincian = JSON.parse(rincianText); } catch(e) {} } 
+            else if (typeof rincianText === 'object') { rincian = rincianText; }
+
+            if(rincian.lokasi && rincian.lokasi.provinsi) {
+                document.getElementById('modalLokasiDetail').innerText = `${rincian.lokasi.kodepos} | ${rincian.lokasi.kecamatan}, ${rincian.lokasi.kota}, ${rincian.lokasi.provinsi}`;
+            }
+
+            const alertBox = document.getElementById('auditAlertBox');
+            if (status === 'Ditolak') {
+                 alertBox.innerHTML = `
+                    <div class="alert alert-danger d-flex align-items-center py-3 shadow-sm border-danger border-2 rounded-3">
+                        <i class="fas fa-ban fs-2 me-3 text-danger"></i>
+                        <div>
+                            <h6 class="fw-bold mb-1 text-danger">DOKUMEN DITOLAK OLEH PEMERINTAH</h6>
+                            <span class="text-dark">Catatan Revisi: <b>"${pesanRevisiLama}"</b></span>
+                        </div>
+                    </div>`;
+            } else if (rincian.analisis_sistem === "TERINDIKASI MARK-UP") {
+                alertBox.innerHTML = `
+                    <div class="alert alert-danger d-flex align-items-center py-3 shadow-sm border-danger border-2 rounded-3">
+                        <i class="fas fa-radiation-alt fs-2 me-3 text-danger"></i>
+                        <div>
+                            <h5 class="fw-bold mb-1 text-danger">PERINGATAN SISTEM: INDIKASI MARK-UP!</h5>
+                            <span class="text-dark">Sistem mendeteksi harga bahan baku <b>>15% lebih mahal</b> dari PIHPS.</span>
+                        </div>
+                    </div>`;
+            } else if (rincian.analisis_sistem === "HARGA AMAN") {
+                alertBox.innerHTML = `
+                    <div class="alert alert-success d-flex align-items-center py-2 shadow-sm border-success border-2 rounded-3">
+                        <i class="fas fa-shield-check fs-3 me-3 text-success"></i>
+                        <div>
+                            <h6 class="fw-bold mb-0 text-success">Validasi Lolos (Clear)</h6>
+                            <small class="text-dark">Seluruh usulan harga bahan baku masih dalam batas kewajaran PIHPS.</small>
+                        </div>
+                    </div>`;
+            } else { alertBox.innerHTML = ''; }
+
+            const tbodyBahan = document.getElementById('tbodyDetailBahan');
+            tbodyBahan.innerHTML = '';
+            if (rincian.bahan_baku && rincian.bahan_baku.length > 0) {
+                rincian.bahan_baku.forEach(bb => {
+                    const isWarning = bb.status_audit === "INDIKASI MARKUP";
+                    tbodyBahan.innerHTML += `
+                        <tr class="${isWarning ? "table-danger" : ""}">
+                            <td class="text-muted small">${bb.kategori}</td>
+                            <td class="fw-bold text-dark">${bb.item}</td>
+                            <td>${bb.kebutuhan}</td>
+                            <td class="${isWarning ? 'text-danger fw-bold' : 'text-primary fw-bold'}">${bb.harga_usulan}</td>
+                            <td class="text-success">${bb.harga_pihps_rahasia}</td>
+                            <td class="text-center"><span class="${isWarning ? "badge bg-danger" : "badge bg-success"}">${isWarning ? '<i class="fas fa-exclamation-circle"></i>' : '<i class="fas fa-check"></i>'} ${bb.status_audit}</span></td>
+                        </tr>
+                    `;
+                });
+            }
+
+            const ops = (Number((rincian.kemasan || "0").toString().replace(/\./g,'')) + Number((rincian.bumbu || "0").toString().replace(/\./g,'')));
+            document.getElementById('dtlKemasan').innerText = ops > 0 ? 'Rp ' + ops.toLocaleString('id-ID') : "Rp 0";
+            document.getElementById('dtlDistribusi').innerText = 'Rp ' + (Number(rincian.distribusi) || 0).toLocaleString('id-ID');
+            document.getElementById('dtlPerPorsi').innerText = 'Rp ' + (Number(rincian.hargaPerPorsi) || 0).toLocaleString('id-ID');
+
+            document.getElementById('revisiBox').style.display = 'none';
+            document.getElementById('inputPesanRevisi').value = '';
+            
+            const footerAksi = document.getElementById('modalAksiFooter');
+            if (status !== 'Menunggu Review Pemkot') {
+                footerAksi.style.display = 'none'; 
+            } else {
+                footerAksi.style.display = 'flex';
+                document.getElementById('btnTolakRAB').style.display = 'block';
+                document.getElementById('btnAccRAB').style.display = 'block';
+                document.getElementById('btnKirimTolak').style.display = 'none';
+            }
+
+            new bootstrap.Modal(document.getElementById('detailRabModal')).show();
+        }
+
+        // --- MENGGUNAKAN SWEETALERT UNTUK TOLAK DOKUMEN ---
+        function tampilkanFormRevisi() {
+            document.getElementById('revisiBox').style.display = 'block'; 
+            document.getElementById('btnTolakRAB').style.display = 'none'; 
+            document.getElementById('btnAccRAB').style.display = 'none'; 
+            document.getElementById('btnKirimTolak').style.display = 'block'; 
+        }
+
+        async function kirimPenolakan() {
+            const pesan = document.getElementById('inputPesanRevisi').value;
+            if(!pesan) {
+                // SweetAlert Pengganti Alert Jelek
+                return Swal.fire({ icon: 'warning', title: 'Oops...', text: 'Pesan revisi tidak boleh kosong!' });
+            }
+            await eksekusiAPI(currentRabId, 'Ditolak', pesan);
+        }
+
+        // --- MENGGUNAKAN SWEETALERT UNTUK ACC (BLOCKCHAIN) ---
+        async function prosesAccRAB() {
+            // SweetAlert Pengganti Confirm Jelek
+            const result = await Swal.fire({
+                title: 'Kunci ke Blockchain?',
+                text: "Sistem akan mengunci dokumen ini ke Smart Contract di jaringan Web3 untuk mencegah pengubahan data (Tamper-Proof). Anda yakin?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#16a085',
+                cancelButtonColor: '#dc3545',
+                confirmButtonText: '<i class="fas fa-link me-1"></i> Ya, Kunci Sekarang!',
+                cancelButtonText: 'Batal',
+                reverseButtons: true
+            });
+
+            if (result.isConfirmed) {
+                // SweetAlert Loading Spinner Muter-Muter Cantik
+                Swal.fire({
+                    title: 'Memproses ke Web3...',
+                    html: 'Sedang menghubungi jaringan Blockchain, mohon jangan tutup jendela ini.',
+                    allowOutsideClick: false,
+                    didOpen: () => { Swal.showLoading(); }
+                });
+                
+                await eksekusiAPI(currentRabId, 'Disetujui', null);
+            }
+        }
+
+        // --- EKSEKUSI API ---
+        async function eksekusiAPI(id, status, pesanRevisi) {
+            try {
+                const response = await fetch('http://localhost:3000/api/gov/approve-rab', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: id, status: status, pesanRevisi: pesanRevisi })
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    if(status === 'Disetujui') {
+                        // SweetAlert Success ACC
+                        Swal.fire({
+                            title: 'BERHASIL TERKUNCI!',
+                            html: `RAB telah diamankan di jaringan Blockchain.<br><br><b>TxHash:</b><br><code class="text-primary bg-light p-2 rounded d-block mt-2" style="font-size:0.8rem; word-break: break-all;">${result.tx_hash}</code><br>Mode Hybrid Escrow kini aktif.`,
+                            icon: 'success',
+                            confirmButtonColor: '#16a085'
+                        });
+                    } else {
+                        // SweetAlert Success Tolak
+                        Swal.fire({ icon: 'success', title: 'Ditolak', text: 'Dokumen berhasil dikembalikan ke Vendor untuk direvisi.', confirmButtonColor: '#dc3545' });
+                    }
+                    bootstrap.Modal.getInstance(document.getElementById('detailRabModal')).hide();
+                    loadRAB(); 
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Gagal', text: result.message });
+                }
+            } catch (error) {
+                console.error("Error Aksi RAB:", error);
+                Swal.fire({ icon: 'error', title: 'Server Error', text: 'Terjadi kesalahan sistem saat menghubungi jaringan.' });
+            }
+        }
+
+        async function loadPencairan() {
+            // (Isi fungsi loadPencairan dibiarkan sama seperti sebelumnya)
+            const tbody = document.getElementById('tabelPencairan');
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Memuat log escrow... <i class="fas fa-spinner fa-spin"></i></td></tr>';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/gov/list-pencairan');
+                const result = await response.json();
+
+                if (result.success && result.data.length > 0) {
+                    tbody.innerHTML = '';
+                    result.data.forEach(item => {
+                        const tgl = new Date(item.created_at);
+                        const formatTgl = tgl.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) + ' ' + tgl.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+                        const shortHash = item.tx_hash ? item.tx_hash.substring(0, 8) + '...' : '-';
+
+                        const tr = `
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="fw-bold text-dark">${item.vendor_id.substring(0, 15)}...</div>
+                                    <small class="text-muted">${item.sekolah}</small>
+                                </td>
+                                <td class="fw-bold text-secondary small">${formatTgl}</td>
+                                <td><code class="text-primary bg-primary bg-opacity-10 px-2 py-1 rounded cursor-pointer" title="${item.tx_hash}">${shortHash}</code></td>
+                                <td>
+                                    <span class="badge bg-success text-white px-3 py-2 rounded-pill shadow-sm">
+                                        <i class="fas fa-check-double me-1"></i> Cair ke Wallet Vendor
+                                    </span>
+                                </td>
+                                <td class="pe-4 text-end">
+                                    <button class="btn btn-sm btn-outline-danger fw-bold" onclick="Swal.fire('Dibekukan!','Dana untuk transaksi ini berhasil ditahan di Smart Contract.','info')">
+                                        <i class="fas fa-snowflake me-1"></i> Freeze
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += tr;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">Belum ada aktivitas escrow hari ini.</td></tr>';
+                }
+            } catch (error) {
+                console.error("Error Load Pencairan:", error);
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> Gagal terhubung ke Database.</td></tr>';
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
