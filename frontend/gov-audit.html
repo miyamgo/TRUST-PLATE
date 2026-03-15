@@ -1,348 +1,166 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inbox Verifikasi Vendor | TRUST-PLATE</title>
+    <title>Investigasi Pengaduan | TRUST-PLATE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        :root {
-            --gov-sidebar: #1a252f;
-            --gov-bg: #f4f7f6;
-            --accent-green: #16a085;
-            --accent-blue: #2980b9;
-            --accent-red: #e74c3c;
-            --accent-yellow: #f1c40f;
-        }
-
-        body {
-            background-color: var(--gov-bg);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        /* Sidebar Styling */
-        .sidebar {
-            background-color: var(--gov-sidebar);
-            min-height: 100vh;
-            color: white;
-            padding-top: 20px;
-        }
-
-        .sidebar-brand {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .sidebar-brand i {
-            color: var(--accent-green);
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .sidebar-brand h4 {
-            font-weight: 900;
-            letter-spacing: 1px;
-            margin-bottom: 0;
-        }
-
-        .sidebar-brand small {
-            color: #7f8c8d;
-            font-size: 0.65rem;
-            letter-spacing: 1px;
-        }
-
-        .nav-link {
-            color: #bdc3c7;
-            padding: 15px 20px;
-            margin-bottom: 5px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            border-left: 4px solid transparent;
-            transition: 0.3s;
-        }
-
-        .nav-link i {
-            width: 30px;
-            text-align: center;
-        }
-
-        .nav-link:hover {
-            color: white;
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .nav-link.active {
-            color: white;
-            background-color: #2c3e50;
-            border-left: 4px solid var(--accent-green);
-            font-weight: 600;
-        }
-
-        /* Animasi Dot Hijau (Pulsing) */
-        .live-indicator {
-            width: 10px;
-            height: 10px;
-            background-color: #2ecc71;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse-green 2s infinite;
-        }
-
-        @keyframes pulse-green {
-            0% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
-            }
-
-            70% {
-                box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
-            }
-        }
-
-        /* Card & Box Styling */
-        .summary-card {
-            background-color: white;
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-            padding: 15px 20px;
-        }
-
-        .card-approved {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
-            background-color: white;
-            margin-bottom: 20px;
-        }
-
-        .card-anomaly {
-            border: 1px solid rgba(231, 76, 60, 0.3);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.08);
-            background-color: rgba(231, 76, 60, 0.05);
-            margin-bottom: 20px;
-        }
-
-        /* Badges */
-        .badge-outline-success {
-            border: 1px solid var(--accent-green);
-            color: var(--accent-green);
-            background-color: rgba(22, 160, 133, 0.05);
-            font-weight: 700;
-        }
-
-        .badge-fill-danger {
-            background-color: var(--accent-red);
-            color: white;
-            font-weight: 700;
-        }
-
-        .tx-link {
-            font-family: monospace;
-            color: #3498db;
-            text-decoration: none;
-            font-size: 0.85rem;
-        }
-
-        .tx-link:hover {
-            text-decoration: underline;
-        }
+        :root { --gov-sidebar: #1a252f; --gov-bg: #f4f7f6; --accent-green: #16a085; --accent-blue: #2980b9; --accent-red: #e74c3c; --accent-yellow: #f1c40f; }
+        body { background-color: var(--gov-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .sidebar { background-color: var(--gov-sidebar); min-height: 100vh; color: white; padding-top: 20px; }
+        .sidebar-brand { text-align: center; margin-bottom: 40px; }
+        .sidebar-brand i { color: var(--accent-green); font-size: 2.5rem; margin-bottom: 10px; }
+        .sidebar-brand h4 { font-weight: 900; letter-spacing: 1px; margin-bottom: 0; }
+        .sidebar-brand small { color: #7f8c8d; font-size: 0.65rem; letter-spacing: 1px; }
+        .nav-link { color: #bdc3c7; padding: 15px 20px; margin-bottom: 5px; font-weight: 500; font-size: 0.95rem; border-left: 4px solid transparent; transition: 0.3s; }
+        .nav-link i { width: 30px; text-align: center; }
+        .nav-link:hover { color: white; background-color: rgba(255, 255, 255, 0.05); }
+        .nav-link.active { color: white; background-color: #2c3e50; border-left: 4px solid var(--accent-red); font-weight: 600; }
+        .live-indicator { width: 10px; height: 10px; background-color: #2ecc71; border-radius: 50%; display: inline-block; animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+        
+        .summary-card { background-color: white; border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); padding: 15px 20px; }
+        .ticket-card { border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); background-color: white; margin-bottom: 15px; transition: 0.3s; border-left: 5px solid transparent; }
+        .ticket-card:hover { transform: translateX(5px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06); }
+        .ticket-critical { border-left-color: var(--accent-red); }
+        .ticket-warning { border-left-color: var(--accent-yellow); }
+        .img-evidence { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid #e2e8f0; }
+        .img-evidence:hover { border-color: var(--accent-red); }
+        .badge-ticket { font-family: monospace; font-size: 0.8rem; background-color: #f1f5f9; color: #475569; padding: 4px 8px; border-radius: 4px; border: 1px solid #cbd5e1; }
+        .nlp-box { background-color: #f8fbfb; border-left: 4px solid var(--accent-blue); padding: 15px; border-radius: 4px; margin-top: 10px; }
     </style>
 </head>
-
 <body>
-
     <div class="container-fluid">
         <div class="row">
-
             <nav class="col-md-3 col-lg-2 d-md-block sidebar position-fixed" style="z-index: 100;">
                 <div class="sidebar-brand">
                     <i class="fas fa-shield-alt"></i>
                     <h4>TRUST-PLATE</h4>
-                    <small>Monitoring Program MBG</small>
+                    <small>Sistem Pengawasan MBG</small>
                 </div>
-
                 <ul class="nav flex-column mb-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat
-                            Kendali</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Dashboard
-                            Eksekutif</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check"></i>
-                            Pengadaan</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="gov-audit.html"><i class="fas fa-users-cog"></i> Investigasi Mitra
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Jejak Audit</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fas fa-sign-out-alt"></i> Keluar</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat Kendali (Pusdalops)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Statistik Eksekutif</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check"></i> Verifikasi Anggaran</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="gov-audit.html"><i class="fas fa-users-cog"></i> Pengawasan Realisasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Buku Besar Digital</a></li>
+                    <li class="nav-item border-top border-secondary border-opacity-25 mt-4 pt-3"><a class="nav-link text-danger" href="index.html"><i class="fas fa-sign-out-alt"></i> Akhiri Sesi</a></li>
                 </ul>
             </nav>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-
                 <div class="d-flex flex-column flex-md-row align-items-center mb-4 pb-3 border-bottom">
-
                     <div class="d-flex align-items-center pe-4 me-4 border-end">
-                        <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm"
-                            style="width: 55px; height: 55px; font-size: 1.4rem; font-weight: bold;">
-                            AP
-                        </div>
+                        <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 55px; height: 55px; font-size: 1.4rem; font-weight: bold;">AP</div>
                         <div>
-                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor)</h4>
+                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor Utama)</h4>
                             <div class="d-flex align-items-center gap-3 mt-1">
-                                <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm"
-                                    style="font-size: 0.85rem; font-family: monospace;">ID: GOV-AUDIT-01</span>
-
+                                <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm" style="font-size: 0.85rem; font-family: monospace;">ID: GOV-AUDIT-01</span>
                                 <div class="d-flex flex-column justify-content-center" style="line-height: 1.2;">
-                                    <span class="text-muted fw-bold"
-                                        style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS JARINGAN</span>
-                                    <span class="text-success fw-bold" style="font-size: 0.9rem;">
-                                        <span class="live-indicator me-1"></span> SYNCED
-                                    </span>
+                                    <span class="text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS JARINGAN</span>
+                                    <span class="text-success fw-bold" style="font-size: 0.9rem;"><span class="live-indicator me-1"></span> TERHUBUNG</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <div>
-                        <h3 class="fw-bold mb-1 text-dark">Investigasi Mitra</h3>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Review hasil audit otomatis AI untuk
-                            pencairan dana Makan Bergizi Gratis (MBG).</p>
+                        <h3 class="fw-bold mb-1 text-dark">Investigasi Pengaduan Teragregasi (Dumas)</h3>
+                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Sistem NLP (Natural Language Processing) mengklasterkan laporan serupa untuk mencegah manipulasi/spam.</p>
                     </div>
                 </div>
 
                 <div class="row align-items-center mb-4 g-3">
                     <div class="col-md-3">
-                        <div class="summary-card border-start border-4 border-warning">
-                            <div class="text-muted fw-bold" style="font-size: 0.75rem;">MENUNGGU REVIEW</div>
-                            <h3 class="fw-bold mb-0 text-dark">3 <span class="fs-6 text-muted fw-normal">Laporan</span>
-                            </h3>
+                        <div class="summary-card border-start border-4 border-danger">
+                            <div class="text-muted fw-bold" style="font-size: 0.75rem;">KLASTER KRITIKAL</div>
+                            <h3 class="fw-bold mb-0 text-danger">2 <span class="fs-6 text-muted fw-normal">Insiden</span></h3>
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="summary-card border-start border-4 border-danger">
-                            <div class="text-muted fw-bold" style="font-size: 0.75rem;">TERDETEKSI ANOMALI (AI)</div>
-                            <h3 class="fw-bold mb-0 text-danger">1 <span
-                                    class="fs-6 text-muted fw-normal">Laporan</span></h3>
+                        <div class="summary-card border-start border-4 border-primary">
+                            <div class="text-muted fw-bold" style="font-size: 0.75rem;">TOTAL LAPORAN TERAGREGASI</div>
+                            <h3 class="fw-bold mb-0 text-primary">34 <span class="fs-6 text-muted fw-normal">Tiket User</span></h3>
                         </div>
                     </div>
                     <div class="col-md-6 text-end">
                         <div class="input-group ms-auto" style="max-width: 400px;">
-                            <span class="input-group-text bg-white border-end-0"><i
-                                    class="fas fa-search text-muted"></i></span>
-                            <input type="text" class="form-control border-start-0 ps-0"
-                                placeholder="Cari nama vendor atau TxHash...">
-                            <button class="btn btn-primary px-4 fw-bold">Filter</button>
+                            <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                            <input type="text" class="form-control border-start-0 ps-0" placeholder="Cari Klaster Insiden, Nama Sekolah...">
+                            <button class="btn btn-primary px-4 fw-bold">Saring</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="card card-approved">
-                    <div
-                        class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <span class="badge badge-outline-success px-2 py-1 me-3">AI APPROVED</span>
-                            <span class="fw-bold text-dark me-2">Dapur Mandiri Berkah</span>
-                            <span class="text-muted small">| 12 Maret 2026, 06:15 WIB</span>
+                <div class="ticket-card ticket-critical p-4" id="cluster1">
+                    <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-3">
+                        <div>
+                            <span class="badge bg-danger mb-2 px-2 py-1"><i class="fas fa-brain me-1"></i> AI CLUSTER: 12 LAPORAN IDENTIK</span>
+                            <h5 class="fw-bold text-dark mb-1">Mayoritas Pelapor Menemukan Ulat pada Sayur Sop</h5>
+                            <div class="text-muted small fw-bold mt-1">
+                                <i class="fas fa-school me-1 text-primary"></i> Target Distribusi: SDN Sekeloa, Bandung 
+                                <span class="mx-2">|</span> 
+                                <i class="fas fa-store me-1 text-primary"></i> Entitas Penyuplai: <b>Katering Maju Mundur</b>
+                            </div>
                         </div>
-                        <a href="#" class="tx-link">Tx: 0x9f1b2c3d...</a>
+                        <div class="text-end">
+                            <span class="badge-ticket d-block mb-1 text-success fw-bold"><i class="fas fa-check-double"></i> 98% Validitas</span>
+                            <small class="text-muted fw-bold">Puncak Laporan: 12 Mar, 11:45 WIB</small>
+                        </div>
                     </div>
-                    <div class="card-body py-4">
-                        <div class="row align-items-center text-center text-md-start g-4">
-
-                            <div class="col-md-2 text-center border-end">
-                                <p class="small fw-bold text-dark mb-2">Bukti Visual</p>
-                                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-                                    class="rounded shadow-sm border" width="90" height="90" style="object-fit: cover;"
-                                    alt="Makanan Sehat">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center border-end">
+                            <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" class="img-evidence" alt="Bukti Foto Mayoritas" onclick="lihatBuktiFoto(this.src)">
+                            <p class="small text-muted mt-2 mb-0"><i class="fas fa-camera me-1"></i> Foto Terbanyak</p>
+                        </div>
+                        <div class="col-md-6 ps-4 border-end">
+                            <div class="nlp-box shadow-sm">
+                                <p class="text-dark small mb-2 fw-bold"><i class="fas fa-robot text-primary me-1"></i> Ringkasan Eksekutif AI (NLP Analysis):</p>
+                                <p class="text-muted small mb-1" style="line-height: 1.5;">Sistem NLP telah memproses 12 tiket unik dari Guru dan Wali Murid. Pola laporan <b>Sangat Konsisten (Bukan Spam)</b>. Kata kunci dominan yang diekstraksi: <i>"Ulat" (9x), "Sayur Sop" (12x), "Jijik" (5x), "Dibuang" (7x)</i>.</p>
+                                <span class="badge bg-light text-dark border">Peringkat Isu: Higienitas Parah</span>
                             </div>
-
-                            <div class="col-md-3 border-end">
-                                <p class="small fw-bold text-muted mb-1">Hasil Ekstraksi Gizi (MobileNet)</p>
-                                <h6 class="text-success fw-bold mb-1"><i class="fas fa-check-circle me-1"></i> Sesuai
-                                    Spesifikasi</h6>
-                                <p class="text-muted small mb-0">Nasi, Ayam, Sayur Terdeteksi (98% Conf)</p>
-                            </div>
-
-                            <div class="col-md-3">
-                                <p class="small fw-bold text-muted mb-1">Audit Harga (Isolation Forest)</p>
-                                <h6 class="text-success fw-bold mb-1"><i class="fas fa-check-circle me-1"></i> Harga
-                                    Wajar</h6>
-                                <p class="text-muted small mb-0">Total Modal Harian: Rp 585.500</p>
-                            </div>
-
-                            <div class="col-md-4 d-flex flex-column gap-2 pe-md-4">
-                                <button class="btn btn-outline-secondary btn-sm fw-bold py-2"><i
-                                        class="fas fa-eye me-1"></i> Detail Tabel Modal</button>
-                                <button class="btn btn-success fw-bold shadow-sm py-2"
-                                    onclick="alert('Dana Rp 38.200.000 untuk Dapur Mandiri Berkah berhasil dicairkan melalui Smart Contract.')"><i
-                                        class="fas fa-check me-2"></i> Sahkan & Cairkan Dana</button>
-                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <button class="btn btn-danger w-100 fw-bold mb-2 shadow-sm" onclick="validasiLaporan('cluster1', 'Katering Maju Mundur')"><i class="fas fa-gavel me-2"></i> Validasi Sah & Terbitkan SP-1</button><br>
+                            <button class="btn btn-outline-secondary w-100 btn-sm fw-bold"><i class="fas fa-ban me-1"></i> Tolak Laporan (Indikasi Spam)</button>
                         </div>
                     </div>
                 </div>
 
-                <div class="card card-anomaly">
-                    <div
-                        class="card-header bg-transparent py-3 border-bottom border-danger border-opacity-25 d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center">
-                            <span class="badge badge-fill-danger px-2 py-1 me-3"><i
-                                    class="fas fa-exclamation-triangle me-1"></i> AI FLAGGED (ANOMALI)</span>
-                            <span class="fw-bold text-dark me-2">Katering Ibu Siti</span>
-                            <span class="text-muted small">| 12 Maret 2026, 07:05 WIB</span>
+                <div class="ticket-card ticket-warning p-4" id="cluster2">
+                    <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-3">
+                        <div>
+                            <span class="badge bg-warning text-dark mb-2 px-2 py-1"><i class="fas fa-brain me-1"></i> AI CLUSTER: 8 LAPORAN IDENTIK</span>
+                            <h5 class="fw-bold text-dark mb-1">Porsi Lauk (Ayam) Tidak Sesuai Spesifikasi Menu</h5>
+                            <div class="text-muted small fw-bold mt-1">
+                                <i class="fas fa-school me-1 text-primary"></i> Target Distribusi: SDN Haurpancuh, Bandung 
+                                <span class="mx-2">|</span> 
+                                <i class="fas fa-store me-1 text-primary"></i> Entitas Penyuplai: <b>CV. Pangan Nusantara</b>
+                            </div>
                         </div>
-                        <a href="#" class="tx-link text-danger">Tx: 0x3b2d1e4c...</a>
+                        <div class="text-end">
+                            <span class="badge-ticket d-block mb-1 text-success fw-bold"><i class="fas fa-check-double"></i> 85% Validitas</span>
+                            <small class="text-muted fw-bold">Puncak Laporan: 11 Mar, 12:15 WIB</small>
+                        </div>
                     </div>
-                    <div class="card-body py-4">
-                        <div class="row align-items-center text-center text-md-start g-4">
-
-                            <div class="col-md-2 text-center border-end border-danger border-opacity-25">
-                                <p class="small fw-bold text-dark mb-2">Bukti Visual</p>
-                                <img src="https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3"
-                                    class="rounded shadow-sm border border-danger border-2" width="90" height="90"
-                                    style="object-fit: cover;" alt="Makanan Tidak Sehat">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center border-end">
+                            <img src="https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" class="img-evidence" alt="Bukti Foto Mayoritas" onclick="lihatBuktiFoto(this.src)">
+                            <p class="small text-muted mt-2 mb-0"><i class="fas fa-camera me-1"></i> Foto Terbanyak</p>
+                        </div>
+                        <div class="col-md-6 ps-4 border-end">
+                            <div class="nlp-box shadow-sm border-warning">
+                                <p class="text-dark small mb-2 fw-bold"><i class="fas fa-robot text-primary me-1"></i> Ringkasan Eksekutif AI (NLP Analysis):</p>
+                                <p class="text-muted small mb-1" style="line-height: 1.5;">Sentimen pelapor menunjukkan kekecewaan tingkat menengah. Kata kunci dominan: <i>"Kecil" (6x), "Sedikit" (8x), "Tidak Sesuai" (4x)</i>. Sistem membandingkan foto pengguna dengan spesifikasi BAP dan menemukan deviasi porsi protein (ayam).</p>
+                                <span class="badge bg-light text-dark border">Peringkat Isu: Kuantitas Substandar</span>
                             </div>
-
-                            <div class="col-md-3 border-end border-danger border-opacity-25">
-                                <p class="small fw-bold text-muted mb-1">Hasil Ekstraksi Gizi (MobileNet)</p>
-                                <h6 class="text-danger fw-bold mb-1"><i class="fas fa-times-circle me-1"></i> Tidak
-                                    Sesuai Spesifikasi</h6>
-                                <p class="text-muted small mb-0">Komponen Protein (Ayam/Telur) tidak ditemukan pada foto
-                                    laporan.</p>
-                            </div>
-
-                            <div class="col-md-3">
-                                <p class="small fw-bold text-muted mb-1">Audit Harga (Isolation Forest)</p>
-                                <h6 class="text-danger fw-bold mb-1"><i class="fas fa-search-dollar me-1"></i>
-                                    Terindikasi Mark-up</h6>
-                                <p class="text-muted small mb-0">Harga Ayam dilaporkan Rp 60.000/Kg. (Batas maksimal
-                                    HET: Rp 40.000/Kg).</p>
-                            </div>
-
-                            <div class="col-md-4 d-flex flex-column gap-2 pe-md-4">
-                                <button class="btn btn-outline-danger bg-white btn-sm fw-bold py-2"><i
-                                        class="fas fa-ban me-1"></i> Tolak & Tahan Dana</button>
-                                <button class="btn btn-dark fw-bold shadow-sm py-2"
-                                    onclick="alert('Surat Peringatan (SP-1) telah dikirim ke Katering Ibu Siti. Trust Score diturunkan otomatis.')"><i
-                                        class="fas fa-gavel me-2"></i> Investigasi Lanjut (SP-1)</button>
-                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <button class="btn btn-danger w-100 fw-bold mb-2 shadow-sm" onclick="validasiLaporan('cluster2', 'CV. Pangan Nusantara')"><i class="fas fa-gavel me-2"></i> Validasi Sah & Terbitkan SP-1</button><br>
+                            <button class="btn btn-outline-secondary w-100 btn-sm fw-bold"><i class="fas fa-ban me-1"></i> Tolak Laporan (Indikasi Spam)</button>
                         </div>
                     </div>
                 </div>
@@ -351,7 +169,56 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalFotoDumas" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 bg-transparent shadow-none text-center">
+                <div class="modal-header border-0 pb-0 justify-content-end">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pt-0">
+                    <img id="imgDumasPreview" src="" class="img-fluid rounded shadow-lg border border-white border-4" style="max-height: 70vh;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function lihatBuktiFoto(url) {
+            document.getElementById('imgDumasPreview').src = url;
+            new bootstrap.Modal(document.getElementById('modalFotoDumas')).show();
+        }
+
+        // FUNGSI SAAT AUDITOR MENGKLIK "VALIDASI SAH & TERBITKAN SP-1"
+        function validasiLaporan(clusterId, namaVendor) {
+            Swal.fire({
+                title: 'Otorisasi Penalti Vendor',
+                html: `
+                    <div class="text-start p-3 bg-danger bg-opacity-10 border border-danger rounded shadow-sm mt-2">
+                        <p class="mb-2 text-dark small fw-bold">Anda akan mensahkan hasil agregasi AI dan menindak tegas:</p>
+                        <h5 class="fw-bold text-danger mb-2">${namaVendor}</h5>
+                        <p class="text-muted small mb-0" style="line-height:1.4;">Tindakan ini akan <b>menghentikan Smart Contract Auto-Escrow</b>, mengurangi <b>Trust Score sebesar 15 Poin</b>, dan otomatis menerbitkan Surat Peringatan (SP-1).</p>
+                    </div>
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: '<i class="fas fa-gavel me-1"></i> Eksekusi Penalti',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                        'Dieksekusi Sistem!',
+                        `Trust Score <b>${namaVendor}</b> telah dikurangi secara On-Chain dan Surat Peringatan (SP-1) telah dikirimkan.`,
+                        'success'
+                    ).then(() => {
+                        // Hilangkan kartu yang sudah diproses agar UI terlihat hidup
+                        document.getElementById(clusterId).style.display = 'none';
+                    });
+                }
+            });
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

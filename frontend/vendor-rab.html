@@ -4,69 +4,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengajuan RAB | Portal Vendor TRUST-PLATE</title>
+    <title>Pengajuan RAB | Portal Mitra TRUST-PLATE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        :root { --brand-green: #0a4d3c; --brand-light: #16a085; --bg-body: #f4f9f7; }
-        body { background-color: var(--bg-body); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        .navbar-vendor { background: linear-gradient(135deg, var(--brand-green), var(--brand-light)); padding: 12px 0; box-shadow: 0 4px 15px rgba(10, 77, 60, 0.2); }
-        .navbar-brand { font-weight: 800; letter-spacing: 1px; color: white !important; }
-        .nav-item .nav-link { color: rgba(255, 255, 255, 0.8); font-weight: 600; padding: 8px 16px; border-radius: 50px; margin: 0 5px; transition: 0.3s; }
-        .nav-item .nav-link.active, .nav-item .nav-link:hover { background-color: rgba(255, 255, 255, 0.2); color: white !important; }
-        
-        /* CSS Untuk Profile Pill di Navbar */
-        .user-pill { background-color: rgba(0, 0, 0, 0.2); border-radius: 50px; padding: 5px 15px 5px 5px; display: flex; align-items: center; color: white; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .live-indicator { width: 10px; height: 10px; background-color: #2ecc71; border-radius: 50%; display: inline-block; animation: pulse-green 2s infinite; border: 2px solid white; }
-        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+        :root {
+            --brand-green: #0a4d3c;
+            --brand-light: #16a085;
+            --bg-body: #f4f9f7;
+        }
 
-        .card-friendly { background: white; border: none; border-radius: 20px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03); overflow: hidden; }
-        .btn-friendly { border-radius: 50px; font-weight: 600; padding: 10px 25px; transition: 0.3s; }
-        .form-control, .form-select, .input-group-text { border-radius: 8px; border-color: #e2e8f0; font-size: 0.9rem;}
-        .form-control:focus, .form-select:focus { border-color: var(--brand-light); box-shadow: 0 0 0 0.25rem rgba(22, 160, 133, 0.15); }
-        .table-rab th { background-color: #f8fafc; font-size: 0.75rem; text-transform: uppercase; color: #64748b; font-weight: 700; border-bottom: 2px solid #e2e8f0; }
-        .table-rab td { vertical-align: middle; }
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ================================= */
+        /* NAVBAR MODERN TRUST-PLATE (TEMA PUTIH) */
+        /* ================================= */
+        .navbar-vendor {
+            background: white;
+            border-bottom: 1px solid #e6eef0;
+            padding: 10px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--brand-green) !important;
+        }
+
+        .navbar-brand small {
+            font-size: 11px;
+            color: #6c757d;
+            display: block;
+            margin-top: -4px;
+        }
+
+        .navbar-nav {
+            gap: 5px;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 600;
+            color: #4b5563;
+            padding: 10px 26px;
+            border-radius: 5px;
+            transition: all .25s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--brand-green);
+            background: #f1f7f5;
+        }
+
+        .navbar-nav .nav-link.active {
+            background: var(--brand-light);
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(22, 160, 133, 0.35);
+        }
+
+        /* USER PILL */
+        .user-pill {
+            background: #f1f7f5;
+            border-radius: 40px;
+            padding: 6px 15px 6px 6px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #e6eef0;
+        }
+
+        .user-pill img {
+            border: 2px solid white;
+        }
+
+        .logout-btn {
+            color: #dc3545;
+            opacity: .7;
+            transition: .2s;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            opacity: 1;
+        }
+
+        .live-indicator {
+            width: 10px;
+            height: 10px;
+            background: #2ecc71;
+            border-radius: 50%;
+            display: inline-block;
+            border: 2px solid white;
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+        /* ================================= */
+        /* COMPONENT STYLE */
+        /* ================================= */
+        .card-friendly {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.03);
+            overflow: hidden;
+        }
+
+        .btn-friendly {
+            border-radius: 50px;
+            font-weight: 600;
+            padding: 10px 25px;
+            transition: .3s;
+        }
+
+        .form-control,
+        .form-select,
+        .input-group-text {
+            border-radius: 8px;
+            border-color: #e2e8f0;
+            font-size: .9rem;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--brand-light);
+            box-shadow: 0 0 0 .25rem rgba(22, 160, 133, 0.15);
+        }
+
+        .table-rab th {
+            background-color: #f8fafc;
+            font-size: .75rem;
+            text-transform: uppercase;
+            color: #64748b;
+            font-weight: 700;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .table-rab td {
+            vertical-align: middle;
+        }
     </style>
 </head>
 
 <body>
+    <script>
+        const activeVendor = JSON.parse(localStorage.getItem('vendor_data'));
+        if (!activeVendor) {
+            window.location.href = 'auth-vendor.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('vendor_data');
+            window.location.href = 'auth-vendor.html';
+        }
+    </script>
+
     <nav class="navbar navbar-expand-lg navbar-vendor sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="vendor-dashboard.html">
-                <i class="fas fa-shield-alt text-warning fs-3 me-2"></i>
+                <i class="fas fa-shield-alt text-success fs-3 me-2"></i>
                 <div>
                     TRUST-PLATE
-                    <span style="font-size: 0.65rem; font-weight: 500; opacity: 0.9; letter-spacing: 0;">PORTAL MITRA DAPUR</span>
+                    <small>PORTAL MITRA DAPUR</small>
                 </div>
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#vendorNav">
-                <i class="fas fa-bars text-white fs-3"></i>
+                <i class="fas fa-bars"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="vendorNav">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="vendor-dashboard.html"><i class="fas fa-home me-1"></i> Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="vendor-rab.html"><i class="fas fa-calculator me-1"></i> Hitung RAB</a></li>
-                    <li class="nav-item"><a class="nav-link" href="vendor-lapor.html"><i class="fas fa-camera me-1"></i> Lapor Harian</a></li>
-                    <li class="nav-item"><a class="nav-link" href="vendor-riwayat.html"><i class="fas fa-history me-1"></i> Riwayat</a></li>
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="vendor-dashboard.html">
+                            <i class="fas fa-home me-1"></i> Beranda
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="vendor-rab.html">
+                            <i class="fas fa-file-invoice-dollar me-1"></i> Pengajuan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vendor-lapor.html">
+                            <i class="fas fa-camera me-1"></i> Laporan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vendor-riwayat.html">
+                            <i class="fas fa-clock-rotate-left me-1"></i> Riwayat
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="user-pill d-none d-lg-flex">
-                    <img src="https://ui-avatars.com/api/?name=Dapur+Mandiri&background=fff&color=0a4d3c" class="rounded-circle me-2" width="35" alt="Profile">
+                    <img id="navAvatar" src="" class="rounded-circle me-2" width="34">
                     <div class="d-flex flex-column lh-1 pe-2">
-                        <span class="fw-bold" style="font-size: 0.85rem;">Dapur Mandiri Berkah</span>
+                        <span class="fw-bold" style="font-size: 0.85rem;" id="navVendorName">Memuat...</span>
                         <div class="d-flex align-items-center mt-1">
                             <span class="live-indicator me-1" style="width: 8px; height: 8px;"></span>
-                            <span style="font-size: 0.65rem; font-family: monospace;">ID: 0x8F...A12B</span>
+                            <span style="font-size: 0.65rem; font-family: monospace;" id="navVendorId">ID: ...</span>
                         </div>
                     </div>
-                    <a href="index.html" class="ms-3 text-white opacity-75 hover-opacity-100" title="Keluar"><i class="fas fa-sign-out-alt"></i></a>
+                    <a onclick="logout()" class="ms-3 logout-btn" title="Keluar">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -74,124 +237,150 @@
 
     <div class="container py-4">
         <div class="mb-4">
-            <h3 class="fw-bold text-dark">Penyusunan RAB (Sistem Tertutup)</h3>
-            <p class="text-muted">Isi harga usulan bahan baku Anda. Sistem akan melakukan <i>blind-audit</i> dengan data PIHPS Pemerintah.</p>
+            <h3 class="fw-bold text-dark">Formulir Pengajuan RAB (Sistem Tertutup)</h3>
+            <p class="text-muted">Lengkapi rincian usulan anggaran bahan baku di bawah ini. Sistem pengawasan akan
+                memvalidasi kewajaran harga berdasarkan Indeks Harga Konsumen Nasional.</p>
         </div>
 
         <form id="formRAB">
             <div class="row g-4">
                 <div class="col-lg-4">
                     <div class="card-friendly h-100 p-4 border border-secondary border-opacity-25">
-                        <h6 class="fw-bold text-dark mb-4 border-bottom pb-2"><i class="fas fa-map-marker-alt text-danger me-2"></i>1. Geografi Sekolah</h6>
-                        
+                        <h6 class="fw-bold text-dark mb-4 border-bottom pb-2"><i
+                                class="fas fa-map-marker-alt text-danger me-2"></i>1. Penentuan Wilayah Sasaran</h6>
+
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-muted mb-1">Provinsi</label>
                             <select class="form-select bg-light" id="inputProv" disabled>
                                 <option value="Jawa Barat" selected>Jawa Barat</option>
                             </select>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-muted mb-1">Kota / Kabupaten</label>
                             <select class="form-select fw-bold" id="inputKota" onchange="renderKecamatan()">
-                                <option value="">-- Memuat Data --</option>
+                                <option value="">-- Memuat Data Wilayah --</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label small fw-bold text-muted mb-1">Kecamatan</label>
                             <select class="form-select fw-bold" id="inputKec" onchange="renderSekolah()" disabled>
-                                <option value="">-- Pilih Kota Dulu --</option>
+                                <option value="">-- Pilih Kota Terlebih Dahulu --</option>
                             </select>
                         </div>
 
                         <div class="row g-2 mb-3">
                             <div class="col-8">
-                                <label class="form-label small fw-bold text-muted mb-1">Sekolah Sasaran</label>
-                                <select class="form-select fw-bold text-primary border-primary" id="inputSekolah" onchange="updatePeta()" disabled>
-                                    <option value="">-- Pilih Kecamatan Dulu --</option>
+                                <label class="form-label small fw-bold text-muted mb-1">Instansi Sekolah Sasaran</label>
+                                <select class="form-select fw-bold text-primary border-primary" id="inputSekolah"
+                                    onchange="updatePeta()" disabled>
+                                    <option value="">-- Pilih Kecamatan --</option>
                                 </select>
                             </div>
                             <div class="col-4">
                                 <label class="form-label small fw-bold text-muted mb-1">Kode Pos</label>
-                                <input type="text" class="form-control bg-light text-center fw-bold" id="inputPos" readonly placeholder="-">
+                                <input type="text" class="form-control bg-light text-center fw-bold" id="inputPos"
+                                    readonly placeholder="-">
                             </div>
                         </div>
 
-                        <div class="p-3 bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-3 mt-4">
-                            <label class="form-label small fw-bold text-primary mb-1">Total Kuota Porsi Anak / Hari</label>
+                        <div
+                            class="p-3 bg-primary bg-opacity-10 border border-primary border-opacity-25 rounded-3 mt-4">
+                            <label class="form-label small fw-bold text-primary mb-1">Total Kuota Sasaran Penerima /
+                                Hari</label>
                             <div class="input-group">
-                                <input type="number" class="form-control fw-bold text-dark" id="jumlahPorsi" value="100" min="1" oninput="kalkulasiTotal()">
-                                <span class="input-group-text bg-white">Porsi</span>
+                                <input type="number" class="form-control fw-bold text-dark" id="jumlahPorsi" value="100"
+                                    min="1" oninput="kalkulasiTotal()">
+                                <span class="input-group-text bg-white">Porsi Anak</span>
                             </div>
                         </div>
 
-                        <div id="zonasiMap" class="rounded-3 shadow-sm mt-3 border border-secondary border-opacity-25" style="height: 180px; z-index: 1;"></div>
-                        <div class="text-center mt-2 small fw-bold">Jarak Tempuh: <span id="jarakAsli" class="text-danger">0.0 KM</span></div>
+                        <div id="zonasiMap" class="rounded-3 shadow-sm mt-3 border border-secondary border-opacity-25"
+                            style="height: 180px; z-index: 1;"></div>
+                        <div class="text-center mt-2 small fw-bold">Estimasi Jarak Tempuh Distribusi: <span
+                                id="jarakAsli" class="text-danger">0.0 KM</span></div>
                     </div>
                 </div>
 
                 <div class="col-lg-8">
                     <div class="card-friendly h-100 p-4 border border-secondary border-opacity-25 d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-center mb-3 border-bottom pb-2">
-                            <h6 class="fw-bold text-dark mb-0"><i class="fas fa-list text-primary me-2"></i>2. Input Usulan Harga Bahan</h6>
-                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill fw-bold" onclick="tambahBarisBahan()"><i class="fas fa-plus me-1"></i> Tambah Item</button>
+                            <h6 class="fw-bold text-dark mb-0"><i class="fas fa-list text-primary me-2"></i>2. Rincian
+                                Usulan Anggaran Belanja</h6>
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill fw-bold"
+                                onclick="tambahBarisBahan()"><i class="fas fa-plus me-1"></i> Tambah Item
+                                Belanja</button>
                         </div>
-                        
+
                         <div class="alert bg-danger bg-opacity-10 text-danger border border-danger small py-2">
-                            <i class="fas fa-exclamation-circle me-1"></i> <b>Peringatan Integritas:</b> Masukkan harga modal yang jujur. Segala bentuk mark-up akan terdeteksi otomatis oleh AI Pemerintah.
+                            <i class="fas fa-exclamation-circle me-1"></i> <b>Peringatan Integritas:</b> Harap menyusun
+                            usulan harga pokok dengan itikad baik. Segala bentuk indikasi penggelembungan anggaran akan
+                            ditolak secara otomatis oleh sistem pengawasan.
                         </div>
 
                         <div class="table-responsive flex-grow-1" style="min-height: 250px;">
                             <table class="table table-borderless table-rab mb-0" id="tabelMasterBahan">
                                 <thead>
                                     <tr>
-                                        <th width="22%">Kategori</th>
-                                        <th width="28%">Jenis Item</th>
-                                        <th width="20%">Gram/Pcs</th>
-                                        <th width="25%">Harga Usulan Vendor</th>
+                                        <th width="22%">Kategori Pangan</th>
+                                        <th width="28%">Jenis Komoditas</th>
+                                        <th width="20%">Takaran (Gram/Pcs)</th>
+                                        <th width="25%">Harga Usulan Mitra</th>
                                         <th width="5%" class="text-center"><i class="fas fa-cog"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbodyBahan">
-                                    <tr><td colspan="5" class="text-center py-3 text-muted"><i class="fas fa-spinner fa-spin me-2"></i>Menyinkronkan data...</td></tr>
+                                    <tr>
+                                        <td colspan="5" class="text-center py-3 text-muted">
+                                            <i class="fas fa-spinner fa-spin me-2"></i>Menyinkronkan data katalog...
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="row g-3 mt-3 pt-3 border-top">
                             <div class="col-md-6">
-                                <label class="form-label text-muted fw-bold small mb-1">Ops. Kemasan & Bumbu (Rp / Porsi)</label>
+                                <label class="form-label text-muted fw-bold small mb-1">Anggaran Operasional
+                                    (Kemasan/Bumbu) per Porsi</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-light">Rp</span>
-                                    <input type="number" class="form-control fw-bold form-calc" id="inputOps" value="2500" oninput="kalkulasiTotal()">
+                                    <input type="number" class="form-control fw-bold form-calc" id="inputOps"
+                                        value="2500" oninput="kalkulasiTotal()">
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label text-muted fw-bold small mb-1">Ongkos Kurir (Rp / Porsi) - Auto Map</label>
+                                <label class="form-label text-muted fw-bold small mb-1">Biaya Distribusi/Kurir per Porsi
+                                    (Kalkulasi Map)</label>
                                 <div class="input-group input-group-sm">
                                     <span class="input-group-text bg-light">Rp</span>
-                                    <input type="number" class="form-control fw-bold bg-light" id="inputDistribusi" value="0" readonly>
+                                    <input type="number" class="form-control fw-bold bg-light" id="inputDistribusi"
+                                        value="0" readonly>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-4 bg-dark rounded-4 text-white shadow-sm mt-4" style="background: linear-gradient(135deg, #1a252f, #2c3e50);">
+                        <div class="p-4 bg-dark rounded-4 text-white shadow-sm mt-4"
+                            style="background: linear-gradient(135deg, #1a252f, #2c3e50);">
                             <div class="row align-items-center">
                                 <div class="col-md-6 border-end border-secondary">
-                                    <span class="small text-white-50">Harga Pokok (HPP) per 1 Porsi:</span>
+                                    <span class="small text-white-50">Harga Pokok Produksi (HPP) per Porsi
+                                        Tunggal:</span>
                                     <h4 class="fw-bold text-info mb-0">Rp <span id="textHppPorsi">0</span></h4>
                                 </div>
                                 <div class="col-md-6 text-md-end pt-3 pt-md-0">
-                                    <span class="small text-white-50">Total Usulan RAB (Dikali <span id="labelPorsi">0</span> Porsi)</span>
+                                    <span class="small text-white-50">Total Nilai Pengajuan RAB (Dikali <span
+                                            id="labelPorsi">0</span> Porsi Sasaran)</span>
                                     <h2 class="fw-bold text-warning mb-0">Rp <span id="textGrandTotal">0</span></h2>
                                 </div>
                             </div>
                         </div>
 
                         <div class="text-end mt-4">
-                            <button type="button" class="btn btn-friendly btn-success shadow-lg px-5 fs-5" onclick="submitKatalogRAB()">
-                                <i class="fas fa-paper-plane me-2"></i> Kirim RAB ke Pemkot
+                            <button type="button" class="btn btn-friendly btn-success shadow-lg px-5 fs-5"
+                                onclick="submitKatalogRAB()">
+                                <i class="fas fa-paper-plane me-2"></i> Ajukan RAB ke Pemerintah Kota
                             </button>
                         </div>
                     </div>
@@ -200,16 +389,26 @@
         </form>
     </div>
 
-    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" tabindex="-1"><div class="modal-dialog modal-dialog-centered modal-sm"><div class="modal-content border-0 bg-transparent shadow-none text-center"><div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;"></div><h5 class="text-white fw-bold">Memvalidasi Harga...</h5></div></div></div>
-
     <script>
+        // ==========================================
+        // MENGISI DATA USER DINAMIS (NIB -> BLOCKCHAIN)
+        // ==========================================
+        const formattedName = activeVendor.nama_usaha.replace(/\s+/g, '+');
+        document.getElementById('navAvatar').src = `https://ui-avatars.com/api/?name=${formattedName}&background=0a4d3c&color=fff`;
+        document.getElementById('navVendorName').innerText = activeVendor.nama_usaha;
+
+        // Memformat wallet address agar rapi (0x1A2B...3C4D)
+        const wallet = activeVendor.wallet_address;
+        const displayWallet = wallet ? `${wallet.substring(0, 6)}...${wallet.substring(wallet.length - 4)}` : 'Pending On-Chain';
+        document.getElementById('navVendorId').innerText = `ID: ${displayWallet}`;
+
         let dbLokasi = {};
         let katalogBahan = {};
         let map;
         let markerDapur, markerSekolah, ruteGaris;
-        
-        const latDapur = -6.8900; 
-        const lngDapur = 107.6100;
+
+        const latDapur = parseFloat(activeVendor.lat)
+        const lngDapur = parseFloat(activeVendor.lng)
 
         let globalHPP = 0;
         let globalGrandTotal = 0;
@@ -224,12 +423,14 @@
                     dbLokasi = result.data.lokasi;
                     initForm();
                 }
-            } catch (e) { alert("Server API Mati!"); }
+            } catch (e) {
+                Swal.fire({ icon: 'error', title: 'Koneksi Terputus', text: 'Gagal terhubung ke pusat pangkalan data pemerintah.' });
+            }
         }
 
         function initForm() {
             const selKota = document.getElementById('inputKota');
-            selKota.innerHTML = '<option value="">-- Pilih Kota --</option>';
+            selKota.innerHTML = '<option value="">-- Pilih Administratif Kota --</option>';
             for (let kota in dbLokasi) { selKota.innerHTML += `<option value="${kota}">${kota}</option>`; }
             document.getElementById('tbodyBahan').innerHTML = '';
             tambahBarisBahan();
@@ -240,7 +441,7 @@
             map = L.map('zonasiMap', { zoomControl: false }).setView([-6.9147, 107.6098], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
             const iconDapur = L.divIcon({ html: '<div style="background:#0a4d3c;color:white;width:24px;height:24px;border-radius:50%;text-align:center;border:2px solid white;"><i class="fas fa-store" style="font-size:10px;line-height:20px;"></i></div>', className: '' });
-            markerDapur = L.marker([latDapur, lngDapur], { icon: iconDapur }).addTo(map).bindPopup("Dapur Anda");
+            markerDapur = L.marker([latDapur, lngDapur], { icon: iconDapur }).addTo(map).bindPopup("Fasilitas Dapur Mitra");
         }
 
         function renderKecamatan() {
@@ -248,9 +449,9 @@
             const selKec = document.getElementById('inputKec');
             const selSekolah = document.getElementById('inputSekolah');
             const inputPos = document.getElementById('inputPos');
-            
-            selKec.innerHTML = '<option value="">-- Pilih Kecamatan --</option>';
-            selSekolah.innerHTML = '<option value="">-- Pilih Kecamatan Dulu --</option>';
+
+            selKec.innerHTML = '<option value="">-- Pilih Wilayah Kecamatan --</option>';
+            selSekolah.innerHTML = '<option value="">-- Pilih Kecamatan Terlebih Dahulu --</option>';
             selKec.disabled = !kota; selSekolah.disabled = true; inputPos.value = "-";
 
             if (kota) { for (let kec in dbLokasi[kota]) selKec.innerHTML += `<option value="${kec}">${kec}</option>`; }
@@ -262,7 +463,7 @@
             const selSekolah = document.getElementById('inputSekolah');
             const inputPos = document.getElementById('inputPos');
 
-            selSekolah.innerHTML = '<option value="">-- Pilih Sekolah --</option>';
+            selSekolah.innerHTML = '<option value="">-- Pilih Instansi Sekolah --</option>';
             selSekolah.disabled = !kec; inputPos.value = "-";
 
             if (kec) {
@@ -275,38 +476,38 @@
 
         function updatePeta() {
             const selSekolah = document.getElementById('inputSekolah');
-            if(!selSekolah.value) return;
-            
+            if (!selSekolah.value) return;
+
             const opt = selSekolah.options[selSekolah.selectedIndex];
             const targetLat = parseFloat(opt.getAttribute('data-lat'));
             const targetLng = parseFloat(opt.getAttribute('data-lng'));
 
-            if(markerSekolah) map.removeLayer(markerSekolah);
-            if(ruteGaris) map.removeLayer(ruteGaris);
+            if (markerSekolah) map.removeLayer(markerSekolah);
+            if (ruteGaris) map.removeLayer(ruteGaris);
 
             const iconSekolah = L.divIcon({ html: '<div style="background:#e74c3c;color:white;width:24px;height:24px;border-radius:50%;text-align:center;border:2px solid white;"><i class="fas fa-school" style="font-size:10px;line-height:20px;"></i></div>', className: '' });
             markerSekolah = L.marker([targetLat, targetLng], { icon: iconSekolah }).addTo(map);
-            
+
             ruteGaris = L.polyline([[latDapur, lngDapur], [targetLat, targetLng]], { color: '#f39c12', dashArray: '5, 5' }).addTo(map);
             map.fitBounds(ruteGaris.getBounds(), { padding: [20, 20] });
 
             const jarakMeter = map.distance([latDapur, lngDapur], [targetLat, targetLng]);
             const jarakKM = (jarakMeter / 1000).toFixed(1);
             document.getElementById('jarakAsli').innerText = jarakKM + " KM";
-            
+
             document.getElementById('inputDistribusi').value = Math.round(jarakKM * 750);
             kalkulasiTotal();
         }
 
         function tambahBarisBahan() {
             barisCounter++;
-            let opts = '<option value="">- Kategori -</option>';
+            let opts = '<option value="">- Kategori Pangan -</option>';
             for (let c in katalogBahan) opts += `<option value="${c}">${c}</option>`;
-            
+
             document.getElementById('tbodyBahan').insertAdjacentHTML('beforeend', `
                 <tr id="baris-${barisCounter}">
                     <td><select class="form-select form-select-sm cat-sel" onchange="renderItem(this, ${barisCounter})">${opts}</select></td>
-                    <td><select class="form-select form-select-sm item-sel" id="item-${barisCounter}" onchange="setSatuan(this, ${barisCounter})" disabled><option>- Item -</option></select></td>
+                    <td><select class="form-select form-select-sm item-sel" id="item-${barisCounter}" onchange="setSatuan(this, ${barisCounter})" disabled><option>- Jenis Komoditas -</option></select></td>
                     <td>
                         <div class="input-group input-group-sm">
                             <input type="number" class="form-control qty-val" id="qty-${barisCounter}" value="0" oninput="kalkulasiTotal()">
@@ -316,7 +517,7 @@
                     <td>
                         <div class="input-group input-group-sm">
                             <span class="input-group-text bg-white">Rp</span>
-                            <input type="number" class="form-control harga-val" id="harga-${barisCounter}" placeholder="Usulan Anda" oninput="kalkulasiTotal()">
+                            <input type="number" class="form-control harga-val" id="harga-${barisCounter}" placeholder="Nominal Usulan" oninput="kalkulasiTotal()">
                             <input type="hidden" class="pihps-val" id="pihps-${barisCounter}" value="0"> 
                         </div>
                         <small class="text-success d-none span-subtotal" id="subtotal-${barisCounter}"></small>
@@ -329,9 +530,9 @@
         function renderItem(sel, id) {
             const cat = sel.value;
             const elItem = document.getElementById(`item-${id}`);
-            elItem.innerHTML = '<option value="">- Item -</option>';
+            elItem.innerHTML = '<option value="">- Jenis Komoditas -</option>';
             elItem.disabled = !cat;
-            if(cat) {
+            if (cat) {
                 katalogBahan[cat].forEach(i => {
                     elItem.innerHTML += `<option value="${i.nama}" data-satuan="${i.satuan}" data-pihps="${i.hpp}">${i.nama}</option>`;
                 });
@@ -352,18 +553,18 @@
                 const qty = parseFloat(document.getElementById(`qty-${id}`).value) || 0;
                 const hargaVendor = parseFloat(document.getElementById(`harga-${id}`).value) || 0;
                 const satuan = document.getElementById(`satuan-${id}`).innerText;
-                
+
                 let sub = satuan === 'Gram' ? (qty / 1000) * hargaVendor : qty * hargaVendor;
                 total += sub;
-                
+
                 const elSub = document.getElementById(`subtotal-${id}`);
-                if(sub > 0) { elSub.classList.remove('d-none'); elSub.classList.add('d-block', 'mt-1'); elSub.style.fontSize='0.7rem'; elSub.innerText = '= Rp ' + Math.round(sub).toLocaleString('id-ID'); } 
+                if (sub > 0) { elSub.classList.remove('d-none'); elSub.classList.add('d-block', 'mt-1'); elSub.style.fontSize = '0.7rem'; elSub.innerText = '= Rp ' + Math.round(sub).toLocaleString('id-ID'); }
                 else elSub.classList.add('d-none');
             });
-            
-            globalHPP = total + (parseFloat(document.getElementById('inputOps').value)||0) + (parseFloat(document.getElementById('inputDistribusi').value)||0);
+
+            globalHPP = total + (parseFloat(document.getElementById('inputOps').value) || 0) + (parseFloat(document.getElementById('inputDistribusi').value) || 0);
             document.getElementById('textHppPorsi').innerText = Math.round(globalHPP).toLocaleString('id-ID');
-            
+
             const porsi = parseInt(document.getElementById('jumlahPorsi').value) || 0;
             document.getElementById('labelPorsi').innerText = porsi;
             globalGrandTotal = Math.round(globalHPP * porsi);
@@ -377,8 +578,12 @@
             const pos = document.getElementById('inputPos').value;
             const porsi = parseInt(document.getElementById('jumlahPorsi').value);
 
-            if (!sekolah) return alert("Pilih Sekolah Sasaran!");
-            if (globalHPP === 0) return alert("Isi Rincian Bahan!");
+            if (!sekolah) {
+                return Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Harap tentukan Instansi Sekolah Sasaran terlebih dahulu.' });
+            }
+            if (globalHPP === 0) {
+                return Swal.fire({ icon: 'warning', title: 'Perhatian', text: 'Rincian usulan anggaran belum diisi.' });
+            }
 
             const rincianArray = [];
             let totalBeras = 0, totalAyam = 0, totalSayur = 0;
@@ -392,23 +597,23 @@
                 const sat = document.getElementById(`satuan-${id}`).innerText;
                 const hgVendor = parseFloat(document.getElementById(`harga-${id}`).value) || 0;
                 const hgPihps = parseFloat(document.getElementById(`pihps-${id}`).value) || 0;
-                
+
                 if (kat && nama && qty > 0) {
                     let selisihPersen = ((hgVendor - hgPihps) / hgPihps) * 100;
                     let flagMarkup = selisihPersen > 15;
-                    if(flagMarkup) isMarkup = true;
+                    if (flagMarkup) isMarkup = true;
 
                     rincianArray.push({
                         kategori: kat, item: nama, kebutuhan: qty + ' ' + sat,
                         harga_usulan: "Rp " + hgVendor.toLocaleString('id-ID'),
                         harga_pihps_rahasia: "Rp " + hgPihps.toLocaleString('id-ID'),
-                        status_audit: flagMarkup ? "INDIKASI MARKUP" : "WAJAR"
+                        status_audit: flagMarkup ? "INDIKASI KETIDAKWAJARAN HARGA" : "SESUAI INDEKS"
                     });
 
-                    let sub = sat === 'Gram' ? (qty/1000)*hgVendor : qty*hgVendor;
-                    if(kat.includes('Karbo')) totalBeras += sub;
-                    if(kat.includes('Protein')) totalAyam += sub;
-                    if(kat.includes('Sayur')) totalSayur += sub;
+                    let sub = sat === 'Gram' ? (qty / 1000) * hgVendor : qty * hgVendor;
+                    if (kat.includes('Karbo')) totalBeras += sub;
+                    if (kat.includes('Protein')) totalAyam += sub;
+                    if (kat.includes('Sayur')) totalSayur += sub;
                 }
             });
 
@@ -419,39 +624,93 @@
                 kemasan: document.getElementById('inputOps').value, bumbu: 0,
                 distribusi: document.getElementById('inputDistribusi').value,
                 hargaPerPorsi: Math.round(globalHPP),
-                analisis_sistem: isMarkup ? "TERINDIKASI MARK-UP" : "HARGA AMAN" 
+                analisis_sistem: isMarkup ? "TERDAPAT INDIKASI PENYIMPANGAN HARGA" : "USULAN ANGGARAN RASIONAL"
             };
 
+            // MENGGUNAKAN DATA VENDOR YANG SEDANG LOGIN!
             const payloadData = {
-                vendorId: '0x8F...A12B (Dapur Mandiri)',
+                vendorId: activeVendor.nama_usaha,
                 sekolah: sekolah,
                 jumlahPorsi: porsi,
                 totalAnggaran: globalGrandTotal,
                 rincianBahan: JSON.stringify(jsonSend)
             };
 
-            const modal = new bootstrap.Modal(document.getElementById('loadingModal'));
-            modal.show();
-            
+            Swal.fire({
+                title: 'Memproses Pengajuan...',
+                html: 'Sistem sedang memverifikasi usulan anggaran ke pusat data pemerintah.',
+                allowOutsideClick: false,
+                didOpen: () => { Swal.showLoading(); }
+            });
+
             try {
                 const res = await fetch('http://localhost:3000/api/vendor/submit-rab', {
-                    method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payloadData)
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payloadData)
                 });
                 const data = await res.json();
-                modal.hide();
-                if(data.success) {
-                    alert("✅ RAB Berhasil Diajukan ke Pemerintah!");
-                    // Redirect ke riwayat agar user lihat hasilnya
-                    window.location.href = "vendor-riwayat.html";
+
+                if (data.success) {
+                    const receiptHtml = `
+                        <div class="text-start p-3 bg-light border border-secondary border-opacity-25 rounded shadow-sm mt-3" style="font-family: monospace;">
+                            <div class="text-center mb-3 border-bottom pb-2">
+                                <h6 class="fw-bold mb-0 text-dark" style="font-family: 'Segoe UI', sans-serif;">TANDA TERIMA PENGAJUAN (RAB)</h6>
+                                <small class="text-muted" style="font-family: 'Segoe UI', sans-serif;">PORTAL MITRA TRUST-PLATE</small>
+                            </div>
+                            <table class="table table-sm table-borderless mb-0" style="font-size: 0.85rem;">
+                                <tr>
+                                    <td class="text-muted w-50">Status Pengajuan:</td>
+                                    <td class="fw-bold text-warning text-end">MENUNGGU VERIFIKASI</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Nama Mitra:</td>
+                                    <td class="fw-bold text-dark text-end">${activeVendor.nama_usaha.substring(0, 15)}...</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Total Anggaran:</td>
+                                    <td class="fw-bold text-primary text-end">Rp ${globalGrandTotal.toLocaleString('id-ID')}</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">Waktu Pengajuan:</td>
+                                    <td class="fw-bold text-dark text-end">${new Date().toLocaleString('id-ID')} WIB</td>
+                                </tr>
+                                <tr><td colspan="2" class="border-top pt-2 mt-2"></td></tr>
+                                <tr>
+                                    <td colspan="2" class="text-muted mb-1 d-block">Nomor Registrasi Sistem:</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <code class="d-block bg-white border border-primary border-opacity-25 p-2 rounded text-primary text-center" style="font-size:0.85rem; word-break: break-all;">RAB/MBG/${new Date().getFullYear()}/${data.id}</code>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="mt-3 text-center small text-success fw-bold" style="font-family: 'Segoe UI', sans-serif;">
+                                <i class="fas fa-check-circle me-1"></i> Pengajuan Berhasil Disimpan
+                            </div>
+                        </div>
+                    `;
+
+                    Swal.fire({
+                        title: 'PENGAJUAN DITERIMA',
+                        html: receiptHtml,
+                        icon: 'success',
+                        width: '500px',
+                        confirmButtonColor: '#16a085',
+                        confirmButtonText: 'Tutup & Lihat Riwayat',
+                        allowOutsideClick: false
+                    }).then(() => {
+                        window.location.href = "vendor-riwayat.html";
+                    });
+
                 } else {
-                    alert("❌ GAGAL: " + data.message);
+                    Swal.fire({ icon: 'error', title: 'Pengajuan Gagal', text: data.message });
                 }
-            } catch(e) { 
-                modal.hide(); console.error(e); alert("Error Server!"); 
+            } catch (e) {
+                Swal.fire({ icon: 'error', title: 'Terjadi Kesalahan', text: 'Gagal terhubung ke server saat memproses pengajuan.' });
             }
         }
 
         window.onload = fetchMasterData;
     </script>
 </body>
+
 </html>

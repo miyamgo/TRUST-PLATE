@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B2G Verifikasi & Procurement | TRUST-PLATE</title>
+    <title>Manajemen Pengadaan | TRUST-PLATE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
@@ -44,6 +44,10 @@
         .table-alert td { vertical-align: middle; }
         .table-audit th { background-color: #e9ecef; font-size: 0.8rem; color: #495057; }
         .table-audit td { font-size: 0.9rem; vertical-align: middle; }
+
+        /* Style Gambar BAP Modal */
+        .img-bap { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .img-bap:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
     </style>
 </head>
 
@@ -56,15 +60,15 @@
                 <div class="sidebar-brand">
                     <i class="fas fa-shield-alt"></i>
                     <h4>TRUST-PLATE</h4>
-                    <small>Monitoring Program MBG</small>
+                    <small>Sistem Pengawasan MBG</small>
                 </div>
                 <ul class="nav flex-column mb-auto">
-                    <li class="nav-item"><a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat Kendali</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Dashboard Eksekutif</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="gov-approval.html"><i class="fas fa-clipboard-check"></i> Pengadaan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gov-audit.html"><i class="fas fa-users-cog"></i> Investigasi Mitra</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Jejak Audit</a></li>
-                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat Kendali (Pusdalops)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Statistik Eksekutif</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="gov-approval.html"><i class="fas fa-clipboard-check"></i> Verifikasi Anggaran</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-audit.html"><i class="fas fa-users-cog"></i> Pengawasan Realisasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Buku Besar Digital</a></li>
+                    <li class="nav-item border-top border-secondary border-opacity-25 mt-4 pt-3"><a class="nav-link text-danger" href="index.html"><i class="fas fa-sign-out-alt"></i> Akhiri Sesi</a></li>
                 </ul>
             </nav>
 
@@ -74,26 +78,26 @@
                     <div class="d-flex align-items-center pe-4 me-4 border-end">
                         <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 55px; height: 55px; font-size: 1.4rem; font-weight: bold;">AP</div>
                         <div>
-                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor)</h4>
+                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor Utama)</h4>
                             <div class="d-flex align-items-center gap-3 mt-1">
                                 <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm" style="font-size: 0.85rem; font-family: monospace;">ID: GOV-AUDIT-01</span>
                                 <div class="d-flex flex-column justify-content-center" style="line-height: 1.2;">
-                                    <span class="text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS JARINGAN</span>
-                                    <span class="text-success fw-bold" style="font-size: 0.9rem;"><span class="live-indicator me-1"></span> SYNCED</span>
+                                    <span class="text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS NODE JARINGAN</span>
+                                    <span class="text-success fw-bold" style="font-size: 0.9rem;"><span class="live-indicator me-1"></span> TERHUBUNG</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <h2 class="fw-bold mb-1" style="color: #2c3e50;">Manajemen Pengadaan</h2>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Persetujuan Akun, Evaluasi RAB, dan Log Auto-Escrow Harian.</p>
+                        <h2 class="fw-bold mb-1" style="color: #2c3e50;">Manajemen Pengadaan & Verifikasi</h2>
+                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Otorisasi Akun Mitra, Evaluasi Anggaran (RAB), dan Riwayat <i>Auto-Escrow</i>.</p>
                     </div>
                 </div>
 
                 <ul class="nav nav-tabs mb-4" id="approvalTabs" role="tablist">
-                    <li class="nav-item" role="presentation"><button class="nav-link active" id="akun-tab" data-bs-toggle="tab" data-bs-target="#akun-pane" type="button" role="tab"><i class="fas fa-user-plus me-2 text-primary"></i> 1. Verifikasi Akun Baru</button></li>
-                    <li class="nav-item" role="presentation"><button class="nav-link" id="rab-tab" data-bs-toggle="tab" data-bs-target="#rab-pane" type="button" role="tab" onclick="loadRAB()"><i class="fas fa-file-invoice-dollar me-2 text-warning"></i> 2. Pengajuan RAB</button></li>
-                    <li class="nav-item" role="presentation"><button class="nav-link" id="laporan-tab" data-bs-toggle="tab" data-bs-target="#laporan-pane" type="button" role="tab" onclick="loadPencairan()"><i class="fas fa-robot me-2 text-success"></i> 3. Log Escrow Harian</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link active" id="akun-tab" data-bs-toggle="tab" data-bs-target="#akun-pane" type="button" role="tab"><i class="fas fa-user-plus me-2 text-primary"></i> 1. Pendaftaran Mitra</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" id="rab-tab" data-bs-toggle="tab" data-bs-target="#rab-pane" type="button" role="tab" onclick="loadRAB()"><i class="fas fa-file-invoice-dollar me-2 text-warning"></i> 2. Verifikasi RAB</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" id="laporan-tab" data-bs-toggle="tab" data-bs-target="#laporan-pane" type="button" role="tab" onclick="loadPencairan()"><i class="fas fa-robot me-2 text-success"></i> 3. Log <i>Auto-Escrow</i> (BAP Harian)</button></li>
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
@@ -105,22 +109,22 @@
                                     <table class="table table-hover table-alert mb-0 align-middle">
                                         <thead>
                                             <tr>
-                                                <th class="ps-4 py-3">Nama Calon Vendor</th>
-                                                <th class="py-3">Legalitas (NIB & NIK)</th>
-                                                <th class="py-3">Kapasitas Harian</th>
-                                                <th class="py-3">Lokasi Dapur</th>
-                                                <th class="py-3">Status Berkas</th>
-                                                <th class="py-3">Aksi</th>
+                                                <th class="ps-4 py-3">Nama Entitas Pengaju</th>
+                                                <th class="py-3">Nomor Induk Berusaha (NIB)</th>
+                                                <th class="py-3">Kapasitas Produksi</th>
+                                                <th class="py-3">Wilayah Administratif</th>
+                                                <th class="py-3">Status Verifikasi Dokumen</th>
+                                                <th class="py-3">Tindakan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td class="ps-4 fw-bold text-dark">Dapur Sentral Harapan</td>
                                                 <td><code class="text-dark bg-white px-2 py-1 rounded border shadow-sm">9120391023910</code></td>
-                                                <td>1,500 Porsi</td>
-                                                <td>Kec. Coblong</td>
-                                                <td><span class="text-success fw-bold"><i class="fas fa-check-circle me-1"></i>Lengkap (OSS)</span></td>
-                                                <td><button class="btn btn-sm btn-primary fw-bold px-3 shadow-sm"><i class="fas fa-search me-1"></i> Tinjau</button></td>
+                                                <td>1,500 Porsi / Hari</td>
+                                                <td>Kec. Coblong, Kota Bandung</td>
+                                                <td><span class="text-success fw-bold"><i class="fas fa-check-circle me-1"></i>Tervalidasi Sistem OSS</span></td>
+                                                <td><button class="btn btn-sm btn-primary fw-bold px-3 shadow-sm"><i class="fas fa-search me-1"></i> Evaluasi</button></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -136,16 +140,16 @@
                                     <table class="table table-hover table-alert mb-0 align-middle">
                                         <thead>
                                             <tr>
-                                                <th class="ps-4 py-3">Vendor Pengaju</th>
-                                                <th class="py-3">Sekolah Tujuan</th>
-                                                <th class="py-3">Jumlah Porsi</th>
-                                                <th class="py-3">Total Anggaran (Rp)</th>
-                                                <th class="py-3">Status</th>
-                                                <th class="py-3 pe-4 text-end">Aksi Kontrak</th>
+                                                <th class="ps-4 py-3">ID Mitra Pengaju</th>
+                                                <th class="py-3">Instansi Sasaran Distribusi</th>
+                                                <th class="py-3">Alokasi Porsi</th>
+                                                <th class="py-3">Total Usulan Anggaran (HPP)</th>
+                                                <th class="py-3">Status Otorisasi</th>
+                                                <th class="py-3 pe-4 text-end">Tindakan Audit</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tabelRAB">
-                                            <tr><td colspan="6" class="text-center py-4">Memuat data RAB... <i class="fas fa-spinner fa-spin"></i></td></tr>
+                                            <tr><td colspan="6" class="text-center py-4">Sinkronisasi data pengajuan anggaran... <i class="fas fa-spinner fa-spin"></i></td></tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -157,28 +161,15 @@
                         <div class="alert bg-success bg-opacity-10 border border-success d-flex align-items-center mb-4">
                             <i class="fas fa-info-circle text-success fs-4 me-3"></i>
                             <div>
-                                <h6 class="fw-bold text-success mb-1">Sistem Auto-Escrow Aktif</h6>
-                                <p class="mb-0 small text-dark">Data di bawah ini adalah log pencairan otomatis tanpa intervensi manual.</p>
+                                <h6 class="fw-bold text-success mb-1">Sistem Auto-Escrow Berbasis Smart Contract (Aktif)</h6>
+                                <p class="mb-0 small text-dark">Data di bawah ini merupakan log laporan harian. Auditor memegang otoritas final untuk <b>Mengesahkan (Cairkan Dana)</b> atau <b>Menolak (Tahan Dana)</b> BAP berdasarkan bukti yang terlampir.</p>
                             </div>
                         </div>
-                        <div class="card card-dash mb-4 border-top border-4 border-success">
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table table-hover table-alert mb-0 align-middle">
-                                        <thead>
-                                            <tr>
-                                                <th class="ps-4 py-3">Vendor Aktif</th>
-                                                <th class="py-3">Tanggal & Jam</th>
-                                                <th class="py-3">TxHash Bukti AI</th>
-                                                <th class="py-3">Status Transfer</th>
-                                                <th class="py-3 pe-4 text-end">Aksi Darurat</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tabelPencairan">
-                                            <tr><td colspan="5" class="text-center py-4">Memuat log... <i class="fas fa-spinner fa-spin"></i></td></tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        
+                        <div id="containerLogEscrow">
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-success mb-3" style="width: 3rem; height: 3rem;"></div>
+                                <h5 class="text-muted fw-bold">Mensinkronisasi Data Log Laporan Harian...</h5>
                             </div>
                         </div>
                     </div>
@@ -192,52 +183,51 @@
         <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content border-0" style="border-radius: 15px; overflow: hidden;">
                 <div class="modal-header bg-warning text-dark border-0 py-3 px-4">
-                    <h5 class="modal-title fw-bold"><i class="fas fa-search-dollar me-2"></i> Dokumen Forensik RAB Vendor</h5>
+                    <h5 class="modal-title fw-bold"><i class="fas fa-search-dollar me-2"></i> Dokumen Forensik Usulan RAB Mitra</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4 bg-light">
-                    
                     <div class="row mb-3 bg-white p-3 rounded shadow-sm border border-secondary border-opacity-10 mx-0">
                         <div class="col-md-6 border-end">
-                            <small class="text-muted fw-bold d-block mb-1">Identitas Mitra Dapur:</small>
+                            <small class="text-muted fw-bold d-block mb-1">Identitas Mitra Terdaftar:</small>
                             <h5 class="fw-bold text-dark mb-0" id="modalVendorNama">Memuat...</h5>
                         </div>
                         <div class="col-md-6 ps-md-4">
-                            <small class="text-muted fw-bold d-block mb-1">Distribusi ke Sekolah:</small>
+                            <small class="text-muted fw-bold d-block mb-1">Fokus Area Distribusi:</small>
                             <h5 class="fw-bold text-primary mb-0" id="modalSekolah">Memuat...</h5>
-                            <small class="text-muted" id="modalLokasiDetail">Lokasi Detail Memuat...</small>
+                            <small class="text-muted" id="modalLokasiDetail">Lokasi Administratif Memuat...</small>
                         </div>
                     </div>
 
                     <div id="auditAlertBox" class="mb-4"></div>
                     
-                    <h6 class="fw-bold text-dark mb-2"><i class="fas fa-list text-primary me-2"></i>Audit Rincian Harga per 1 Porsi (HPP)</h6>
+                    <h6 class="fw-bold text-dark mb-2"><i class="fas fa-list text-primary me-2"></i>Komparasi Rincian Harga Pokok Produksi (HPP) per Porsi</h6>
                     <div class="table-responsive bg-white rounded shadow-sm border border-secondary border-opacity-25 mb-4">
                         <table class="table table-hover table-audit mb-0">
                             <thead>
                                 <tr>
-                                    <th width="15%">Kategori</th>
-                                    <th width="25%">Nama Item</th>
-                                    <th width="15%">Kebutuhan</th>
-                                    <th width="15%" class="text-primary">Harga Vendor</th>
-                                    <th width="15%" class="text-success">Standar PIHPS</th>
-                                    <th width="15%" class="text-center">Status Sistem</th>
+                                    <th width="15%">Kategori Pangan</th>
+                                    <th width="25%">Spesifikasi Komoditas</th>
+                                    <th width="15%">Kebutuhan Baku</th>
+                                    <th width="15%" class="text-primary">Harga Usulan Vendor</th>
+                                    <th width="15%" class="text-success">Batas Referensi (PIHPS)</th>
+                                    <th width="15%" class="text-center">Analisis Sistem</th>
                                 </tr>
                             </thead>
                             <tbody id="tbodyDetailBahan"></tbody>
                             <tfoot class="bg-light border-top">
                                 <tr>
-                                    <td colspan="3" class="text-end fw-bold text-muted">Ops. Kemasan & Bumbu:</td>
+                                    <td colspan="3" class="text-end fw-bold text-muted">Biaya Pengemasan & Operasional:</td>
                                     <td class="fw-bold text-dark" id="dtlKemasan">Rp 0</td>
-                                    <td colspan="2" class="text-muted small">Fixed Value</td>
+                                    <td colspan="2" class="text-muted small">Nilai Tetap (<i>Fixed Value</i>)</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3" class="text-end fw-bold text-muted">Ongkos Kurir Distribusi:</td>
+                                    <td colspan="3" class="text-end fw-bold text-muted">Biaya Distribusi Logistik (Kurir):</td>
                                     <td class="fw-bold text-dark" id="dtlDistribusi">Rp 0</td>
-                                    <td colspan="2" class="text-muted small">Auto-Calculated by Map</td>
+                                    <td colspan="2" class="text-muted small">Kalkulasi Otomatis Radius Geospasial</td>
                                 </tr>
                                 <tr class="bg-warning bg-opacity-10 border-top border-warning">
-                                    <td colspan="3" class="text-end fw-bold text-dark fs-6">TOTAL HPP 1 PORSI:</td>
+                                    <td colspan="3" class="text-end fw-bold text-dark fs-6">NILAI KONTRAK 1 PORSI (HPP):</td>
                                     <td class="fw-bold text-danger fs-6" id="dtlPerPorsi">Rp 0</td>
                                     <td colspan="2"></td>
                                 </tr>
@@ -247,8 +237,8 @@
 
                     <div class="d-flex justify-content-between align-items-center bg-dark text-white p-4 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #1a252f, #2c3e50);">
                         <div>
-                            <span class="small text-white-50 fw-bold"><i class="fas fa-calculator me-1"></i> KALKULASI TOTAL PROYEK</span><br>
-                            <span class="small text-warning">Dikali <span id="dtlJumlahPorsi">0</span> Porsi per Hari</span>
+                            <span class="small text-white-50 fw-bold"><i class="fas fa-calculator me-1"></i> TOTAL NILAI KONTRAK PENGAJUAN</span><br>
+                            <span class="small text-warning">Dikalikan kuota <span id="dtlJumlahPorsi">0</span> porsi penerima harian</span>
                         </div>
                         <h2 class="fw-bold text-success mb-0" id="dtlTotalAnggaran">Rp 0</h2>
                     </div>
@@ -256,15 +246,50 @@
                 
                 <div class="modal-footer bg-white border-top py-3 px-4 flex-wrap" id="modalAksiFooter">
                     <div id="revisiBox" class="w-100 mb-3" style="display: none;">
-                        <label class="fw-bold text-danger small mb-1"><i class="fas fa-edit me-1"></i> Berikan Alasan Penolakan / Revisi:</label>
-                        <textarea class="form-control border-danger bg-danger bg-opacity-10 text-danger fw-bold" id="inputPesanRevisi" rows="2" placeholder="Cth: Harga ayam terlalu tinggi, terindikasi mark-up..."></textarea>
+                        <label class="fw-bold text-danger small mb-1"><i class="fas fa-edit me-1"></i> Masukkan Dasar Pertimbangan Penolakan / Revisi:</label>
+                        <textarea class="form-control border-danger bg-danger bg-opacity-10 text-danger fw-bold" id="inputPesanRevisi" rows="2" placeholder="Cth: Harga ayam terlalu tinggi melebihi indeks kewajaran..."></textarea>
                     </div>
 
                     <div class="w-100 d-flex justify-content-between" id="grupTombolAksi">
-                        <button type="button" class="btn btn-outline-danger fw-bold px-4" id="btnTolakRAB" onclick="tampilkanFormRevisi()"><i class="fas fa-times me-1"></i> Tolak Dokumen</button>
-                        <button type="button" class="btn btn-danger fw-bold px-4 shadow" id="btnKirimTolak" style="display: none;" onclick="kirimPenolakan()"><i class="fas fa-paper-plane me-1"></i> Kirim Penolakan</button>
-                        <button type="button" class="btn btn-success fw-bold shadow px-4" id="btnAccRAB" onclick="prosesAccRAB()"><i class="fas fa-link me-1"></i> ACC & Kunci di Blockchain</button>
+                        <button type="button" class="btn btn-outline-danger fw-bold px-4" id="btnTolakRAB" onclick="tampilkanFormRevisi()"><i class="fas fa-times me-1"></i> Tangguhkan Dokumen</button>
+                        <button type="button" class="btn btn-danger fw-bold px-4 shadow" id="btnKirimTolak" style="display: none;" onclick="kirimPenolakan()"><i class="fas fa-paper-plane me-1"></i> Eksekusi Penolakan</button>
+                        <button type="button" class="btn btn-success fw-bold shadow px-4" id="btnAccRAB" onclick="prosesAccRAB()"><i class="fas fa-link me-1"></i> Otorisasi & Kunci di Blockchain</button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalTinjauBukti" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                <div class="modal-header bg-dark text-white border-0 py-3 px-4">
+                    <h5 class="modal-title fw-bold"><i class="fas fa-microscope me-2 text-warning"></i> Forensik Bukti Fisik Transaksi (BAP Harian)</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0 bg-light">
+                    <div class="row g-0">
+                        <div class="col-md-6 border-end bg-white p-4">
+                            <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i class="fas fa-camera text-primary me-2"></i> Citra Dokumentasi Porsi (BAP)</h6>
+                            <div class="text-center bg-light rounded border p-2" style="height: 400px; display: flex; align-items: center; justify-content: center;">
+                                <img id="previewFotoBap" src="" class="img-fluid rounded" style="max-height: 100%; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="col-md-6 bg-white p-4">
+                            <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i class="fas fa-receipt text-warning me-2"></i> Salinan Bukti Pembelian (Nota)</h6>
+                            <div class="text-center bg-light rounded border p-2" style="height: 400px; display: flex; align-items: center; justify-content: center;">
+                                <img id="previewNota" src="" class="img-fluid rounded" style="max-height: 100%; object-fit: contain;">
+                                <div id="previewNotaPdf" class="d-none w-100 flex-column align-items-center">
+                                    <i class="fas fa-file-pdf text-danger mb-3" style="font-size: 5rem;"></i>
+                                    <h6 class="fw-bold text-dark">Dokumen Berformat PDF</h6>
+                                    <a id="linkDownloadPdf" href="#" target="_blank" class="btn btn-outline-danger btn-sm mt-2 fw-bold"><i class="fas fa-external-link-alt me-1"></i> Buka Dokumen</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-white border-top py-3 px-4">
+                    <button type="button" class="btn btn-secondary fw-bold px-4" data-bs-dismiss="modal">Tutup Dokumen</button>
                 </div>
             </div>
         </div>
@@ -273,9 +298,12 @@
     <script>
         let currentRabId = null;
 
+        // ========================================================
+        // TAB 2: LOGIC PENGAJUAN RAB
+        // ========================================================
         async function loadRAB() {
             const tbody = document.getElementById('tabelRAB');
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Memuat data... <i class="fas fa-spinner fa-spin"></i></td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4">Sinkronisasi data pengajuan anggaran... <i class="fas fa-spinner fa-spin"></i></td></tr>';
 
             try {
                 const response = await fetch('http://localhost:3000/api/gov/list-rab');
@@ -285,7 +313,7 @@
                     tbody.innerHTML = '';
                     result.data.forEach(item => {
                         const statusBadge = item.status === 'Disetujui' ? 'bg-success' : 
-                                           item.status === 'Ditolak' ? 'bg-danger' : 'bg-warning text-dark';
+                                            item.status === 'Ditolak' ? 'bg-danger' : 'bg-warning text-dark';
                         
                         let rincianJson = "{}";
                         if (item.rincian_bahan) { try { rincianJson = JSON.stringify(item.rincian_bahan).replace(/'/g, "&apos;"); } catch(e){} }
@@ -294,16 +322,16 @@
                             <tr>
                                 <td class="ps-4 fw-bold text-dark">${item.vendor_id.substring(0, 20)}...</td>
                                 <td>${item.sekolah}</td>
-                                <td><span class="badge bg-light text-dark border">${item.jumlah_porsi} Anak</span></td>
+                                <td><span class="badge bg-light text-dark border">${item.jumlah_porsi} Kuota</span></td>
                                 <td class="fw-bold text-dark fs-6">Rp ${Number(item.total_anggaran).toLocaleString('id-ID')}</td>
                                 <td>
                                     <span class="badge ${statusBadge}">${item.status}</span>
-                                    ${item.tx_hash ? `<br><small class="text-primary fw-bold" style="font-size:0.75rem;"><i class="fas fa-link"></i> Web3 Locked</small>` : ''}
+                                    ${item.tx_hash ? `<br><small class="text-primary fw-bold" style="font-size:0.75rem;"><i class="fas fa-link"></i> Terenkripsi Web3</small>` : ''}
                                 </td>
                                 <td class="pe-4 text-end">
                                     <button class="btn btn-sm btn-primary fw-bold shadow-sm" 
                                         onclick='bukaModalRAB(${item.id}, "${item.vendor_id}", "${item.sekolah}", ${item.jumlah_porsi}, ${item.total_anggaran}, ${rincianJson}, "${item.status}", "${item.pesan_revisi || ''}")'>
-                                        <i class="fas fa-search me-1"></i> Forensik Detail
+                                        <i class="fas fa-search me-1"></i> Tinjau Audit
                                     </button>
                                 </td>
                             </tr>
@@ -311,11 +339,11 @@
                         tbody.innerHTML += tr;
                     });
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada pengajuan RAB.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada usulan anggaran baru dari Mitra.</td></tr>';
                 }
             } catch (error) {
                 console.error("Error Load RAB:", error);
-                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> Gagal terhubung ke Database.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> Gagal berkomunikasi dengan Database Utama.</td></tr>';
             }
         }
 
@@ -341,26 +369,26 @@
                     <div class="alert alert-danger d-flex align-items-center py-3 shadow-sm border-danger border-2 rounded-3">
                         <i class="fas fa-ban fs-2 me-3 text-danger"></i>
                         <div>
-                            <h6 class="fw-bold mb-1 text-danger">DOKUMEN DITOLAK OLEH PEMERINTAH</h6>
-                            <span class="text-dark">Catatan Revisi: <b>"${pesanRevisiLama}"</b></span>
+                            <h6 class="fw-bold mb-1 text-danger">DOKUMEN DITANGGUHKAN OLEH OTORITAS</h6>
+                            <span class="text-dark">Dasar Penolakan: <b>"${pesanRevisiLama}"</b></span>
                         </div>
                     </div>`;
-            } else if (rincian.analisis_sistem === "TERINDIKASI MARK-UP") {
+            } else if (rincian.analisis_sistem === "TERINDIKASI MARK-UP" || (rincian.analisis_sistem && rincian.analisis_sistem.includes('TERDAPAT'))) {
                 alertBox.innerHTML = `
                     <div class="alert alert-danger d-flex align-items-center py-3 shadow-sm border-danger border-2 rounded-3">
                         <i class="fas fa-radiation-alt fs-2 me-3 text-danger"></i>
                         <div>
-                            <h5 class="fw-bold mb-1 text-danger">PERINGATAN SISTEM: INDIKASI MARK-UP!</h5>
-                            <span class="text-dark">Sistem mendeteksi harga bahan baku <b>>15% lebih mahal</b> dari PIHPS.</span>
+                            <h5 class="fw-bold mb-1 text-danger">PERINGATAN SISTEM: INDIKASI MARK-UP HARGA!</h5>
+                            <span class="text-dark">Algoritma mendeteksi usulan harga bahan baku <b>melebihi batas toleransi >15%</b> dari indeks PIHPS.</span>
                         </div>
                     </div>`;
-            } else if (rincian.analisis_sistem === "HARGA AMAN") {
+            } else if (rincian.analisis_sistem === "HARGA AMAN" || (rincian.analisis_sistem && rincian.analisis_sistem.includes('RASIONAL'))) {
                 alertBox.innerHTML = `
                     <div class="alert alert-success d-flex align-items-center py-2 shadow-sm border-success border-2 rounded-3">
                         <i class="fas fa-shield-check fs-3 me-3 text-success"></i>
                         <div>
-                            <h6 class="fw-bold mb-0 text-success">Validasi Lolos (Clear)</h6>
-                            <small class="text-dark">Seluruh usulan harga bahan baku masih dalam batas kewajaran PIHPS.</small>
+                            <h6 class="fw-bold mb-0 text-success">Validasi Algoritma Lolos (Clear)</h6>
+                            <small class="text-dark">Seluruh usulan HPP bahan baku terverifikasi rasional sesuai indeks PIHPS.</small>
                         </div>
                     </div>`;
             } else { alertBox.innerHTML = ''; }
@@ -369,7 +397,7 @@
             tbodyBahan.innerHTML = '';
             if (rincian.bahan_baku && rincian.bahan_baku.length > 0) {
                 rincian.bahan_baku.forEach(bb => {
-                    const isWarning = bb.status_audit === "INDIKASI MARKUP";
+                    const isWarning = bb.status_audit && (bb.status_audit.includes('INDIKASI') || bb.status_audit.includes('MARKUP'));
                     tbodyBahan.innerHTML += `
                         <tr class="${isWarning ? "table-danger" : ""}">
                             <td class="text-muted small">${bb.kategori}</td>
@@ -392,7 +420,7 @@
             document.getElementById('inputPesanRevisi').value = '';
             
             const footerAksi = document.getElementById('modalAksiFooter');
-            if (status !== 'Menunggu Review Pemkot') {
+            if (status === 'Disetujui' || status === 'Ditolak') {
                 footerAksi.style.display = 'none'; 
             } else {
                 footerAksi.style.display = 'flex';
@@ -404,7 +432,6 @@
             new bootstrap.Modal(document.getElementById('detailRabModal')).show();
         }
 
-        // --- MENGGUNAKAN SWEETALERT UNTUK TOLAK DOKUMEN ---
         function tampilkanFormRevisi() {
             document.getElementById('revisiBox').style.display = 'block'; 
             document.getElementById('btnTolakRAB').style.display = 'none'; 
@@ -415,32 +442,28 @@
         async function kirimPenolakan() {
             const pesan = document.getElementById('inputPesanRevisi').value;
             if(!pesan) {
-                // SweetAlert Pengganti Alert Jelek
-                return Swal.fire({ icon: 'warning', title: 'Oops...', text: 'Pesan revisi tidak boleh kosong!' });
+                return Swal.fire({ icon: 'warning', title: 'Perhatian Sistem', text: 'Catatan penolakan harus diisi sebagai dasar koreksi Mitra.' });
             }
             await eksekusiAPI(currentRabId, 'Ditolak', pesan);
         }
 
-        // --- MENGGUNAKAN SWEETALERT UNTUK ACC (BLOCKCHAIN) ---
         async function prosesAccRAB() {
-            // SweetAlert Pengganti Confirm Jelek
             const result = await Swal.fire({
-                title: 'Kunci ke Blockchain?',
-                text: "Sistem akan mengunci dokumen ini ke Smart Contract di jaringan Web3 untuk mencegah pengubahan data (Tamper-Proof). Anda yakin?",
+                title: 'Otorisasi ke Blockchain?',
+                text: "Sistem akan mengikat kontrak cerdas (Smart Contract) pada jaringan Web3 untuk menjamin keabsahan data (Tamper-Proof). Tindakan ini bersifat final.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#16a085',
                 cancelButtonColor: '#dc3545',
-                confirmButtonText: '<i class="fas fa-link me-1"></i> Ya, Kunci Sekarang!',
-                cancelButtonText: 'Batal',
+                confirmButtonText: '<i class="fas fa-link me-1"></i> Eksekusi Otorisasi',
+                cancelButtonText: 'Batalkan',
                 reverseButtons: true
             });
 
             if (result.isConfirmed) {
-                // SweetAlert Loading Spinner Muter-Muter Cantik
                 Swal.fire({
-                    title: 'Memproses ke Web3...',
-                    html: 'Sedang menghubungi jaringan Blockchain, mohon jangan tutup jendela ini.',
+                    title: 'Protokol Enkripsi Web3...',
+                    html: 'Sedang mendaftarkan kontrak ke dalam node jaringan, harap tunggu.',
                     allowOutsideClick: false,
                     didOpen: () => { Swal.showLoading(); }
                 });
@@ -449,7 +472,6 @@
             }
         }
 
-        // --- EKSEKUSI API ---
         async function eksekusiAPI(id, status, pesanRevisi) {
             try {
                 const response = await fetch('http://localhost:3000/api/gov/approve-rab', {
@@ -462,74 +484,220 @@
                 
                 if (result.success) {
                     if(status === 'Disetujui') {
-                        // SweetAlert Success ACC
                         Swal.fire({
-                            title: 'BERHASIL TERKUNCI!',
-                            html: `RAB telah diamankan di jaringan Blockchain.<br><br><b>TxHash:</b><br><code class="text-primary bg-light p-2 rounded d-block mt-2" style="font-size:0.8rem; word-break: break-all;">${result.tx_hash}</code><br>Mode Hybrid Escrow kini aktif.`,
+                            title: 'OTORISASI KONTRAK BERHASIL',
+                            html: `Rencana Anggaran Biaya telah terenkripsi di Ledger.<br><br><b>Transaksi ID (TxHash):</b><br><code class="text-primary bg-light p-2 rounded d-block mt-2" style="font-size:0.8rem; word-break: break-all;">${result.tx_hash}</code><br>Protokol Distribusi Dana (Escrow) Siaga.`,
                             icon: 'success',
                             confirmButtonColor: '#16a085'
                         });
                     } else {
-                        // SweetAlert Success Tolak
-                        Swal.fire({ icon: 'success', title: 'Ditolak', text: 'Dokumen berhasil dikembalikan ke Vendor untuk direvisi.', confirmButtonColor: '#dc3545' });
+                        Swal.fire({ icon: 'success', title: 'Dokumen Ditangguhkan', text: 'Usulan anggaran dikembalikan ke Mitra untuk dilakukan perbaikan.', confirmButtonColor: '#dc3545' });
                     }
                     bootstrap.Modal.getInstance(document.getElementById('detailRabModal')).hide();
                     loadRAB(); 
                 } else {
-                    Swal.fire({ icon: 'error', title: 'Gagal', text: result.message });
+                    Swal.fire({ icon: 'error', title: 'Kegagalan Sistem', text: result.message });
                 }
             } catch (error) {
                 console.error("Error Aksi RAB:", error);
-                Swal.fire({ icon: 'error', title: 'Server Error', text: 'Terjadi kesalahan sistem saat menghubungi jaringan.' });
+                Swal.fire({ icon: 'error', title: 'Koneksi Terputus', text: 'Terjadi anomali saat menghubungi server blockchain.' });
             }
         }
 
+        // ========================================================
+        // TAB 3: LOGIC LOG AUTO-ESCROW & KEPUTUSAN AUDITOR (REVISI BARU)
+        // ========================================================
         async function loadPencairan() {
-            // (Isi fungsi loadPencairan dibiarkan sama seperti sebelumnya)
-            const tbody = document.getElementById('tabelPencairan');
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4">Memuat log escrow... <i class="fas fa-spinner fa-spin"></i></td></tr>';
+            const container = document.getElementById('containerLogEscrow');
+            container.innerHTML = '<div class="text-center py-5"><div class="spinner-border text-success mb-3"></div><h5 class="text-muted fw-bold">Mensinkronisasi Data Log Laporan Harian...</h5></div>';
 
             try {
                 const response = await fetch('http://localhost:3000/api/gov/list-pencairan');
                 const result = await response.json();
 
                 if (result.success && result.data.length > 0) {
-                    tbody.innerHTML = '';
+                    container.innerHTML = '';
+
                     result.data.forEach(item => {
                         const tgl = new Date(item.created_at);
-                        const formatTgl = tgl.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) + ' ' + tgl.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
-                        const shortHash = item.tx_hash ? item.tx_hash.substring(0, 8) + '...' : '-';
+                        const formatTgl = tgl.toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) + ', ' + tgl.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}) + ' WIB';
+                        
+                        const isGiziAman = item.gizi_status.toLowerCase().includes('standar') || item.gizi_status.toLowerCase().includes('memenuhi');
+                        const isHargaAman = item.harga_status.toLowerCase().includes('wajar') || item.harga_status.toLowerCase().includes('terverifikasi') || item.harga_status.toLowerCase().includes('rasional');
+                        const isAman = isGiziAman && isHargaAman;
 
-                        const tr = `
-                            <tr>
-                                <td class="ps-4">
-                                    <div class="fw-bold text-dark">${item.vendor_id.substring(0, 15)}...</div>
-                                    <small class="text-muted">${item.sekolah}</small>
-                                </td>
-                                <td class="fw-bold text-secondary small">${formatTgl}</td>
-                                <td><code class="text-primary bg-primary bg-opacity-10 px-2 py-1 rounded cursor-pointer" title="${item.tx_hash}">${shortHash}</code></td>
-                                <td>
-                                    <span class="badge bg-success text-white px-3 py-2 rounded-pill shadow-sm">
-                                        <i class="fas fa-check-double me-1"></i> Cair ke Wallet Vendor
-                                    </span>
-                                </td>
-                                <td class="pe-4 text-end">
-                                    <button class="btn btn-sm btn-outline-danger fw-bold" onclick="Swal.fire('Dibekukan!','Dana untuk transaksi ini berhasil ditahan di Smart Contract.','info')">
-                                        <i class="fas fa-snowflake me-1"></i> Freeze
-                                    </button>
-                                </td>
-                            </tr>
+                        const baseUrl = 'http://localhost:3000';
+                        const fileUrlFull = item.file_url ? baseUrl + item.file_url : '';
+                        const notaUrlFull = item.nota_url ? baseUrl + item.nota_url : '';
+
+                        const shortHash = item.tx_hash ? `${item.tx_hash.substring(0, 10)}...${item.tx_hash.substring(item.tx_hash.length - 6)}` : 'Menunggu TxHash...';
+                        const shortVendorId = item.vendor_id ? item.vendor_id.substring(0, 25) + '...' : 'Entitas Dapur Mitra';
+
+                        // TEMPLATE KARTU UNIVERSAL (Sama untuk Aman dan Bahaya, hanya beda border dan icon)
+                        const cardBorder = isAman ? "border-left: 5px solid var(--accent-green);" : "border-left: 5px solid var(--accent-red);";
+                        const cardClass = isAman ? "card-approved" : "card-anomaly";
+                        const badgeStatus = isAman ? `<span class="badge badge-outline-success px-2 py-1 me-3">TERVALIDASI SISTEM</span>` : `<span class="badge badge-fill-danger px-2 py-1 me-3"><i class="fas fa-exclamation-triangle me-1"></i> INDIKASI PELANGGARAN (AI)</span>`;
+                        const hashClass = isAman ? "tx-link" : "tx-link text-danger";
+                        
+                        const giziIcon = isGiziAman ? 'fa-check-circle text-success' : 'fa-times-circle text-danger';
+                        const giziText = isGiziAman ? 'Memenuhi Standar Pelayanan' : 'Mutu Substandar';
+                        const giziColor = isGiziAman ? 'text-success' : 'text-danger';
+
+                        const hargaIcon = isHargaAman ? 'fa-check-circle text-success' : 'fa-search-dollar text-danger';
+                        const hargaText = isHargaAman ? 'Harga Rasional' : 'Terindikasi Mark-up';
+                        const hargaColor = isHargaAman ? 'text-success' : 'text-danger';
+
+                        container.innerHTML += `
+                            <div class="card ${cardClass} mb-3" style="${cardBorder}">
+                                <div class="card-header bg-transparent py-3 border-bottom d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        ${badgeStatus}
+                                        <span class="fw-bold text-dark me-2">${shortVendorId}</span>
+                                        <span class="text-muted small">| ${formatTgl}</span>
+                                    </div>
+                                    <span class="${hashClass}" title="${item.tx_hash}">Tx: ${shortHash}</span>
+                                </div>
+                                <div class="card-body py-3">
+                                    <div class="row align-items-center text-center text-md-start g-4">
+                                        <div class="col-md-2 text-center border-end">
+                                            <p class="small fw-bold text-dark mb-2">Citra BAP Fisik</p>
+                                            <img src="${fileUrlFull || 'https://via.placeholder.com/150?text=No+Image'}" 
+                                                class="img-bap shadow-sm border" 
+                                                onclick="bukaBukti('${fileUrlFull}', '${notaUrlFull}')" alt="BAP Visual">
+                                        </div>
+                                        <div class="col-md-3 border-end">
+                                            <p class="small fw-bold text-muted mb-1">Inspeksi Gizi (MobileNet)</p>
+                                            <h6 class="${giziColor} fw-bold mb-1"><i class="fas ${giziIcon} me-1"></i> ${giziText}</h6>
+                                            <p class="text-muted small mb-0">${item.gizi_status}</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <p class="small fw-bold text-muted mb-1">Audit Keuangan (Isolation Forest)</p>
+                                            <h6 class="${hargaColor} fw-bold mb-1"><i class="fas ${hargaIcon} me-1"></i> ${hargaText}</h6>
+                                            <p class="text-muted small mb-0">${item.harga_status}</p>
+                                        </div>
+                                        
+                                        <div class="col-md-4 d-flex flex-column justify-content-center pe-md-4">
+                                            <button class="btn btn-outline-dark btn-sm fw-bold py-2 mb-2 w-100" onclick="bukaBukti('${fileUrlFull}', '${notaUrlFull}')">
+                                                <i class="fas fa-microscope me-1"></i> Tinjau Forensik BAP
+                                            </button>
+                                            <div class="d-flex gap-2 w-100">
+                                                <button class="btn btn-danger fw-bold shadow-sm py-2 w-50" style="font-size: 0.8rem;" onclick="tolakBap('${item.vendor_id}')">
+                                                    <i class="fas fa-ban me-1"></i> Tolak (Tahan Dana)
+                                                </button>
+                                                <button class="btn btn-success fw-bold shadow-sm py-2 w-50" style="font-size: 0.8rem;" onclick="cairkanDana('${item.vendor_id}', '${item.tx_hash}')">
+                                                    <i class="fas fa-check-double me-1"></i> Sahkan (Cairkan)
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         `;
-                        tbody.innerHTML += tr;
                     });
+
                 } else {
-                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-muted">Belum ada aktivitas escrow hari ini.</td></tr>';
+                    container.innerHTML = `
+                        <div class="text-center py-5">
+                            <i class="fas fa-clipboard-check text-muted opacity-25" style="font-size: 4rem; mb-3"></i>
+                            <h5 class="text-muted fw-bold mt-3">Tidak ada aktivitas Escrow hari ini.</h5>
+                        </div>`;
                 }
             } catch (error) {
-                console.error("Error Load Pencairan:", error);
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-danger fw-bold"><i class="fas fa-exclamation-triangle"></i> Gagal terhubung ke Database.</td></tr>';
+                console.error("Gagal load laporan escrow:", error);
+                container.innerHTML = `
+                    <div class="alert alert-danger mx-auto mt-4 text-center fw-bold" style="max-width:500px;">
+                        <i class="fas fa-exclamation-triangle me-2"></i> Gagal berkomunikasi dengan Database Utama.
+                    </div>`;
             }
         }
+
+        function bukaBukti(urlFoto, urlNota) {
+            document.getElementById('previewFotoBap').src = urlFoto;
+
+            const imgNota = document.getElementById('previewNota');
+            const pdfNotaBox = document.getElementById('previewNotaPdf');
+            const linkPdf = document.getElementById('linkDownloadPdf');
+
+            if (urlNota.toLowerCase().endsWith('.pdf')) {
+                imgNota.classList.add('d-none');
+                pdfNotaBox.classList.remove('d-none');
+                pdfNotaBox.classList.add('d-flex');
+                linkPdf.href = urlNota;
+            } else {
+                pdfNotaBox.classList.add('d-none');
+                pdfNotaBox.classList.remove('d-flex');
+                imgNota.classList.remove('d-none');
+                imgNota.src = urlNota || 'https://via.placeholder.com/300?text=Bukti+Nota+Tidak+Tersedia';
+            }
+
+            new bootstrap.Modal(document.getElementById('modalTinjauBukti')).show();
+        }
+
+        function cairkanDana(vendorName, txHash) {
+            Swal.fire({
+                title: 'Otorisasi Pencairan Escrow',
+                text: "Anda akan mengesahkan BAP ini dan memerintahkan Smart Contract untuk mentransfer dana ke dompet (Wallet) mitra. Lanjutkan?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#16a085',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Sahkan & Cairkan',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Dana Berhasil Didistribusikan',
+                        html: `
+                            <div class="text-start p-3 bg-light border rounded shadow-sm mt-2" style="font-family: monospace;">
+                                <table class="table table-sm table-borderless mb-0">
+                                    <tr><td class="text-muted">Status:</td><td class="fw-bold text-success text-end">TERDISTRIBUSI (CLEARED)</td></tr>
+                                    <tr><td class="text-muted">Entitas:</td><td class="fw-bold text-dark text-end">${vendorName.substring(0, 20)}...</td></tr>
+                                    <tr><td class="text-muted">TxHash:</td><td class="fw-bold text-primary text-end">${txHash ? txHash.substring(0,10)+'...' : '-'}</td></tr>
+                                </table>
+                            </div>
+                        `,
+                        icon: 'success',
+                        confirmButtonColor: '#16a085',
+                        confirmButtonText: 'Tutup'
+                    });
+                }
+            });
+        }
+
+        function tolakBap(vendorName) {
+            Swal.fire({
+                title: 'Tolak BAP & Tahan Dana',
+                text: `Anda akan menolak BAP dari ${vendorName.substring(0, 20)}... dan menahan pencairan dana. Aksi ini akan otomatis menerbitkan SP-1.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc3545',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Tolak Dokumen',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Dana Ditahan & SP-1 Diterbitkan',
+                        html: `
+                            <div class="text-start p-3 bg-danger bg-opacity-10 border border-danger rounded shadow-sm mt-2" style="font-family: monospace;">
+                                <table class="table table-sm table-borderless mb-0">
+                                    <tr><td class="text-muted">Status:</td><td class="fw-bold text-danger text-end">DITANGGUHKAN (HOLD)</td></tr>
+                                    <tr><td class="text-muted">Surat Keputusan:</td><td class="fw-bold text-danger text-end">SP-1 DITERBITKAN</td></tr>
+                                    <tr><td class="text-muted">Dampak Sistem:</td><td class="fw-bold text-dark text-end">Trust Score -15 Poin</td></tr>
+                                </table>
+                            </div>
+                        `,
+                        icon: 'error',
+                        confirmButtonColor: '#1a252f',
+                        confirmButtonText: 'Tutup'
+                    });
+                }
+            });
+        }
+        
+        // Load default tab (RAB)
+        window.onload = loadRAB;
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

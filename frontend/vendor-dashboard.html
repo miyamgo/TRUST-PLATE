@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Mitra | Portal Vendor TRUST-PLATE</title>
+    <title>Beranda Mitra | Portal Mitra TRUST-PLATE</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         :root {
             --brand-green: #0a4d3c;
-            /* Hijau Index.html */
             --brand-light: #16a085;
             --brand-orange: #f39c12;
             --bg-body: #f4f9f7;
-            /* Background super lembut */
         }
 
         body {
@@ -24,193 +24,172 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* NAVBAR ATAS (Menggantikan Sidebar) */
-        .navbar-vendor {
-            background: linear-gradient(135deg, var(--brand-green), var(--brand-light));
-            padding: 12px 0;
-            box-shadow: 0 4px 15px rgba(10, 77, 60, 0.2);
-        }
+        /* ================================= */
+        /* NAVBAR MODERN TRUST-PLATE */
+        /* ================================= */
+        .navbar-vendor { background: white; border-bottom: 1px solid #e6eef0; padding: 10px 0; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
+        .navbar-brand { font-weight: 800; letter-spacing: 0.5px; color: var(--brand-green) !important; }
+        .navbar-brand small { font-size: 11px; color: #6c757d; display: block; margin-top: -4px; }
+        .navbar-nav { gap: 5px; }
+        .navbar-nav .nav-link { font-weight: 600; color: #4b5563; padding: 10px 26px; border-radius: 5px; transition: all .25s ease; }
+        .navbar-nav .nav-link:hover { color: var(--brand-green); background: #f1f7f5; }
+        .navbar-nav .nav-link.active { background: var(--brand-light); color: white !important; box-shadow: 0 4px 12px rgba(22, 160, 133, 0.35); }
 
-        .navbar-brand {
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: white !important;
-        }
-
-        .nav-item .nav-link {
-            color: rgba(255, 255, 255, 0.8);
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 50px;
-            /* Lekukan Friendly */
-            margin: 0 5px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item .nav-link:hover,
-        .nav-item .nav-link.active {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white !important;
-        }
-
-        /* Pill Profil Pengguna di Kanan Atas */
-        .user-pill {
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 50px;
-            padding: 5px 15px 5px 5px;
-            display: flex;
-            align-items: center;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Animasi Dot Hijau */
-        .live-indicator {
-            width: 10px;
-            height: 10px;
-            background-color: #2ecc71;
-            border-radius: 50%;
-            display: inline-block;
-            animation: pulse-green 2s infinite;
-            border: 2px solid white;
-        }
+        /* USER PILL */
+        .user-pill { background: #f1f7f5; border-radius: 40px; padding: 6px 15px 6px 6px; display: flex; align-items: center; border: 1px solid #e6eef0; }
+        .user-pill img { border: 2px solid white; }
+        .logout-btn { color: #dc3545; opacity: .7; transition: .2s; cursor: pointer; }
+        .logout-btn:hover { opacity: 1; }
+        .live-indicator { width: 10px; height: 10px; background: #2ecc71; border-radius: 50%; display: inline-block; border: 2px solid white; animation: pulse-green 2s infinite; }
 
         @keyframes pulse-green {
-            0% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
-            }
-
-            70% {
-                box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
         }
 
-        /* KARTU FRIENDLY (Lekukan Besar & Shadow Lembut) */
+        /* ================================= */
+        /* COMPONENT STYLE DASHBOARD */
+        /* ================================= */
         .card-friendly {
-            background: white;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            overflow: hidden;
-            transition: transform 0.3s;
+            background: white; border: none; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            overflow: hidden; transition: transform 0.3s;
         }
+        .card-friendly:hover { transform: translateY(-5px); }
+        
+        .icon-circle { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        
+        .trust-card { background: linear-gradient(135deg, var(--brand-green), var(--brand-light)); color: white; }
+        
+        .todo-item { border-left: 4px solid #e2e8f0; padding: 12px 15px; background: #f8fafc; border-radius: 0 8px 8px 0; margin-bottom: 10px; transition: 0.2s;}
+        .todo-item:hover { background: #f1f5f9; }
+        .todo-item.urgent { border-left-color: var(--brand-orange); }
+        .todo-item.danger { border-left-color: #e74c3c; }
 
-        .card-friendly:hover {
-            transform: translateY(-5px);
-        }
-
-        .icon-circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
+        .notif-circle { width: 40px; height: 40px; font-size: 1rem; flex-shrink: 0; display:flex; align-items:center; justify-content:center; border-radius:50%;}
     </style>
 </head>
 
 <body>
+    <script>
+        const activeVendor = JSON.parse(localStorage.getItem('vendor_data'));
+        if (!activeVendor) {
+            window.location.href = 'auth-vendor.html';
+        }
+        
+        function logout() {
+            localStorage.removeItem('vendor_data');
+            window.location.href = 'auth-vendor.html';
+        }
+    </script>
 
     <nav class="navbar navbar-expand-lg navbar-vendor sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="vendor-dashboard.html">
-                <i class="fas fa-shield-alt text-warning fs-3 me-2"></i>
+                <i class="fas fa-shield-alt text-success fs-3 me-2"></i>
                 <div>
                     TRUST-PLATE
-                    <span style="font-size: 0.65rem; font-weight: 500; opacity: 0.9; letter-spacing: 0;">PORTAL MITRA
-                        DAPUR</span>
+                    <small>PORTAL MITRA DAPUR</small>
                 </div>
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#vendorNav">
-                <i class="fas fa-bars text-white fs-3"></i>
+                <i class="fas fa-bars"></i>
             </button>
 
             <div class="collapse navbar-collapse" id="vendorNav">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav mx-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="vendor-dashboard.html"><i class="fas fa-home me-1"></i>
-                            Beranda</a>
+                        <a class="nav-link active" href="vendor-dashboard.html">
+                            <i class="fas fa-home me-1"></i> Beranda
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="vendor-rab.html"><i class="fas fa-calculator me-1"></i> Hitung RAB</a>
+                        <a class="nav-link" href="vendor-rab.html">
+                            <i class="fas fa-file-invoice-dollar me-1"></i> Pengajuan
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="vendor-lapor.html"><i class="fas fa-camera me-1"></i> Lapor Harian</a>
+                        <a class="nav-link" href="vendor-lapor.html">
+                            <i class="fas fa-camera me-1"></i> Laporan
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="vendor-riwayat.html"><i class="fas fa-history me-1"></i> Riwayat</a>
+                        <a class="nav-link" href="vendor-riwayat.html">
+                            <i class="fas fa-clock-rotate-left me-1"></i> Riwayat
+                        </a>
                     </li>
                 </ul>
 
                 <div class="user-pill d-none d-lg-flex">
-                    <img src="https://ui-avatars.com/api/?name=Dapur+Mandiri&background=fff&color=0a4d3c"
-                        class="rounded-circle me-2" width="35" alt="Profile">
+                    <img id="navAvatar" src="" class="rounded-circle me-2" width="34">
                     <div class="d-flex flex-column lh-1 pe-2">
-                        <span class="fw-bold" style="font-size: 0.85rem;">Dapur Mandiri Berkah</span>
+                        <span class="fw-bold" style="font-size: 0.85rem;" id="navVendorName">Memuat...</span>
                         <div class="d-flex align-items-center mt-1">
                             <span class="live-indicator me-1" style="width: 8px; height: 8px;"></span>
-                            <span style="font-size: 0.65rem; font-family: monospace;">ID: 0x8F...A12B</span>
+                            <span style="font-size: 0.65rem; font-family: monospace;" id="navVendorId">ID: ...</span>
                         </div>
                     </div>
-                    <a href="auth-vendor.html" class="ms-3 text-white opacity-75 hover-opacity-100" title="Keluar"><i
-                            class="fas fa-sign-out-alt"></i></a>
+                    <a onclick="logout()" class="ms-3 logout-btn" title="Keluar">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
 
     <div class="container py-5">
-
-        <div class="mb-4">
-            <h3 class="fw-bold text-dark">Selamat Datang, Dapur Mandiri! 👋</h3>
-            <p class="text-muted">Pantau performa harian Anda, trust score, dan pencairan dana di sini.</p>
+        <div class="mb-4 d-flex flex-column flex-md-row justify-content-between align-items-md-end">
+            <div>
+                <h3 class="fw-bold text-dark mb-1" id="greetingsText">Selamat Datang! 👋</h3>
+                <p class="text-muted mb-0">Dasbor eksekutif ini merangkum metrik kinerja, pencairan dana, dan tugas harian Anda.</p>
+            </div>
+            <div class="mt-3 mt-md-0 text-md-end text-muted small fw-bold">
+                <i class="far fa-calendar-alt me-1"></i> <span id="currentDate"></span>
+            </div>
         </div>
 
         <div class="row g-4 mb-5">
             <div class="col-md-4">
-                <div class="card-friendly h-100 p-4 border-bottom border-4 border-success">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="text-muted fw-bold mb-0">TRUST SCORE ANDA</h6>
-                        <div class="icon-circle bg-success bg-opacity-10 text-success"><i class="fas fa-star"></i></div>
+                <div class="card-friendly trust-card h-100 p-4 position-relative">
+                    <i class="fas fa-medal position-absolute opacity-25" style="font-size: 8rem; right: -10px; bottom: -20px;"></i>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="fw-bold mb-0 text-white-50">INDEKS INTEGRITAS (TRUST SCORE)</h6>
                     </div>
-                    <h2 class="fw-bold text-success mb-0" style="font-size: 2.5rem;">98.5 <span
-                            class="fs-5 text-muted fw-normal">/ 100</span></h2>
-                    <p class="small text-success mt-2 mb-0 fw-bold"><i class="fas fa-arrow-up me-1"></i> Performa Sangat
-                        Baik</p>
+                    <h2 class="fw-bold text-white mb-0" style="font-size: 2.8rem;" id="displayScore">0.0 <span class="fs-5 text-white-50 fw-normal">/ 100</span></h2>
+                    
+                    <div class="mt-4 pt-3 border-top border-white border-opacity-25 d-flex justify-content-between align-items-center">
+                        <span class="small fw-bold"><i class="fas fa-check-circle me-1 text-warning"></i> Tier: Prioritas (Auto-Escrow)</span>
+                        <a href="#" class="text-white text-decoration-none small opacity-75"><i class="fas fa-info-circle"></i></a>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-4">
-                <div class="card-friendly h-100 p-4 border-bottom border-4" style="border-color: var(--brand-light);">
+                <div class="card-friendly h-100 p-4 border-bottom border-4 border-primary">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="text-muted fw-bold mb-0">DANA DICAIRKAN (BULAN INI)</h6>
-                        <div class="icon-circle bg-primary bg-opacity-10 text-primary"><i class="fas fa-wallet"></i>
-                        </div>
+                        <h6 class="text-muted fw-bold mb-0">AKUMULASI PENCAIRAN DANA</h6>
+                        <div class="icon-circle bg-primary bg-opacity-10 text-primary"><i class="fas fa-wallet"></i></div>
                     </div>
-                    <h2 class="fw-bold text-dark mb-0" style="font-size: 2.2rem;">Rp 38.2 Juta</h2>
-                    <p class="small text-muted mt-2 mb-0"><i class="fas fa-check-circle text-primary me-1"></i> Otomatis
-                        via Smart Contract</p>
+                    <h2 class="fw-bold text-dark mb-0" style="font-size: 2.2rem;" id="totalPencairan">Rp 0</h2>
+                    <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+                        <span class="small text-muted"><i class="fas fa-link text-primary me-1"></i> Cleared On-Chain</span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-2" id="countLaporan">0 BAP Sukses</span>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <div class="card-friendly h-100 p-4 border-bottom border-4 border-warning">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h6 class="text-muted fw-bold mb-0">TARGET PORSI HARIAN</h6>
-                        <div class="icon-circle bg-warning bg-opacity-10 text-warning"><i
-                                class="fas fa-box-open text-dark"></i></div>
+                        <h6 class="text-muted fw-bold mb-0">KONTRAK DISTRIBUSI AKTIF</h6>
+                        <div class="icon-circle bg-warning bg-opacity-10 text-warning"><i class="fas fa-file-contract text-dark"></i></div>
                     </div>
-                    <h2 class="fw-bold text-dark mb-0" style="font-size: 2.5rem;">450 <span
-                            class="fs-5 text-muted fw-normal">Porsi</span></h2>
-                    <p class="small text-muted mt-2 mb-0"><i class="fas fa-school text-warning me-1"></i> SDN 01
-                        Banyumanik</p>
+                    <h2 class="fw-bold text-dark mb-0" style="font-size: 2.2rem;" id="totalPorsiTarget">0 <span class="fs-5 text-muted fw-normal">Porsi/Hari</span></h2>
+                    <div class="mt-3 pt-3 border-top d-flex justify-content-between align-items-center">
+                        <span class="small text-muted text-truncate w-75" id="listSekolah"><i class="fas fa-school text-warning me-1"></i> Belum ada kontrak aktif.</span>
+                        <span class="badge bg-warning text-dark px-2" id="countRab">0 RAB</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -218,67 +197,264 @@
         <div class="row g-4">
             <div class="col-lg-7">
                 <div class="card-friendly h-100 p-4">
-                    <h5 class="fw-bold text-dark mb-1">Statistik Laporan AI Anda</h5>
-                    <p class="text-muted small mb-4">Jumlah porsi yang lolos verifikasi AI dalam 5 hari terakhir.</p>
-                    <canvas id="vendorChart" height="120"></canvas>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h5 class="fw-bold text-dark mb-1">Tren Pencairan Dana (Auto-Escrow)</h5>
+                            <p class="text-muted small mb-0">Grafik pencairan dana harian yang berhasil divalidasi oleh sistem.</p>
+                        </div>
+                        <select class="form-select form-select-sm w-auto border-0 bg-light fw-bold text-primary">
+                            <option>7 Hari Terakhir</option>
+                        </select>
+                    </div>
+                    <div style="height: 250px; width: 100%;">
+                        <canvas id="vendorChart"></canvas>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-lg-5">
-                <div class="card-friendly h-100 p-4">
-                    <h5 class="fw-bold text-dark mb-4">Pemberitahuan Sistem</h5>
-
-                    <div class="d-flex mb-4">
-                        <div class="icon-circle bg-success bg-opacity-10 text-success me-3 flex-shrink-0"
-                            style="width: 40px; height: 40px; font-size: 1rem;"><i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <div>
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <h6 class="fw-bold text-dark mb-0">Pencairan Berhasil</h6>
-                                <small class="text-muted" style="font-size: 0.7rem;">Hari ini</small>
-                            </div>
-                            <p class="mb-0 small text-muted lh-sm">Dana laporan tanggal 11 Maret sebesar Rp 6.660.000
-                                telah masuk ke rekening Anda.</p>
-                        </div>
+            <div class="col-lg-5 d-flex flex-column gap-4">
+                
+                <div class="card-friendly p-4 flex-grow-1">
+                    <h5 class="fw-bold text-dark mb-3"><i class="fas fa-tasks text-success me-2"></i>Tindakan Diperlukan</h5>
+                    
+                    <div id="todoContainer">
+                        <div class="text-center py-4 text-muted small"><i class="fas fa-spinner fa-spin mb-2 fs-4 d-block"></i>Memuat data...</div>
                     </div>
-
-                    <div class="d-flex">
-                        <div class="icon-circle bg-primary bg-opacity-10 text-primary me-3 flex-shrink-0"
-                            style="width: 40px; height: 40px; font-size: 1rem;"><i class="fas fa-info"></i></div>
-                        <div>
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <h6 class="fw-bold text-dark mb-0">Info Harga Pasar</h6>
-                                <small class="text-muted" style="font-size: 0.7rem;">Kemarin</small>
-                            </div>
-                            <p class="mb-0 small text-muted lh-sm">Batas Harga Eceran Tertinggi (HET) Telur Ayam di
-                                wilayah Semarang naik menjadi Rp 29.500/Kg berdasarkan API PIHPS.</p>
-                        </div>
-                    </div>
-
                 </div>
+
+                <div class="card-friendly p-4">
+                    <h5 class="fw-bold text-dark mb-4">Pemberitahuan Sistem Pusat</h5>
+                    
+                    <div id="notifContainer">
+                        <div class="d-flex mb-3 pb-3 border-bottom">
+                            <div class="notif-circle bg-success bg-opacity-10 text-success me-3">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="fw-bold text-dark mb-0 fs-6">AI Audit: Kualitas Membaik</h6>
+                                    <small class="text-muted" style="font-size: 0.7rem;">Hari ini</small>
+                                </div>
+                                <p class="mb-0 small text-muted lh-sm">Sistem Machine Learning mencatat peningkatan konsistensi porsi ayam pada BAP Anda dalam 3 hari terakhir.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="notif-circle bg-primary bg-opacity-10 text-primary me-3">
+                                <i class="fas fa-bullhorn"></i>
+                            </div>
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="fw-bold text-dark mb-0 fs-6">Penyesuaian Indeks HET Nasional</h6>
+                                    <small class="text-muted" style="font-size: 0.7rem;">Kemarin</small>
+                                </div>
+                                <p class="mb-0 small text-muted lh-sm">Harga Eceran Tertinggi (HET) komoditas Telur Ayam di wilayah Anda disesuaikan menjadi Rp 29.500/Kg.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
     </div>
 
     <script>
-        const ctx = document.getElementById('vendorChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'],
-                datasets: [{
-                    label: 'Porsi Lolos Audit',
-                    data: [450, 450, 450, 450, 450],
-                    backgroundColor: '#16a085',
-                    borderRadius: 8,
-                    barThickness: 30
-                }]
-            },
-            options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { borderDash: [2, 4] } }, x: { grid: { display: false } } } }
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        // MENGISI DATA USER DINAMIS PADA NAVBAR, GREETINGS & REPUTASI
+        const formattedName = activeVendor.nama_usaha.replace(/\s+/g, '+');
+        document.getElementById('navAvatar').src = `https://ui-avatars.com/api/?name=${formattedName}&background=0a4d3c&color=fff`;
+        document.getElementById('navVendorName').innerText = activeVendor.nama_usaha;
+        
+        // Memformat wallet address agar rapi (0x1A2B...3C4D)
+        const wallet = activeVendor.wallet_address;
+        const displayWallet = wallet ? `${wallet.substring(0, 6)}...${wallet.substring(wallet.length - 4)}` : 'On-Chain Pending';
+        document.getElementById('navVendorId').innerText = `ID: ${displayWallet}`;
+        
+        document.getElementById('greetingsText').innerHTML = `Selamat Datang, ${activeVendor.nama_usaha}! 👋`;
+        
+        // Memasukkan Trust Score Asli dari Database
+        const skor = parseFloat(activeVendor.trust_score) || 70.0;
+        document.getElementById('displayScore').innerHTML = `${skor.toFixed(1)} <span class="fs-5 text-white-50 fw-normal">/ 100</span>`;
 
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('id-ID', options);
+
+        // INISIALISASI GRAFIK AREA
+        let myChart;
+        function initChart(dataLabels, dataValues) {
+            const ctx = document.getElementById('vendorChart').getContext('2d');
+            
+            let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+            gradient.addColorStop(0, 'rgba(22, 160, 133, 0.4)'); 
+            gradient.addColorStop(1, 'rgba(22, 160, 133, 0.0)');
+            
+            myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dataLabels.length > 0 ? dataLabels : ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'],
+                    datasets: [{
+                        label: 'Nominal Pencairan (Rp)',
+                        data: dataValues.length > 0 ? dataValues : [0, 0, 0, 0, 0],
+                        borderColor: '#16a085',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#16a085',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        fill: true,
+                        tension: 0.4 
+                    }]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }, 
+                    scales: { 
+                        y: { 
+                            beginAtZero: true, 
+                            grid: { borderDash: [2, 4], color: '#e2e8f0' },
+                            ticks: {
+                                callback: function(value) {
+                                    if(value >= 1000000) return 'Rp ' + (value / 1000000).toFixed(1) + 'M';
+                                    return value;
+                                }
+                            }
+                        }, 
+                        x: { grid: { display: false } } 
+                    }
+                }
+            });
+        }
+
+        // LOAD NOTIFIKASI WALLET DINAMIS
+        function loadNotifications() {
+            const container = document.getElementById('notifContainer');
+            // Tambahkan status wallet di paling atas notifikasi
+            const walletNotif = `
+                <div class="todo-item border-start border-4 border-success p-3 bg-light mb-3">
+                    <div class="d-flex align-items-center mb-1">
+                        <i class="fas fa-link text-success me-2"></i>
+                        <h6 class="fw-bold mb-0 text-dark" style="font-size:0.9rem;">Status Wallet Aktif</h6>
+                    </div>
+                    <p class="small mb-0 text-muted">Node terhubung. Pencairan akan diarahkan ke <code class="text-success fw-bold">${displayWallet}</code></p>
+                </div>
+            `;
+            container.insertAdjacentHTML('afterbegin', walletNotif);
+        }
+
+        // AMBIL DATA STATISTIK DARI DATABASE (DINAMIS)
+        async function fetchDashboardStats() {
+            try {
+                const resRab = await fetch(`http://localhost:3000/api/vendor/my-rab?vendor_id=${encodeURIComponent(activeVendor.nama_usaha)}`);
+                const dataRab = await resRab.json();
+                
+                let targetPorsi = 0;
+                let countRabAktif = 0;
+                let sekolahNames = [];
+                let todoHtml = '';
+
+                if (dataRab.success) {
+                    dataRab.data.forEach(r => {
+                        if (r.status === 'Disetujui') {
+                            targetPorsi += parseInt(r.jumlah_porsi);
+                            countRabAktif++;
+                            if(!sekolahNames.includes(r.sekolah)) sekolahNames.push(r.sekolah);
+                        } else if (r.status === 'Ditolak') {
+                            todoHtml += `
+                                <div class="todo-item danger d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="fw-bold mb-1 text-danger fs-6"><i class="fas fa-exclamation-circle me-1"></i> RAB Ditolak!</h6>
+                                        <span class="small text-muted text-truncate d-inline-block" style="max-width: 150px;">${r.sekolah}</span>
+                                    </div>
+                                    <a href="vendor-rab.html" class="btn btn-sm btn-outline-danger fw-bold px-3 rounded-pill">Revisi</a>
+                                </div>
+                            `;
+                        }
+                    });
+                }
+                
+                document.getElementById('totalPorsiTarget').innerHTML = `${targetPorsi.toLocaleString('id-ID')} <span class="fs-5 text-muted fw-normal">Porsi/Hari</span>`;
+                document.getElementById('countRab').innerText = `${countRabAktif} RAB`;
+                
+                if (sekolahNames.length > 0) {
+                    document.getElementById('listSekolah').innerHTML = `<i class="fas fa-school text-warning me-1"></i> ${sekolahNames.join(', ')}`;
+                }
+
+                const resLapor = await fetch(`http://localhost:3000/api/vendor/riwayat?vendor_id=${encodeURIComponent(activeVendor.nama_usaha)}`);
+                const dataLapor = await resLapor.json();
+
+                let totalPencairan = 0;
+                let countLapor = 0;
+                let chartLabels = [];
+                let chartValues = [];
+
+                if (dataLapor.success) {
+                    dataLapor.data.forEach(l => {
+                        const isAman = (l.gizi_status.includes('Standar') || l.gizi_status.includes('Memenuhi')) && 
+                                       (l.harga_status.includes('Wajar') || l.harga_status.includes('Rasional'));
+                        
+                        if(isAman && l.tx_hash) {
+                            countLapor++;
+                            const uangCair = (targetPorsi || 100) * 15000;
+                            totalPencairan += uangCair;
+
+                            const tgl = new Date(l.created_at).toLocaleDateString('id-ID', {day:'numeric', month:'short'});
+                            if(chartLabels.length < 7) {
+                                chartLabels.unshift(tgl); 
+                                chartValues.unshift(uangCair);
+                            }
+                        }
+                    });
+                }
+
+                document.getElementById('totalPencairan').innerText = `Rp ${(totalPencairan / 1000000).toFixed(1)} Juta`;
+                document.getElementById('countLaporan').innerText = `${countLapor} BAP Sukses`;
+
+                if(chartLabels.length > 0) {
+                    initChart(chartLabels, chartValues);
+                } else {
+                    initChart([], []); 
+                }
+
+                if (countRabAktif > 0) {
+                    todoHtml = `
+                        <div class="todo-item urgent d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="fw-bold mb-1 text-dark fs-6">Lapor BAP Hari Ini</h6>
+                                <span class="small text-muted">Batas waktu: 14:00 WIB</span>
+                            </div>
+                            <a href="vendor-lapor.html" class="btn btn-sm btn-warning fw-bold text-dark px-3 rounded-pill shadow-sm">Mulai Lapor</a>
+                        </div>
+                    ` + todoHtml;
+                } else if (todoHtml === '') {
+                    todoHtml = `<div class="text-center py-4 text-muted small"><i class="fas fa-check-circle text-success mb-2 fs-2 d-block"></i>Tidak ada tugas tertunda saat ini.</div>`;
+                }
+
+                document.getElementById('todoContainer').innerHTML = todoHtml;
+                loadNotifications(); // Panggil fungsi notif wallet
+
+            } catch (e) {
+                console.error("Gagal sinkronisasi dashboard:", e);
+                initChart([], []); 
+            }
+        }
+
+        window.onload = fetchDashboardStats;
+    </script>
+</body>
 </html>

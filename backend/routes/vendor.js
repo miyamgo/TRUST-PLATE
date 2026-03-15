@@ -1,175 +1,215 @@
+// routes/vendor.js
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-const axios = require('axios');
-const { ethers } = require('ethers');
-const pool = require('../db'); // Panggil DB
+const pool = require('../db');
 
 // =========================================================
-// CUSTOM LOGGER KHUSUS VENDOR ROUTE
+// POST /api/vendor/login
 // =========================================================
-const getTimestamp = () => new Date().toISOString().replace('T', ' ').substring(0, 19);
-const logInfo = (msg) => console.log(`\x1b[36m[VENDOR-API]\x1b[0m ${getTimestamp()} | \x1b[32mINFO\x1b[0m | ${msg}`);
-const logWarn = (msg) => console.log(`\x1b[33m[VENDOR-API]\x1b[0m ${getTimestamp()} | \x1b[33mWARN\x1b[0m | ${msg}`);
-const logErr = (msg) => console.log(`\x1b[31m[VENDOR-API]\x1b[0m ${getTimestamp()} | \x1b[31mERROR\x1b[0m | ${msg}`);
+router.post('/login', async (req, res) => {
+    const { nib, password } = req.body;
 
-// =========================================================
-// SETTING MULTER (MENERIMA 2 FILE SEKALIGUS)
-// =========================================================
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const dir = 'uploads/';
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        cb(null, dir);
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '_'));
+    if (!nib || !password) {
+        return res.status(400).json({
+            success: false,
+            message: 'NIB dan kata sandi wajib diisi.'
+        });
     }
-});
-const upload = multer({ storage: storage });
 
-// =========================================================
-// API 1: GATEWAY AUDIT AI (NODE.JS -> PYTHON)
-// =========================================================
-router.post('/audit-ai', upload.fields([{ name: 'fotoMakanan', maxCount: 1 }, { name: 'fileNota', maxCount: 1 }]), async (req, res) => {
-    logInfo("Menerima permintaan validasi AI dari Frontend...");
-    
     try {
-        if (!req.files || !req.files['fotoMakanan']) {
-            logWarn("Vendor tidak melampirkan Foto Makanan!");
-            return res.status(400).json({ success: false, message: "Foto makanan wajib diupload!" });
+        const result = await pool.query(
+            `SELECT * FROM vendors WHERE nib = $1 LIMIT 1`,
+            [nib]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(401).json({
+                success: false,
+                message: 'NIB tidak ditemukan.'
+            });
         }
 
-        const vendorId = req.body.vendorId || "VENDOR_MANDIRI_01";
-        const sekolah = req.body.sekolah || "Tidak Diketahui";
-        
-        // Tangkap array harga bebas dari frontend
-        const logBahanArray = JSON.parse(req.body.logBahan || '[]');
-        
-        const fotoPathLocal = req.files['fotoMakanan'][0].path;
-        const notaPathLocal = req.files['fileNota'] ? req.files['fileNota'][0].path : '';
-        
-        const fotoUrl = `/uploads/${req.files['fotoMakanan'][0].filename}`;
-        const notaUrl = req.files['fileNota'] ? `/uploads/${req.files['fileNota'][0].filename}` : null;
+        const vendor = result.rows[0];
 
-        logInfo(`Menyusun payload untuk Python AI (Item belanja: ${logBahanArray.length} items)`);
+        // Cek status akun
+        if (vendor.status !== 'Disetujui') {
+            return res.status(403).json({
+                success: false,
+                message: `Akun Anda berstatus "${vendor.status}". Tunggu verifikasi dari Auditor.`
+            });
+        }
 
-        // Lempar data mentah ke Python, biarkan Python yang pusing mikir Fuzzy Logic & OCR!
-        const pythonPayload = {
-            nama_vendor: vendorId, 
-            harga_komoditas: logBahanArray, // Kirim list utuh
-            foto_path: fotoPathLocal,
-            nota_path: notaPathLocal // Kirim path nota untuk dibaca OCR
-        };
+        // Bandingkan password langsung (plain text)
+        if (password !== vendor.password) {
+            return res.status(401).json({
+                success: false,
+                message: 'Kata sandi salah.'
+            });
+        }
 
-        logInfo("Menembak ke Server Python (Port 5001)...");
-        const responseAI = await axios.post('http://localhost:5001/api/analisis-awal', pythonPayload);
+        // Hapus password sebelum dikirim ke frontend
+        delete vendor.password;
 
-        const hasilAITerbaca = responseAI.data;
-        logInfo("Balasan dari Python Diterima! Meneruskan ke Frontend.");
+        res.json({ success: true, data: vendor });
 
-        // Kembalikan ke Frontend dengan menyertakan status Dokumen (OCR)
+    } catch (err) {
+        console.error('[VENDOR LOGIN ERROR]', err.message);
+        res.status(500).json({ success: false, message: 'Kesalahan server internal.' });
+    }
+});
+
+// =========================================================
+// POST /api/vendor/register
+// =========================================================
+router.post('/register', async (req, res) => {
+    const {
+        nama_usaha, nib, npwp, alamat, email,
+        no_hp, penanggung_jawab, nik_pj, password
+    } = req.body;
+
+    if (!nama_usaha || !nib || !alamat || !email || !no_hp || !penanggung_jawab || !nik_pj || !password) {
+        return res.status(400).json({
+            success: false,
+            message: 'Semua field bertanda * wajib diisi.'
+        });
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({
+            success: false,
+            message: 'Kata sandi minimal 6 karakter.'
+        });
+    }
+
+    try {
+        // Cek NIB sudah terdaftar
+        const cekNib = await pool.query(
+            `SELECT id FROM vendors WHERE nib = $1`, [nib]
+        );
+        if (cekNib.rows.length > 0) {
+            return res.status(409).json({
+                success: false,
+                message: 'NIB sudah terdaftar. Silakan login.'
+            });
+        }
+
+        // Cek email sudah terdaftar
+        const cekEmail = await pool.query(
+            `SELECT id FROM vendors WHERE email = $1`, [email]
+        );
+        if (cekEmail.rows.length > 0) {
+            return res.status(409).json({
+                success: false,
+                message: 'Email sudah digunakan oleh akun lain.'
+            });
+        }
+
+        // Insert langsung tanpa hash
+        await pool.query(`
+            INSERT INTO vendors
+                (nama_usaha, nib, npwp, alamat, email, no_hp,
+                 penanggung_jawab, nik_pj, password, status, trust_score)
+            VALUES
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9, 'Menunggu Verifikasi', 70.00)
+        `, [
+            nama_usaha, nib, npwp || null, alamat, email,
+            no_hp, penanggung_jawab, nik_pj, password
+        ]);
+
         res.json({
             success: true,
-            data: { 
-                vendorId, sekolah, fileUrl: fotoUrl, notaUrl: notaUrl, 
-                ai_audit: {
-                    gizi: { 
-                        status: hasilAITerbaca.analisis_gizi.status, 
-                        detail: hasilAITerbaca.analisis_gizi.deteksi_visual 
-                    },
-                    dokumen: { 
-                        status: hasilAITerbaca.analisis_dokumen.status, 
-                        detail: hasilAITerbaca.analisis_dokumen.catatan 
-                    },
-                    harga: { 
-                        status: hasilAITerbaca.analisis_harga.status_audit, 
-                        detail: hasilAITerbaca.analisis_harga.catatan_sistem 
-                    }
-                } 
-            }
+            message: 'Pendaftaran berhasil dikirim. Tunggu verifikasi Auditor.'
         });
-    } catch (err) { 
-        logErr(`Gagal memproses AI Server: ${err.message}`);
-        res.status(500).json({ success: false, message: "Gagal memproses AI Server." }); 
+
+    } catch (err) {
+        console.error('[VENDOR REGISTER ERROR]', err.message);
+        res.status(500).json({ success: false, message: 'Kesalahan server internal.' });
     }
 });
 
 // =========================================================
-// API 2: EKSEKUSI SMART CONTRACT & DATABASE GOV
+// GET /api/vendor/profile
 // =========================================================
-router.post('/submit-ledger', async (req, res) => {
-    logInfo("Menerima instruksi Segel Smart Contract...");
+router.get('/profile', async (req, res) => {
+    const { nib } = req.query;
+
+    if (!nib) {
+        return res.status(400).json({ success: false, message: 'NIB diperlukan.' });
+    }
+
     try {
-        const { vendorId, sekolah, fileUrl, notaUrl, menu, kalori, giziStatus, hargaStatus } = req.body;
-        
-        logInfo("Menghubungkan ke node Blockchain (RPC)...");
-        const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
-        const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
-        
-        const contractABI = [{ "inputs": [ { "internalType": "string", "name": "_vendorId", "type": "string" }, { "internalType": "string", "name": "_fileUrl", "type": "string" }, { "internalType": "string", "name": "_giziStatus", "type": "string" }, { "internalType": "string", "name": "_hargaStatus", "type": "string" } ], "name": "submitReport", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "nonpayable", "type": "function" }];
-        const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, contractABI, wallet);
-        
-        logInfo(`Menulis transaksi ke Ledger untuk Vendor: ${vendorId}`);
-        const tx = await contract.submitReport(vendorId, fileUrl, giziStatus, hargaStatus, { gasLimit: 3000000 });
-        await tx.wait();
-        logInfo(`\x1b[32mTRANSAKSI BLOCKCHAIN BERHASIL!\x1b[0m Hash: ${tx.hash}`);
+        const result = await pool.query(
+            `SELECT id, nama_usaha, nib, email, alamat, no_hp,
+                    penanggung_jawab, status, trust_score, wallet_address
+             FROM vendors WHERE nib = $1`,
+            [nib]
+        );
 
-        logInfo("Menyimpan detail ke Database PostgreSQL...");
-        const queryText = `INSERT INTO laporan_harian (vendor_id, sekolah, file_url, nota_url, menu_makanan, kalori, gizi_status, harga_status, tx_hash) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`;
-        await pool.query(queryText, [vendorId, sekolah, fileUrl, notaUrl, menu, kalori, giziStatus, hargaStatus, tx.hash]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ success: false, message: 'Vendor tidak ditemukan.' });
+        }
 
-        logInfo("Pencairan Escrow Selesai. Data terkunci.");
-        res.json({ success: true, tx_hash: tx.hash });
-    } catch (err) { 
-        logErr(`Gagal segel ke Web3/DB: ${err.message}`);
-        res.status(500).json({ success: false, message: err.message }); 
+        res.json({ success: true, data: result.rows[0] });
+
+    } catch (err) {
+        console.error('[VENDOR PROFILE ERROR]', err.message);
+        res.status(500).json({ success: false });
     }
 });
 
 // =========================================================
-// API 3: AMBIL RIWAYAT LAPORAN VENDOR
+// GET /api/vendor/riwayat-rab
 // =========================================================
-router.get('/riwayat', async (req, res) => {
+router.get('/riwayat-rab', async (req, res) => {
+    const { vendor_id } = req.query;
+
+    if (!vendor_id) {
+        return res.status(400).json({ success: false, message: 'vendor_id diperlukan.' });
+    }
+
     try {
-        const result = await pool.query(`SELECT * FROM laporan_harian ORDER BY created_at DESC`);
+        const result = await pool.query(
+            `SELECT id, sekolah, jumlah_porsi, total_anggaran, status, 
+                    pesan_revisi, tx_hash, created_at
+             FROM rab_pengajuan
+             WHERE vendor_id = $1
+             ORDER BY created_at DESC`,
+            [vendor_id]
+        );
+
         res.json({ success: true, data: result.rows });
-    } catch (err) { 
-        logErr(`Gagal ambil riwayat: ${err.message}`);
-        res.status(500).json({ success: false, message: "Gagal mengambil riwayat." }); 
+
+    } catch (err) {
+        console.error('[VENDOR RAB ERROR]', err.message);
+        res.status(500).json({ success: false });
     }
 });
 
 // =========================================================
-// API 4: SUBMIT RAB
+// GET /api/vendor/trust-score-log
 // =========================================================
-router.post('/submit-rab', async (req, res) => {
-    logInfo("Menerima pengajuan RAB baru...");
-    try {
-        const { vendorId, sekolah, jumlahPorsi, totalAnggaran, rincianBahan } = req.body;
-        const queryText = `INSERT INTO rab_pengajuan (vendor_id, sekolah, jumlah_porsi, total_anggaran, status, rincian_bahan) VALUES ($1, $2, $3, $4, 'Menunggu Review Pemkot', $5) RETURNING id`;
-        const dbResult = await pool.query(queryText, [vendorId, sekolah, jumlahPorsi, totalAnggaran, rincianBahan]);
-        
-        logInfo(`RAB berhasil diajukan dengan ID: ${dbResult.rows[0].id}`);
-        res.json({ success: true, message: "RAB diajukan.", id: dbResult.rows[0].id });
-    } catch (err) { 
-        logErr(`Gagal simpan RAB: ${err.message}`);
-        res.status(500).json({ success: false, message: "Gagal menyimpan RAB." }); 
-    }
-});
+router.get('/trust-score-log', async (req, res) => {
+    const { vendor_id } = req.query;
 
-// =========================================================
-// API 5: AMBIL RIWAYAT RAB KHUSUS VENDOR
-// =========================================================
-router.get('/my-rab', async (req, res) => {
+    if (!vendor_id) {
+        return res.status(400).json({ success: false, message: 'vendor_id diperlukan.' });
+    }
+
     try {
-        const result = await pool.query(`SELECT * FROM rab_pengajuan WHERE vendor_id = '0x8F...A12B (Dapur Mandiri)' ORDER BY created_at DESC`);
+        const result = await pool.query(
+            `SELECT perubahan_nilai, skor_akhir, alasan, sumber_penilai, created_at
+             FROM trust_score_logs
+             WHERE vendor_id = $1
+             ORDER BY created_at DESC
+             LIMIT 20`,
+            [vendor_id]
+        );
+
         res.json({ success: true, data: result.rows });
-    } catch (err) { 
-        logErr(`Gagal ambil RAB vendor: ${err.message}`);
-        res.status(500).json({ success: false, message: "Gagal mengambil RAB." }); 
+
+    } catch (err) {
+        console.error('[TRUST LOG ERROR]', err.message);
+        res.status(500).json({ success: false });
     }
 });
 

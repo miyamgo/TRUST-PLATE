@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ringkasan Eksekutif | TRUST-PLATE</title>
+    <title>Statistik Eksekutif | TRUST-PLATE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -93,20 +93,12 @@
         }
 
         @keyframes pulse-green {
-            0% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
-            }
-
-            70% {
-                box-shadow: 0 0 0 8px rgba(46, 204, 113, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
         }
 
-        /* Cards & Metric styling */
+        /* Card Styling */
         .card-dash {
             border: none;
             border-radius: 12px;
@@ -115,21 +107,10 @@
         }
 
         /* Top Cards (Warna Garis Atas) */
-        .card-top-blue {
-            border-top: 4px solid var(--accent-blue);
-        }
-
-        .card-top-green {
-            border-top: 4px solid var(--accent-green);
-        }
-
-        .card-top-red {
-            border-top: 4px solid var(--accent-red);
-        }
-
-        .card-top-yellow {
-            border-top: 4px solid var(--accent-yellow);
-        }
+        .card-top-blue { border-top: 4px solid var(--accent-blue); }
+        .card-top-green { border-top: 4px solid var(--accent-green); }
+        .card-top-red { border-top: 4px solid var(--accent-red); }
+        .card-top-yellow { border-top: 4px solid var(--accent-yellow); }
 
         .metric-value {
             font-size: 2rem;
@@ -166,20 +147,9 @@
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.1);
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -193,31 +163,27 @@
                 <div class="sidebar-brand">
                     <i class="fas fa-shield-alt"></i>
                     <h4>TRUST-PLATE</h4>
-                    <small>Monitoring Program MBG</small>
+                    <small>Sistem Pengawasan MBG</small>
                 </div>
 
                 <ul class="nav flex-column mb-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat
-                            Kendali</a>
+                        <a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat Kendali (Pusdalops)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Dashboard
-                            Eksekutif</a>
+                        <a class="nav-link active" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Statistik Eksekutif</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check"></i>
-                            Pengadaan</a>
+                        <a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check"></i> Verifikasi Anggaran</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="gov-audit.html"><i class="fas fa-users-cog"></i> Investigasi Mitra
-                        </a>
+                        <a class="nav-link" href="gov-audit.html"><i class="fas fa-users-cog"></i> Pengawasan Realisasi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Jejak Audit</a>
+                        <a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Buku Besar Digital</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+                    <li class="nav-item border-top border-secondary border-opacity-25 mt-4 pt-3">
+                        <a class="nav-link text-danger" href="index.html"><i class="fas fa-sign-out-alt"></i> Akhiri Sesi</a>
                     </li>
                 </ul>
             </nav>
@@ -225,22 +191,21 @@
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
 
                 <div class="d-flex flex-column flex-md-row align-items-center mb-4 pb-3 border-bottom">
-
                     <div class="d-flex align-items-center pe-4 me-4 border-end">
                         <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm"
                             style="width: 55px; height: 55px; font-size: 1.4rem; font-weight: bold;">
                             AP
                         </div>
                         <div>
-                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor)</h4>
+                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor Utama)</h4>
                             <div class="d-flex align-items-center gap-3 mt-1">
                                 <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm"
                                     style="font-size: 0.85rem; font-family: monospace;">ID: GOV-AUDIT-01</span>
                                 <div class="d-flex flex-column justify-content-center" style="line-height: 1.2;">
                                     <span class="text-muted fw-bold"
-                                        style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS JARINGAN</span>
+                                        style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS NODE JARINGAN</span>
                                     <span class="text-success fw-bold" style="font-size: 0.9rem;">
-                                        <span class="live-indicator me-1"></span> SYNCED
+                                        <span class="live-indicator me-1"></span> TERHUBUNG
                                     </span>
                                 </div>
                             </div>
@@ -249,12 +214,12 @@
 
                     <div class="flex-grow-1 d-flex justify-content-between align-items-center">
                         <div>
-                            <h2 class="fw-bold mb-1" style="color: #2c3e50;">Dashboard Eksekutif</h2>
-                            <p class="text-muted mb-0" style="font-size: 0.9rem;">Wilayah: Provinsi Jawa Tengah |
-                                Periode: Maret 2026</p>
+                            <h2 class="fw-bold mb-1" style="color: #2c3e50;">Laporan Analitik Eksekutif</h2>
+                            <p class="text-muted mb-0" style="font-size: 0.9rem;">Wilayah Administratif: Provinsi Jawa Barat |
+                                Periode Transaksi: Maret 2026</p>
                         </div>
-                        <button class="btn btn-outline-primary fw-bold bg-white"><i class="fas fa-download me-2"></i>
-                            Unduh Laporan PDF</button>
+                        <button class="btn btn-outline-primary fw-bold bg-white" onclick="window.print()"><i class="fas fa-download me-2"></i>
+                            Unduh Laporan BPK</button>
                     </div>
                 </div>
 
@@ -262,8 +227,8 @@
                     <div class="col-12 col-sm-6 col-xl-3">
                         <div class="card card-dash card-top-blue h-100 p-3">
                             <div class="card-body d-flex flex-column p-0">
-                                <div class="metric-label mb-2">Total Anggaran Disalurkan</div>
-                                <div class="metric-value mt-auto">Rp 12.8 M</div>
+                                <div class="metric-label mb-2">AKUMULASI DANA TERDISTRIBUSI</div>
+                                <div class="metric-value mt-auto" id="valTotalAnggaran">Rp 0</div>
                             </div>
                         </div>
                     </div>
@@ -271,8 +236,8 @@
                     <div class="col-12 col-sm-6 col-xl-3">
                         <div class="card card-dash card-top-green h-100 p-3">
                             <div class="card-body d-flex flex-column p-0">
-                                <div class="metric-label mb-2">Porsi Sesuai Gizi (AI)</div>
-                                <div class="metric-value text-success mt-auto">845,210</div>
+                                <div class="metric-label mb-2">PORSI MEMENUHI STANDAR GIZI</div>
+                                <div class="metric-value text-success mt-auto" id="valPorsiGizi">0</div>
                             </div>
                         </div>
                     </div>
@@ -280,8 +245,8 @@
                     <div class="col-12 col-sm-6 col-xl-3">
                         <div class="card card-dash card-top-red h-100 p-3">
                             <div class="card-body d-flex flex-column p-0">
-                                <div class="metric-label mb-2">Potensi Mark-up Dicegah</div>
-                                <div class="metric-value text-danger mt-auto">Rp 4.2 M</div>
+                                <div class="metric-label mb-2">EFISIENSI DANA (CEGAH MARK-UP)</div>
+                                <div class="metric-value text-danger mt-auto" id="valMarkupDicegah">Rp 0</div>
                             </div>
                         </div>
                     </div>
@@ -289,9 +254,9 @@
                     <div class="col-12 col-sm-6 col-xl-3">
                         <div class="card card-dash card-top-yellow h-100 p-3">
                             <div class="card-body d-flex flex-column p-0">
-                                <div class="metric-label mb-2">Vendor Perlu Diinvestigasi</div>
-                                <div class="metric-value text-warning mt-auto">14 <span
-                                        class="fs-5 text-muted fw-normal">Dapur</span></div>
+                                <div class="metric-label mb-2">MITRA PENGAWASAN KHUSUS</div>
+                                <div class="metric-value text-warning mt-auto" id="valVendorBermasalah">0 <span
+                                        class="fs-5 text-muted fw-normal">Entitas</span></div>
                             </div>
                         </div>
                     </div>
@@ -301,9 +266,8 @@
                     <div class="col-lg-8">
                         <div class="card card-dash h-100">
                             <div class="card-header bg-white pt-4 pb-2 border-0 px-4">
-                                <h6 class="fw-bold mb-1 text-dark">Tren Deteksi Anomali Harga (Isolation Forest)</h6>
-                                <p class="text-muted small mb-0">Jumlah laporan terindikasi mark-up harian vs Laporan
-                                    Wajar</p>
+                                <h6 class="fw-bold mb-1 text-dark">Tren Deteksi Anomali Harga (Algoritma Isolation Forest)</h6>
+                                <p class="text-muted small mb-0">Komparasi harian: Laporan wajar vs Terindikasi Mark-up Anggaran</p>
                             </div>
                             <div class="card-body px-4 pb-4">
                                 <canvas id="fraudTrendChart" height="100"></canvas>
@@ -315,7 +279,7 @@
                         <div class="card card-dash h-100">
                             <div class="card-header bg-white pt-4 pb-2 border-0 px-4">
                                 <h6 class="fw-bold mb-1 text-dark">Kepatuhan Gizi Visual (MobileNetV2)</h6>
-                                <p class="text-muted small mb-0">Distribusi status menu dari foto</p>
+                                <p class="text-muted small mb-0">Distribusi kelayakan menu dari analisis citra BAP</p>
                             </div>
                             <div class="card-body d-flex justify-content-center align-items-center pb-4">
                                 <canvas id="nutritionPieChart"></canvas>
@@ -329,30 +293,27 @@
                         class="card-header bg-white py-3 px-4 border-bottom d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="fw-bold mb-1 text-danger"><i
-                                    class="fas fa-circle text-danger pulse-red me-2"></i>Peringatan Prioritas: Tindak
-                                Lanjut Inspeksi Fisik</h6>
-                            <p class="text-muted small mb-0">Vendor dengan skor integritas terendah yang memerlukan
-                                audit lapangan segera.</p>
+                                    class="fas fa-circle text-danger pulse-red me-2"></i>Peringatan Prioritas Tinggi (Tindak Lanjut Inspeksi Fisik)</h6>
+                            <p class="text-muted small mb-0">Entitas vendor dengan skor integritas terendah yang memerlukan audit lapangan segera.</p>
                         </div>
-                        <button class="btn btn-sm btn-danger fw-bold"><i class="fas fa-print me-1"></i> Cetak Surat
-                            Perintah Audit</button>
+                        <button class="btn btn-sm btn-danger fw-bold"><i class="fas fa-print me-1"></i> Cetak Surat Perintah Audit</button>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover table-alert mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="ps-4 py-3">Nama Dapur Umum</th>
-                                        <th class="py-3">Lokasi</th>
-                                        <th class="py-3">Indikasi Mesin (AI)</th>
-                                        <th class="py-3">Potensi Kebocoran</th>
-                                        <th class="py-3">Aksi</th>
+                                        <th class="ps-4 py-3">Entitas Terlapor</th>
+                                        <th class="py-3">Wilayah Administratif</th>
+                                        <th class="py-3">Indikasi Mesin Audit (AI)</th>
+                                        <th class="py-3">Estimasi Kebocoran Anggaran</th>
+                                        <th class="py-3">Tindakan Otoritas</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="ps-4 fw-bold text-dark">Katering Maju Mundur</td>
-                                        <td class="text-muted">Kec. Semarang Utara</td>
+                                        <td class="ps-4 fw-bold text-dark">Dapur Sejahtera Cikarang</td>
+                                        <td class="text-muted">Kec. Cikarang Selatan</td>
                                         <td><span
                                                 class="badge bg-danger bg-opacity-10 text-danger border border-danger px-2 py-1">Mark-up
                                                 Daging Ayam (>35%)</span></td>
@@ -360,27 +321,27 @@
                                         <td>
                                             <button class="btn btn-sm btn-outline-dark fw-bold" data-bs-toggle="modal"
                                                 data-bs-target="#investigasiModal">
-                                                <i class="fas fa-search me-1"></i> Detail Bukti
+                                                <i class="fas fa-search me-1"></i> Detail Forensik
                                             </button>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="ps-4 fw-bold text-dark">CV. Berkah Abadi Food</td>
-                                        <td class="text-muted">Kec. Gayamsari</td>
+                                        <td class="ps-4 fw-bold text-dark">CV. Pangan Abadi Jabar</td>
+                                        <td class="text-muted">Kec. Bekasi Barat</td>
                                         <td><span
                                                 class="badge bg-warning bg-opacity-10 text-warning border border-warning text-dark px-2 py-1">Gizi
-                                                Rendah (Porsi Karbo Berlebih)</span></td>
+                                                Substandar (Porsi Karbo Berlebih)</span></td>
                                         <td class="text-muted">-</td>
                                         <td>
                                             <button class="btn btn-sm btn-outline-dark fw-bold" data-bs-toggle="modal"
                                                 data-bs-target="#investigasiModal">
-                                                <i class="fas fa-search me-1"></i> Detail Bukti
+                                                <i class="fas fa-search me-1"></i> Detail Forensik
                                             </button>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="ps-4 fw-bold text-dark">Dapur Sehat Sejahtera</td>
-                                        <td class="text-muted">Kec. Genuk</td>
+                                        <td class="ps-4 fw-bold text-dark">PT. Boga Maju Bandung</td>
+                                        <td class="text-muted">Kec. Andir</td>
                                         <td><span
                                                 class="badge bg-danger bg-opacity-10 text-danger border border-danger px-2 py-1">Anomali
                                                 Harga Telur (>20%)</span></td>
@@ -388,7 +349,7 @@
                                         <td>
                                             <button class="btn btn-sm btn-outline-dark fw-bold" data-bs-toggle="modal"
                                                 data-bs-target="#investigasiModal">
-                                                <i class="fas fa-search me-1"></i> Detail Bukti
+                                                <i class="fas fa-search me-1"></i> Detail Forensik
                                             </button>
                                         </td>
                                     </tr>
@@ -418,16 +379,15 @@
                     <div class="bg-white p-4 border-bottom">
                         <div class="row align-items-center">
                             <div class="col-md-6">
-                                <h6 class="text-muted mb-1 small fw-bold">VENDOR TERLAPOR</h6>
-                                <h5 class="fw-bold text-dark mb-1">Katering Maju Mundur</h5>
-                                <span class="badge bg-danger px-2 py-1">Risiko Tinggi (Mark-up)</span>
+                                <h6 class="text-muted mb-1 small fw-bold">ENTITAS TERLAPOR</h6>
+                                <h5 class="fw-bold text-dark mb-1">Dapur Sejahtera Cikarang</h5>
+                                <span class="badge bg-danger px-2 py-1">Risiko Tinggi (Mark-up Anggaran)</span>
                             </div>
                             <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                                <h6 class="text-muted mb-1 small fw-bold">BLOCKCHAIN TX HASH (Bukti Permanen)</h6>
+                                <h6 class="text-muted mb-1 small fw-bold">BLOCKCHAIN TX HASH (Bukti Imutabel)</h6>
                                 <code
                                     class="text-primary bg-primary bg-opacity-10 px-2 py-1 rounded fs-6 border border-primary border-opacity-25">0x5d9b...2f99a8c1</code>
-                                <div class="small text-muted mt-2 fw-bold"><i class="fas fa-clock me-1"></i> Waktu
-                                    Lapor: 11 Maret 2026, 07:15 WIB</div>
+                                <div class="small text-muted mt-2 fw-bold"><i class="fas fa-clock me-1"></i> Waktu Lapor: 11 Maret 2026, 07:15 WIB</div>
                             </div>
                         </div>
                     </div>
@@ -435,16 +395,16 @@
                     <div class="row g-0">
                         <div class="col-md-7 p-4 border-end bg-white">
                             <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i
-                                    class="fas fa-file-invoice-dollar text-warning me-2"></i>Audit Struk vs Harga PIHPS
+                                    class="fas fa-file-invoice-dollar text-warning me-2"></i>Komparasi Struk Pembelian vs API HET Nasional (PIHPS)
                             </h6>
                             <div class="table-responsive">
                                 <table class="table table-sm table-bordered mb-3">
                                     <thead class="table-light small text-muted">
                                         <tr>
                                             <th>Komoditas</th>
-                                            <th class="text-end">Harga Vendor</th>
-                                            <th class="text-end">Batas PIHPS</th>
-                                            <th class="text-center">Status</th>
+                                            <th class="text-end">Harga Klaim Vendor</th>
+                                            <th class="text-end">Batas HET Pusat</th>
+                                            <th class="text-center">Status Audit</th>
                                         </tr>
                                     </thead>
                                     <tbody class="align-middle">
@@ -460,7 +420,7 @@
                                             <td class="text-end fw-bold text-danger">Rp 55.000</td>
                                             <td class="text-end fw-bold">Rp 39.000</td>
                                             <td class="text-center"><i class="fas fa-times-circle text-danger fs-5"
-                                                    title="Anomali Mark-up!"></i></td>
+                                                    title="Anomali Mark-up Terdeteksi!"></i></td>
                                         </tr>
                                         <tr>
                                             <td>Telur Ayam</td>
@@ -470,7 +430,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Minyak Curah</td>
+                                            <td>Minyak Goreng Curah</td>
                                             <td class="text-end">Rp 16.000</td>
                                             <td class="text-end">Rp 16.500</td>
                                             <td class="text-center"><i class="fas fa-check-circle text-success"></i>
@@ -480,25 +440,24 @@
                                 </table>
                             </div>
                             <div class="alert alert-danger py-2 small mb-0 border border-danger">
-                                <strong>Kesimpulan Mesin:</strong> Terdapat selisih <b>+Rp 16.000/Kg (41% Mark-up)</b>
-                                pada komoditas Daging Ayam.
+                                <i class="fas fa-robot me-1"></i> <strong>Kesimpulan Algoritma:</strong> Ditemukan deviasi sebesar <b>+Rp 16.000/Kg (Mark-up 41%)</b> pada komoditas Daging Ayam. Dokumen terindikasi manipulatif.
                             </div>
                         </div>
 
                         <div class="col-md-5 p-4 bg-light">
                             <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i
-                                    class="fas fa-camera text-primary me-2"></i>Audit Gizi Visual</h6>
+                                    class="fas fa-camera text-primary me-2"></i>Audit Gizi Visual (Forensik)</h6>
                             <div class="bg-dark rounded mb-3 d-flex align-items-center justify-content-center shadow-inner"
                                 style="height: 160px; overflow: hidden; position: relative;">
                                 <div class="text-center text-white-50 p-3" style="position: absolute; z-index: 1;">
-                                    <i class="fas fa-image fs-1 mb-2"></i><br><small>Foto Laporan Vendor</small>
+                                    <i class="fas fa-image fs-1 mb-2"></i><br><small>Citra Berita Acara (BAP)</small>
                                 </div>
                             </div>
-                            <h6 class="small fw-bold text-muted mb-2">Deteksi MobileNetV2:</h6>
+                            <h6 class="small fw-bold text-muted mb-2">Analisis Citra MobileNetV2:</h6>
                             <ul class="small mb-0 ps-3 text-dark lh-lg">
-                                <li>Karbohidrat (Nasi): <span class="text-success fw-bold">Terdeteksi</span></li>
-                                <li>Protein (Ayam): <span class="text-danger fw-bold">Porsi Kurang</span></li>
-                                <li>Sayur/Serat: <span class="text-danger fw-bold">Tidak Ditemukan</span></li>
+                                <li>Karbohidrat (Nasi): <span class="text-success fw-bold">Sesuai Spek</span></li>
+                                <li>Protein (Ayam): <span class="text-danger fw-bold">Volume Defisit</span></li>
+                                <li>Sayur/Serat: <span class="text-danger fw-bold">Tidak Terdeteksi</span></li>
                             </ul>
                         </div>
                     </div>
@@ -506,12 +465,12 @@
 
                 <div class="modal-footer bg-white border-top py-3 px-4 d-flex justify-content-between">
                     <button type="button" class="btn btn-outline-secondary fw-bold px-4"
-                        data-bs-dismiss="modal">Tutup</button>
+                        data-bs-dismiss="modal">Tutup Dokumen</button>
                     <div>
                         <button type="button" class="btn btn-warning fw-bold me-2 text-dark shadow-sm"><i
-                                class="fas fa-envelope me-2"></i>Kirim SP-1</button>
+                                class="fas fa-envelope me-2"></i>Terbitkan SP-1</button>
                         <button type="button" class="btn btn-danger fw-bold shadow"><i
-                                class="fas fa-ban me-2"></i>Bekukan Dana</button>
+                                class="fas fa-ban me-2"></i>Bekukan Distribusi Dana</button>
                     </div>
                 </div>
             </div>
@@ -519,67 +478,90 @@
     </div>
 
     <script>
-        // 1. Line Chart: Tren Anomali (Isolation Forest)
-        const ctxTrend = document.getElementById('fraudTrendChart').getContext('2d');
-        const trendChart = new Chart(ctxTrend, {
-            type: 'line',
-            data: {
-                labels: ['1 Mar', '3 Mar', '5 Mar', '7 Mar', '9 Mar', '11 Mar', '13 Mar'],
-                datasets: [
-                    {
-                        label: 'Laporan Wajar (Normal)',
-                        data: [120, 135, 125, 140, 138, 142, 145],
-                        borderColor: '#2ecc71',
-                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Terdeteksi Anomali (Mark-up)',
-                        data: [12, 18, 15, 8, 5, 4, 2],
-                        borderColor: '#e74c3c',
-                        backgroundColor: 'rgba(231, 76, 60, 0.1)',
-                        borderWidth: 2,
-                        fill: true,
-                        tension: 0.4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top', labels: { usePointStyle: true, padding: 20 } }
-                },
-                scales: {
-                    y: { beginAtZero: true, grid: { borderDash: [2, 4] } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
+        // Fungsi narik data statistik dari DB
+        function fetchStats() {
+            fetch('http://localhost:3000/api/gov/dashboard-stats')
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        const data = result.data;
+                        const formatRupiahSingkat = (angka) => {
+                            if (angka >= 1000000000) return 'Rp ' + (angka / 1000000000).toFixed(1) + ' Miliar';
+                            if (angka >= 1000000) return 'Rp ' + (angka / 1000000).toFixed(1) + ' Juta';
+                            return 'Rp ' + angka.toLocaleString('id-ID');
+                        };
 
-        // 2. Doughnut Chart: Kepatuhan Gizi (MobileNetV2)
-        const ctxPie = document.getElementById('nutritionPieChart').getContext('2d');
-        const pieChart = new Chart(ctxPie, {
-            type: 'doughnut',
-            data: {
-                labels: ['Sesuai Standar MBG', 'Porsi Kurang', 'Tidak Layak'],
-                datasets: [{
-                    data: [82, 15, 3],
-                    backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'],
-                    borderWidth: 0,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '70%',
-                plugins: {
-                    legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } }
+                        document.getElementById('valTotalAnggaran').innerText = formatRupiahSingkat(Number(data.total_anggaran) || 0);
+                        document.getElementById('valPorsiGizi').innerText = (Number(data.porsi_gizi) || 0).toLocaleString('id-ID');
+                        document.getElementById('valMarkupDicegah').innerText = formatRupiahSingkat(Number(data.markup_dicegah) || 0);
+                        document.getElementById('valVendorBermasalah').innerHTML = `${Number(data.vendor_bermasalah) || 0} <span class="fs-5 text-muted fw-normal">Entitas</span>`;
+                    }
+                })
+                .catch(error => console.error("Gagal sinkronisasi data:", error));
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Panggil API Statistik
+            fetchStats();
+
+            // 1. Line Chart: Tren Anomali (Isolation Forest)
+            const ctxTrend = document.getElementById('fraudTrendChart').getContext('2d');
+            new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: ['1 Mar', '3 Mar', '5 Mar', '7 Mar', '9 Mar', '11 Mar', '13 Mar'],
+                    datasets: [
+                        {
+                            label: 'Laporan Tervalidasi Wajar',
+                            data: [120, 135, 125, 140, 138, 142, 145],
+                            borderColor: '#2ecc71',
+                            backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Deteksi Anomali (Mark-up Harga)',
+                            data: [12, 18, 15, 8, 5, 4, 2],
+                            borderColor: '#e74c3c',
+                            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top', labels: { usePointStyle: true, padding: 20 } } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { borderDash: [2, 4] } },
+                        x: { grid: { display: false } }
+                    }
                 }
-            }
+            });
+
+            // 2. Doughnut Chart: Kepatuhan Gizi (MobileNetV2)
+            const ctxPie = document.getElementById('nutritionPieChart').getContext('2d');
+            new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sesuai Standar MBG', 'Porsi Kurang', 'Status Bahaya'],
+                    datasets: [{
+                        data: [82, 15, 3],
+                        backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20 } } }
+                }
+            });
         });
     </script>
 

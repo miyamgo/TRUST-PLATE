@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pusat Komando | TRUST-PLATE</title>
+    <title>Pusat Kendali | TRUST-PLATE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -181,6 +181,16 @@
                 box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
             }
         }
+        
+        /* Tambahan CSS Keterangan Warna Peta */
+        .map-legend {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 0.8rem;
+            border: 1px solid #e2e8f0;
+        }
     </style>
 </head>
 
@@ -193,31 +203,27 @@
                 <div class="sidebar-brand">
                     <i class="fas fa-shield-alt"></i>
                     <h4>TRUST-PLATE</h4>
-                    <small>Monitoring Program MBG</small>
+                    <small>Sistem Pengawasan MBG</small>
                 </div>
 
                 <ul class="nav flex-column mb-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat
-                            Kendali</a>
+                        <a class="nav-link active" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat Kendali (Pusdalops)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Dashboard
-                            Eksekutif</a>
+                        <a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Statistik Eksekutif</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check"></i>
-                            Pengadaan</a>
+                        <a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check"></i> Verifikasi Anggaran</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="gov-audit.html"><i class="fas fa-users-cog"></i> Investigasi Mitra
-                        </a>
+                        <a class="nav-link" href="gov-audit.html"><i class="fas fa-users-cog"></i> Pengawasan Realisasi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Jejak Audit</a>
+                        <a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Buku Besar Digital</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+                        <a class="nav-link" href="index.html"><i class="fas fa-sign-out-alt"></i> Akhiri Sesi</a>
                     </li>
                 </ul>
             </nav>
@@ -232,15 +238,15 @@
                             AP
                         </div>
                         <div>
-                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor)</h4>
+                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor Utama)</h4>
                             <div class="d-flex align-items-center gap-3 mt-1">
                                 <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm"
                                     style="font-size: 0.85rem; font-family: monospace;">ID: GOV-AUDIT-01</span>
                                 <div class="d-flex flex-column justify-content-center" style="line-height: 1.2;">
                                     <span class="text-muted fw-bold"
-                                        style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS JARINGAN</span>
+                                        style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS NODE JARINGAN</span>
                                     <span class="text-success fw-bold" style="font-size: 0.9rem;">
-                                        <span class="live-indicator me-1"></span> SYNCED
+                                        <span class="live-indicator me-1"></span> TERHUBUNG
                                     </span>
                                 </div>
                             </div>
@@ -248,36 +254,35 @@
                     </div>
 
                     <div>
-                        <h2 class="fw-bold mb-1" style="color: #2c3e50;">Pusat Kendali Operasi</h2>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Wilayah: Provinsi Jawa Tengah | Periode:
-                            12 Maret 2026</p>
+                        <h2 class="fw-bold mb-1" style="color: #2c3e50;">Pusat Kendali Operasional</h2>
+                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Wilayah Administratif: Kota Bandung, Jawa Barat | Transmisi Data: <i>Real-time CSV Integrator</i></p>
                     </div>
                 </div>
 
                 <div class="row g-3 mb-4">
                     <div class="col-md-3">
                         <div class="card card-dash card-top-blue h-100 p-3">
-                            <div class="metric-title">TOTAL ANGGARAN DISALURKAN</div>
+                            <div class="metric-title">AKUMULASI DANA TERDISTRIBUSI</div>
                             <h3 class="metric-value">Rp 12.8 M</h3>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card card-dash card-top-green h-100 p-3">
-                            <div class="metric-title">PORSI SESUAI GIZI (AI)</div>
+                            <div class="metric-title">PORSI MEMENUHI STANDAR GIZI</div>
                             <h3 class="metric-value" style="color: var(--accent-green);">845,210</h3>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card card-dash card-top-red h-100 p-3">
-                            <div class="metric-title">POTENSI MARK-UP DICEGAH</div>
+                            <div class="metric-title">EFISIENSI DANA (CEGAH MARK-UP)</div>
                             <h3 class="metric-value" style="color: var(--accent-red);">Rp 4.2 M</h3>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card card-dash card-top-yellow h-100 p-3">
-                            <div class="metric-title">VENDOR PERLU DIINVESTIGASI</div>
-                            <h3 class="metric-value" style="color: #d35400;">14 <span
-                                    class="fs-5 text-muted fw-normal">Dapur</span></h3>
+                            <div class="metric-title">MITRA DALAM PENGAWASAN KHUSUS</div>
+                            <h3 class="metric-value" style="color: #d35400;">3 <span
+                                    class="fs-5 text-muted fw-normal">Entitas</span></h3>
                         </div>
                     </div>
                 </div>
@@ -288,12 +293,18 @@
                             <div
                                 class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
                                 <h6 class="fw-bold mb-0 text-dark"><i
-                                        class="fas fa-map-marked-alt text-primary me-2"></i>Radar Geospasial Dapur Umum
-                                    (SPPG)</h6>
+                                        class="fas fa-map-marked-alt text-primary me-2"></i>Sistem Pemantauan Geospasial Sasaran
+                                </h6>
                                 <span class="badge bg-success bg-opacity-10 text-success border border-success"><i
-                                        class="fas fa-satellite me-1"></i> Sat-Link Aktif</span>
+                                        class="fas fa-database me-1"></i> Sinkronisasi CSV: Aktif</span>
                             </div>
                             <div class="card-body p-0 position-relative">
+                                <div class="position-absolute top-0 end-0 m-3 map-legend" style="z-index: 999;">
+                                    <div class="d-flex align-items-center mb-2"><div style="width:12px;height:12px;background:#bdc3c7;border-radius:50%;margin-right:8px;"></div> <span class="fw-bold text-secondary">Standby</span> <span class="text-muted ms-1">(Belum Ada Laporan)</span></div>
+                                    <div class="d-flex align-items-center mb-2"><div style="width:12px;height:12px;background:#16a085;border-radius:50%;margin-right:8px;"></div> <span class="fw-bold text-success">Aman</span> <span class="text-muted ms-1">(Lolos Validasi)</span></div>
+                                    <div class="d-flex align-items-center"><div style="width:12px;height:12px;background:#e74c3c;border-radius:50%;margin-right:8px;"></div> <span class="fw-bold text-danger">Bahaya</span> <span class="text-muted ms-1">(Indikasi Pelanggaran)</span></div>
+                                </div>
+                                
                                 <div id="govMap"
                                     style="height: 450px; width: 100%; border-bottom-left-radius: 12px; border-bottom-right-radius: 12px; z-index: 1;">
                                 </div>
@@ -305,8 +316,8 @@
                         <div class="card card-dash h-100 border-0">
                             <div
                                 class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
-                                <h6 class="fw-bold mb-0 text-danger"><i class="fas fa-bell me-2"></i>Live Alert (Publik
-                                    & AI)</h6>
+                                <h6 class="fw-bold mb-0 text-danger"><i class="fas fa-bell me-2"></i>Sistem Peringatan Dini (EWS)
+                                </h6>
                                 <span class="pulse-red"></span>
                             </div>
                             <div class="card-body p-0 feed-container" style="height: 450px; overflow-y: auto;">
@@ -314,44 +325,36 @@
                                 <div
                                     class="p-3 border-bottom bg-danger bg-opacity-10 border-start border-4 border-danger">
                                     <div class="d-flex justify-content-between mb-1">
-                                        <span class="badge bg-danger font-monospace">TRP-992-BX4</span>
+                                        <span class="badge bg-danger font-monospace">ADUAN-PUB-992</span>
                                         <small class="text-danger fw-bold" style="font-size: 0.7rem;">BARU SAJA</small>
                                     </div>
-                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Laporan Publik:
-                                        Makanan Basi & Porsi Kurang</h6>
+                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Aduan Publik: Mutu Pangan Substandar</h6>
                                     <div class="small text-muted mb-2"><i class="fas fa-school text-danger me-1"></i>
-                                        SDN 01 Banyumanik</div>
-                                    <p class="text-dark mb-3" style="font-size: 0.8rem; line-height: 1.4;">"Nasi yang
-                                        diterima siswa berbau menyengat dan lauk ayam sangat kecil tidak sesuai
-                                        standar."</p>
-                                    <button class="btn btn-danger w-100 btn-sm fw-bold shadow-sm">Bekukan Dana Vendor &
-                                        Investigasi</button>
+                                        SDN Sekeloa</div>
+                                    <p class="text-dark mb-3" style="font-size: 0.8rem; line-height: 1.4;">Laporan resmi dari komite sekolah menyatakan bahwa mutu karbohidrat dan volume protein hewani berada di bawah Standar Pelayanan Minimal (SPM).</p>
+                                    <button class="btn btn-danger w-100 btn-sm fw-bold shadow-sm">Tangguhkan Dana & Instruksikan Audit</button>
                                 </div>
 
                                 <div
                                     class="p-3 border-bottom border-start border-4 border-warning bg-warning bg-opacity-10">
                                     <div class="d-flex justify-content-between mb-1">
-                                        <span class="badge bg-warning text-dark font-monospace">AI-FLAG-771</span>
+                                        <span class="badge bg-warning text-dark font-monospace">AI-FORENSIK-771</span>
                                         <small class="text-muted" style="font-size: 0.7rem;">1 Jam Lalu</small>
                                     </div>
-                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Anomali Harga
-                                        (Mark-up)</h6>
+                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Deteksi AI: Indikasi Mark-up Anggaran</h6>
                                     <div class="small text-muted mb-2"><i class="fas fa-store text-warning me-1"></i>
-                                        Dapur Sejahtera Ngaliyan</div>
-                                    <p class="text-dark mb-0" style="font-size: 0.8rem; line-height: 1.4;">Isolation
-                                        Forest mendeteksi harga Telur Rp 38.000/Kg (HET PIHPS: Rp 28.000). Transaksi
-                                        Auto-Reject.</p>
+                                        SMPN 5 Bandung</div>
+                                    <p class="text-dark mb-0" style="font-size: 0.8rem; line-height: 1.4;">Algoritma <i>Isolation Forest</i> menemukan deviasi harga Telur melebihi batas toleransi HET Nasional. Pengajuan RAB ditolak secara otomatis.</p>
                                 </div>
 
                                 <div class="p-3 border-bottom border-start border-4 border-secondary">
                                     <div class="d-flex justify-content-between mb-1">
-                                        <span class="badge bg-secondary font-monospace">SYS-WARN-02</span>
+                                        <span class="badge bg-secondary font-monospace">SYS-AUDIT-042</span>
                                         <small class="text-muted" style="font-size: 0.7rem;">3 Jam Lalu</small>
                                     </div>
-                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Keterlambatan
-                                        Laporan</h6>
+                                    <h6 class="fw-bold text-dark mb-1 mt-2" style="font-size: 0.9rem;">Pelanggaran Tenggat Waktu (SLA)</h6>
                                     <div class="small text-muted mb-0"><i class="fas fa-clock text-secondary me-1"></i>
-                                        12 Dapur Umum belum submit foto hari ini.</div>
+                                        Terdapat 5 entitas Dapur Mitra yang belum mengunggah Berita Acara Pemeriksaan (BAP) hari ini.</div>
                                 </div>
 
                             </div>
@@ -363,8 +366,7 @@
                     <div class="col-md-6">
                         <div class="card card-dash h-100 border-0 shadow-sm">
                             <div class="card-header bg-white border-bottom py-3">
-                                <h6 class="fw-bold mb-0 text-success"><i class="fas fa-trophy me-2"></i>Vendor Kinerja
-                                    Terbaik</h6>
+                                <h6 class="fw-bold mb-0 text-success"><i class="fas fa-trophy me-2"></i>Indeks Kinerja Mitra Terbaik</h6>
                             </div>
                             <div class="card-body p-0">
                                 <table class="table table-hover mb-0 align-middle">
@@ -375,13 +377,11 @@
                                             </td>
                                             <td>
                                                 <div class="fw-bold text-dark fs-6">Dapur Mandiri Berkah</div>
-                                                <code
-                                                    class="text-muted bg-light px-1 rounded small">ID: 0x8F...A12B</code>
+                                                <code class="text-muted bg-light px-1 rounded small">ID: 0x8F...A12B</code>
                                             </td>
                                             <td class="text-end pe-4">
                                                 <div class="fs-4 fw-bold text-success">98.5</div>
-                                                <small class="text-muted" style="font-size: 0.65rem;">TRUST
-                                                    SCORE</small>
+                                                <small class="text-muted" style="font-size: 0.65rem;">INDEKS KEPERCAYAAN</small>
                                             </td>
                                         </tr>
                                         <tr>
@@ -390,13 +390,11 @@
                                             </td>
                                             <td>
                                                 <div class="fw-bold text-dark fs-6">CV. Pangan Nusantara</div>
-                                                <code
-                                                    class="text-muted bg-light px-1 rounded small">ID: 0x2A...C449</code>
+                                                <code class="text-muted bg-light px-1 rounded small">ID: 0x2A...C449</code>
                                             </td>
                                             <td class="text-end pe-4">
                                                 <div class="fs-4 fw-bold text-success">96.2</div>
-                                                <small class="text-muted" style="font-size: 0.65rem;">TRUST
-                                                    SCORE</small>
+                                                <small class="text-muted" style="font-size: 0.65rem;">INDEKS KEPERCAYAAN</small>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -408,36 +406,31 @@
                     <div class="col-md-6">
                         <div class="card card-dash h-100 border-0 shadow-sm">
                             <div class="card-header bg-white border-bottom py-3">
-                                <h6 class="fw-bold mb-0 text-danger"><i class="fas fa-skull-crossbones me-2"></i>Vendor
-                                    Blacklist Watch</h6>
+                                <h6 class="fw-bold mb-0 text-danger"><i class="fas fa-skull-crossbones me-2"></i>Daftar Pemantauan Khusus (Blacklist)</h6>
                             </div>
                             <div class="card-body p-0">
                                 <table class="table table-hover mb-0 align-middle">
                                     <tbody>
                                         <tr class="bg-danger bg-opacity-10 border-start border-4 border-danger">
-                                            <td class="ps-3" style="width: 50px;"><i
-                                                    class="fas fa-exclamation-circle text-danger fs-4"></i></td>
+                                            <td class="ps-3" style="width: 50px;"><i class="fas fa-exclamation-circle text-danger fs-4"></i></td>
                                             <td>
-                                                <div class="fw-bold text-dark fs-6">Dapur Sejahtera Ngaliyan</div>
-                                                <span class="badge bg-danger mt-1">SP-1 (Mark-up Harga)</span>
+                                                <div class="fw-bold text-dark fs-6">Dapur Sejahtera Cikarang</div>
+                                                <span class="badge bg-danger mt-1">Surat Peringatan 1 (Mark-up)</span>
                                             </td>
                                             <td class="text-end pe-4">
                                                 <div class="fs-4 fw-bold text-danger">45.0</div>
-                                                <small class="text-muted" style="font-size: 0.65rem;">TRUST
-                                                    SCORE</small>
+                                                <small class="text-muted" style="font-size: 0.65rem;">INDEKS KEPERCAYAAN</small>
                                             </td>
                                         </tr>
                                         <tr class="bg-warning bg-opacity-10 border-start border-4 border-warning">
-                                            <td class="ps-3"><i
-                                                    class="fas fa-exclamation-triangle text-warning fs-4"></i></td>
+                                            <td class="ps-3"><i class="fas fa-exclamation-triangle text-warning fs-4"></i></td>
                                             <td>
-                                                <div class="fw-bold text-dark fs-6">PT. Boga Maju</div>
-                                                <span class="badge bg-warning text-dark mt-1">Sering Terlambat</span>
+                                                <div class="fw-bold text-dark fs-6">PT. Boga Maju Bandung</div>
+                                                <span class="badge bg-warning text-dark mt-1">Pelanggaran SLA Pelaporan</span>
                                             </td>
                                             <td class="text-end pe-4">
                                                 <div class="fs-4 fw-bold text-warning">62.8</div>
-                                                <small class="text-muted" style="font-size: 0.65rem;">TRUST
-                                                    SCORE</small>
+                                                <small class="text-muted" style="font-size: 0.65rem;">INDEKS KEPERCAYAAN</small>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -452,9 +445,9 @@
     </div>
 
     <script>
-        // Pisahkan fungsi initMap agar lebih bersih
-        function initMap() {
-            const map = L.map('govMap', { zoomControl: false }).setView([-7.0051, 110.4381], 12);
+        async function initMap() {
+            // 1. Fokuskan View Peta ke KOTA BANDUNG sesuai data CSV (-6.9147, 107.6098)
+            const map = L.map('govMap', { zoomControl: false }).setView([-6.9147, 107.6098], 13);
             L.control.zoom({ position: 'bottomright' }).addTo(map);
 
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -463,60 +456,81 @@
                 maxZoom: 20
             }).addTo(map);
 
-            const iconAman = L.divIcon({ html: '<div style="width:14px;height:14px;background-color:#16a085;border-radius:50%;border:2px solid white;box-shadow:0 0 5px rgba(0,0,0,0.3);"></div>', className: 'custom-icon', iconSize: [14, 14], iconAnchor: [7, 7] });
-            const iconBahaya = L.divIcon({ html: '<div style="width:20px;height:20px;background-color:#e74c3c;border-radius:50%;border:3px solid white;animation:pulse 1s infinite;"></div>', className: 'custom-icon', iconSize: [20, 20], iconAnchor: [10, 10] });
+            // Styling Ikon Berdasarkan Status
+            const iconAman = L.divIcon({ html: '<div style="width:14px;height:14px;background-color:#16a085;border-radius:50%;border:2px solid white;box-shadow:0 0 5px rgba(0,0,0,0.3);"></div>', className: '', iconSize: [14, 14], iconAnchor: [7, 7] });
+            const iconBahaya = L.divIcon({ html: '<div style="width:20px;height:20px;background-color:#e74c3c;border-radius:50%;border:3px solid white;animation:pulse-red-anim 1.5s infinite;box-shadow:0 0 8px rgba(231,76,60,0.8);"></div>', className: '', iconSize: [20, 20], iconAnchor: [10, 10] });
+            const iconStandby = L.divIcon({ html: '<div style="width:12px;height:12px;background-color:#bdc3c7;border-radius:50%;border:2px solid white;"></div>', className: '', iconSize: [12, 12], iconAnchor: [6, 6] });
 
-            L.marker([-7.0733, 110.4206], { icon: iconAman }).addTo(map).bindPopup("<b>Dapur Mandiri Berkah</b><br><span class='text-success'>Status: Aman</span>");
-            L.marker([-6.9932, 110.4215], { icon: iconAman }).addTo(map);
-            L.marker([-7.0150, 110.4500], { icon: iconAman }).addTo(map);
-            L.marker([-7.0250, 110.4100], { icon: iconAman }).addTo(map);
-            L.marker([-6.9800, 110.4600], { icon: iconAman }).addTo(map);
+            try {
+                // 2. Memanggil Data CSV dan DB via API Backend
+                const response = await fetch('http://localhost:3000/api/gov/map-data');
+                const result = await response.json();
 
-            L.marker([-7.0650, 110.4250], { icon: iconBahaya }).addTo(map).bindPopup("<b class='text-danger'>SDN 01 Banyumanik</b><br><small>Dilaporkan: Makanan Basi</small>");
-            L.marker([-6.9850, 110.3500], { icon: iconBahaya }).addTo(map).bindPopup("<b class='text-danger'>Dapur Sejahtera Ngaliyan</b><br><small>Dilaporkan: Mark-up Harga (AI)</small>");
+                if (result.success && result.data.length > 0) {
+                    result.data.forEach(node => {
+                        let markerIcon = iconStandby;
+                        let badgeColor = "bg-secondary";
+                        let iconTipe = "fa-clock";
+
+                        if (node.status === 'aman') {
+                            markerIcon = iconAman; 
+                            badgeColor = "bg-success"; 
+                            iconTipe = "fa-check-circle";
+                        } else if (node.status === 'bahaya') {
+                            markerIcon = iconBahaya; 
+                            badgeColor = "bg-danger"; 
+                            iconTipe = "fa-exclamation-triangle";
+                        }
+
+                        L.marker([node.lat, node.lng], { icon: markerIcon })
+                            .addTo(map)
+                            .bindPopup(`
+                                <div style="font-family:'Segoe UI', sans-serif; padding-top:5px;">
+                                    <b class="text-dark" style="font-size:1.05rem;">${node.name}</b><br>
+                                    <span class='badge ${badgeColor} mt-2 p-1 px-2 fw-normal d-block text-start shadow-sm'>
+                                        <i class="fas ${iconTipe} me-1"></i> ${node.detail}
+                                    </span>
+                                </div>
+                            `);
+                    });
+                }
+            } catch (error) {
+                console.error("Gagal menarik data geospasial:", error);
+            }
         }
 
-        // Fungsi narik data statistik
         function fetchStats() {
             fetch('http://localhost:3000/api/gov/dashboard-stats')
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
                         const data = result.data;
-
-                        // PENGAMAN: Ubah ke tipe Number agar tidak error
                         const totalAnggaran = Number(data.total_anggaran) || 0;
                         const porsiGizi = Number(data.porsi_gizi) || 0;
                         const markupDicegah = Number(data.markup_dicegah) || 0;
                         const vendorBermasalah = Number(data.vendor_bermasalah) || 0;
 
-                        // Format Singkat (Miliar / Juta)
                         const formatRupiahSingkat = (angka) => {
-                            if (angka >= 1000000000) return 'Rp ' + (angka / 1000000000).toFixed(1) + ' M';
-                            if (angka >= 1000000) return 'Rp ' + (angka / 1000000).toFixed(1) + ' Jt';
+                            if (angka >= 1000000000) return 'Rp ' + (angka / 1000000000).toFixed(1) + ' Miliar';
+                            if (angka >= 1000000) return 'Rp ' + (angka / 1000000).toFixed(1) + ' Juta';
                             return 'Rp ' + angka.toLocaleString('id-ID');
                         };
 
                         document.querySelector('.card-top-blue .metric-value').innerText = formatRupiahSingkat(totalAnggaran);
                         document.querySelector('.card-top-green .metric-value').innerText = porsiGizi.toLocaleString('id-ID');
                         document.querySelector('.card-top-red .metric-value').innerText = formatRupiahSingkat(markupDicegah);
-                        document.querySelector('.card-top-yellow .metric-value').innerHTML = `${vendorBermasalah} <span class="fs-5 text-muted fw-normal">Dapur</span>`;
+                        document.querySelector('.card-top-yellow .metric-value').innerHTML = `${vendorBermasalah} <span class="fs-6 text-muted fw-bold">Entitas</span>`;
                     }
                 })
-                .catch(error => console.error("Gagal terhubung ke Server Pusat:", error));
+                .catch(error => console.error("Kegagalan Sinkronisasi Sistem Pusat:", error));
         }
 
-        // Eksekusi saat halaman sudah benar-benar siap
         document.addEventListener("DOMContentLoaded", function () {
-            // Beri sedikit jeda 100ms agar div Map terbentuk sempurna
             setTimeout(() => {
                 initMap();
                 fetchStats();
-            }, 100);
+            }, 200);
         });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
