@@ -8,21 +8,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        :root { --gov-sidebar: #1a252f; --gov-bg: #f4f7f6; --accent-green: #16a085; --accent-blue: #2980b9; --accent-red: #e74c3c; --accent-yellow: #f1c40f; }
-        body { background-color: var(--gov-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .sidebar { background-color: var(--gov-sidebar); min-height: 100vh; color: white; padding-top: 20px; }
+        :root { --gov-sidebar: #1a252f; --gov-bg: #f4f7f6; --accent-green: #16a085; --accent-blue: #0d6efd; --accent-red: #e74c3c; --accent-yellow: #f1c40f; --sidebar-width: 260px; }
+        body { background-color: var(--gov-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
+        .sidebar { background-color: var(--gov-sidebar); height: 100vh; color: white; padding-top: 20px; position: fixed; top: 0; left: 0; width: var(--sidebar-width); z-index: 1000; overflow-y: auto; }
         .sidebar-brand { text-align: center; margin-bottom: 40px; }
         .sidebar-brand i { color: var(--accent-green); font-size: 2.5rem; margin-bottom: 10px; }
         .sidebar-brand h4 { font-weight: 900; letter-spacing: 1px; margin-bottom: 0; }
         .sidebar-brand small { color: #7f8c8d; font-size: 0.65rem; letter-spacing: 1px; }
-        .nav-link { color: #bdc3c7; padding: 15px 20px; margin-bottom: 5px; font-weight: 500; font-size: 0.95rem; border-left: 4px solid transparent; transition: 0.3s; }
-        .nav-link i { width: 30px; text-align: center; }
+        .nav-link { color: #bdc3c7; padding: 12px 20px; margin-bottom: 5px; font-weight: 500; font-size: 0.95rem; border-left: 4px solid transparent; transition: 0.3s; display: flex; align-items: center; white-space: nowrap; }
+        .nav-link i { width: 30px; text-align: center; font-size: 1.1rem; }
         .nav-link:hover { color: white; background-color: rgba(255, 255, 255, 0.05); }
         .nav-link.active { color: white; background-color: #2c3e50; border-left: 4px solid var(--accent-red); font-weight: 600; }
-        .live-indicator { width: 10px; height: 10px; background-color: #2ecc71; border-radius: 50%; display: inline-block; animation: pulse-green 2s infinite; }
-        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
+        #main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; padding: 1.5rem 2rem; }
+        .live-indicator { width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; display: inline-block; animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
         
-        .summary-card { background-color: white; border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); padding: 15px 20px; }
+        .summary-card { background-color: white; border: none; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); padding: 15px 20px; }
         .ticket-card { border: 1px solid #e2e8f0; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); background-color: white; margin-bottom: 15px; transition: 0.3s; border-left: 5px solid transparent; }
         .ticket-card:hover { transform: translateX(5px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06); }
         .ticket-critical { border-left-color: var(--accent-red); }
@@ -34,190 +35,165 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar position-fixed" style="z-index: 100;">
-                <div class="sidebar-brand">
-                    <i class="fas fa-shield-alt"></i>
-                    <h4>TRUST-PLATE</h4>
-                    <small>Sistem Pengawasan MBG</small>
-                </div>
-                <ul class="nav flex-column mb-auto">
-                    <li class="nav-item"><a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia"></i> Pusat Kendali (Pusdalops)</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar"></i> Statistik Eksekutif</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check"></i> Verifikasi Anggaran</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="gov-audit.html"><i class="fas fa-users-cog"></i> Pengawasan Realisasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube"></i> Buku Besar Digital</a></li>
-                    <li class="nav-item border-top border-secondary border-opacity-25 mt-4 pt-3"><a class="nav-link text-danger" href="index.html"><i class="fas fa-sign-out-alt"></i> Akhiri Sesi</a></li>
-                </ul>
-            </nav>
+    <script>
+        const govData = JSON.parse(localStorage.getItem('gov_data'));
+        if (!govData) { window.location.href = 'auth-gov.html'; }
+        function logout() { localStorage.removeItem('gov_data'); window.location.href = 'auth-gov.html'; }
+    </script>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-                <div class="d-flex flex-column flex-md-row align-items-center mb-4 pb-3 border-bottom">
-                    <div class="d-flex align-items-center pe-4 me-4 border-end">
-                        <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 55px; height: 55px; font-size: 1.4rem; font-weight: bold;">AP</div>
-                        <div>
-                            <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.3rem;">Bpk. Hendra (Auditor Utama)</h4>
-                            <div class="d-flex align-items-center gap-3 mt-1">
-                                <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm" style="font-size: 0.85rem; font-family: monospace;">ID: GOV-AUDIT-01</span>
-                                <div class="d-flex flex-column justify-content-center" style="line-height: 1.2;">
-                                    <span class="text-muted fw-bold" style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS JARINGAN</span>
-                                    <span class="text-success fw-bold" style="font-size: 0.9rem;"><span class="live-indicator me-1"></span> TERHUBUNG</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="fw-bold mb-1 text-dark">Investigasi Pengaduan Teragregasi (Dumas)</h3>
-                        <p class="text-muted mb-0" style="font-size: 0.9rem;">Sistem NLP (Natural Language Processing) mengklasterkan laporan serupa untuk mencegah manipulasi/spam.</p>
-                    </div>
-                </div>
-
-                <div class="row align-items-center mb-4 g-3">
-                    <div class="col-md-3">
-                        <div class="summary-card border-start border-4 border-danger">
-                            <div class="text-muted fw-bold" style="font-size: 0.75rem;">KLASTER KRITIKAL</div>
-                            <h3 class="fw-bold mb-0 text-danger">2 <span class="fs-6 text-muted fw-normal">Insiden</span></h3>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="summary-card border-start border-4 border-primary">
-                            <div class="text-muted fw-bold" style="font-size: 0.75rem;">TOTAL LAPORAN TERAGREGASI</div>
-                            <h3 class="fw-bold mb-0 text-primary">34 <span class="fs-6 text-muted fw-normal">Tiket User</span></h3>
-                        </div>
-                    </div>
-                    <div class="col-md-6 text-end">
-                        <div class="input-group ms-auto" style="max-width: 400px;">
-                            <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
-                            <input type="text" class="form-control border-start-0 ps-0" placeholder="Cari Klaster Insiden, Nama Sekolah...">
-                            <button class="btn btn-primary px-4 fw-bold">Saring</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ticket-card ticket-critical p-4" id="cluster1">
-                    <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-3">
-                        <div>
-                            <span class="badge bg-danger mb-2 px-2 py-1"><i class="fas fa-brain me-1"></i> AI CLUSTER: 12 LAPORAN IDENTIK</span>
-                            <h5 class="fw-bold text-dark mb-1">Mayoritas Pelapor Menemukan Ulat pada Sayur Sop</h5>
-                            <div class="text-muted small fw-bold mt-1">
-                                <i class="fas fa-school me-1 text-primary"></i> Target Distribusi: SDN Sekeloa, Bandung 
-                                <span class="mx-2">|</span> 
-                                <i class="fas fa-store me-1 text-primary"></i> Entitas Penyuplai: <b>Katering Maju Mundur</b>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <span class="badge-ticket d-block mb-1 text-success fw-bold"><i class="fas fa-check-double"></i> 98% Validitas</span>
-                            <small class="text-muted fw-bold">Puncak Laporan: 12 Mar, 11:45 WIB</small>
-                        </div>
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col-md-2 text-center border-end">
-                            <img src="https://images.unsplash.com/photo-1603569283847-aa295f0d016a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" class="img-evidence" alt="Bukti Foto Mayoritas" onclick="lihatBuktiFoto(this.src)">
-                            <p class="small text-muted mt-2 mb-0"><i class="fas fa-camera me-1"></i> Foto Terbanyak</p>
-                        </div>
-                        <div class="col-md-6 ps-4 border-end">
-                            <div class="nlp-box shadow-sm">
-                                <p class="text-dark small mb-2 fw-bold"><i class="fas fa-robot text-primary me-1"></i> Ringkasan Eksekutif AI (NLP Analysis):</p>
-                                <p class="text-muted small mb-1" style="line-height: 1.5;">Sistem NLP telah memproses 12 tiket unik dari Guru dan Wali Murid. Pola laporan <b>Sangat Konsisten (Bukan Spam)</b>. Kata kunci dominan yang diekstraksi: <i>"Ulat" (9x), "Sayur Sop" (12x), "Jijik" (5x), "Dibuang" (7x)</i>.</p>
-                                <span class="badge bg-light text-dark border">Peringkat Isu: Higienitas Parah</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <button class="btn btn-danger w-100 fw-bold mb-2 shadow-sm" onclick="validasiLaporan('cluster1', 'Katering Maju Mundur')"><i class="fas fa-gavel me-2"></i> Validasi Sah & Terbitkan SP-1</button><br>
-                            <button class="btn btn-outline-secondary w-100 btn-sm fw-bold"><i class="fas fa-ban me-1"></i> Tolak Laporan (Indikasi Spam)</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="ticket-card ticket-warning p-4" id="cluster2">
-                    <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-3">
-                        <div>
-                            <span class="badge bg-warning text-dark mb-2 px-2 py-1"><i class="fas fa-brain me-1"></i> AI CLUSTER: 8 LAPORAN IDENTIK</span>
-                            <h5 class="fw-bold text-dark mb-1">Porsi Lauk (Ayam) Tidak Sesuai Spesifikasi Menu</h5>
-                            <div class="text-muted small fw-bold mt-1">
-                                <i class="fas fa-school me-1 text-primary"></i> Target Distribusi: SDN Haurpancuh, Bandung 
-                                <span class="mx-2">|</span> 
-                                <i class="fas fa-store me-1 text-primary"></i> Entitas Penyuplai: <b>CV. Pangan Nusantara</b>
-                            </div>
-                        </div>
-                        <div class="text-end">
-                            <span class="badge-ticket d-block mb-1 text-success fw-bold"><i class="fas fa-check-double"></i> 85% Validitas</span>
-                            <small class="text-muted fw-bold">Puncak Laporan: 11 Mar, 12:15 WIB</small>
-                        </div>
-                    </div>
-                    <div class="row align-items-center">
-                        <div class="col-md-2 text-center border-end">
-                            <img src="https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3" class="img-evidence" alt="Bukti Foto Mayoritas" onclick="lihatBuktiFoto(this.src)">
-                            <p class="small text-muted mt-2 mb-0"><i class="fas fa-camera me-1"></i> Foto Terbanyak</p>
-                        </div>
-                        <div class="col-md-6 ps-4 border-end">
-                            <div class="nlp-box shadow-sm border-warning">
-                                <p class="text-dark small mb-2 fw-bold"><i class="fas fa-robot text-primary me-1"></i> Ringkasan Eksekutif AI (NLP Analysis):</p>
-                                <p class="text-muted small mb-1" style="line-height: 1.5;">Sentimen pelapor menunjukkan kekecewaan tingkat menengah. Kata kunci dominan: <i>"Kecil" (6x), "Sedikit" (8x), "Tidak Sesuai" (4x)</i>. Sistem membandingkan foto pengguna dengan spesifikasi BAP dan menemukan deviasi porsi protein (ayam).</p>
-                                <span class="badge bg-light text-dark border">Peringkat Isu: Kuantitas Substandar</span>
-                            </div>
-                        </div>
-                        <div class="col-md-4 text-center">
-                            <button class="btn btn-danger w-100 fw-bold mb-2 shadow-sm" onclick="validasiLaporan('cluster2', 'CV. Pangan Nusantara')"><i class="fas fa-gavel me-2"></i> Validasi Sah & Terbitkan SP-1</button><br>
-                            <button class="btn btn-outline-secondary w-100 btn-sm fw-bold"><i class="fas fa-ban me-1"></i> Tolak Laporan (Indikasi Spam)</button>
-                        </div>
-                    </div>
-                </div>
-
-            </main>
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-shield-alt d-block"></i>
+            <h4>TRUST-PLATE</h4>
+            <small>Sistem Pengawasan MBG</small>
         </div>
-    </div>
+        <ul class="nav flex-column mb-auto">
+            <li class="nav-item"><a class="nav-link" href="gov-dashboard.html"><i class="fas fa-globe-asia me-3"></i> <span>Pusat Kendali</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="gov-statistic.html"><i class="fas fa-chart-bar me-3"></i> <span>Statistik Eksekutif</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="gov-approval.html"><i class="fas fa-clipboard-check me-3"></i> <span>Verifikasi Anggaran</span></a></li>
+            <li class="nav-item"><a class="nav-link active" href="gov-audit.html"><i class="fas fa-users-cog me-3"></i> <span>Pengawasan Realisasi</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="gov-ledger.html"><i class="fas fa-cube me-3"></i> <span>Buku Besar Digital</span></a></li>
+            <li class="nav-item border-top border-secondary border-opacity-25 mt-4 pt-3"><a class="nav-link text-danger" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-3"></i> <span>Akhiri Sesi SSO</span></a></li>
+        </ul>
+    </nav>
+
+    <main id="main-content">
+        <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-3 border-bottom gap-3">
+            <div class="d-flex align-items-center flex-shrink-0 pe-md-4 border-md-end">
+                <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 48px; height: 48px; font-size: 1.2rem; font-weight: bold;" id="govInitials">--</div>
+                <div>
+                    <h5 class="fw-bold mb-1 text-dark" id="govProfileName">Memuat...</h5>
+                    <div class="d-flex align-items-center gap-2 mt-1">
+                        <span class="border text-muted px-2 py-0 rounded bg-white shadow-sm" style="font-size: 0.75rem; font-family: monospace;" id="govProfileNip">NIP: ...</span>
+                        <span class="text-success fw-bold" style="font-size: 0.75rem;"><span class="live-indicator me-1"></span> TERHUBUNG</span>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap align-items-center justify-content-between flex-grow-1 gap-3">
+                <div>
+                    <h3 class="fw-bold mb-1" style="color: #2c3e50; font-size: 1.4rem;">Investigasi Pengaduan (Dumas)</h3>
+                    <p class="text-muted mb-0" style="font-size: 0.85rem;">Sistem NLP mengklasterkan laporan serupa untuk mencegah spam.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center mb-4 g-3">
+            <div class="col-md-3">
+                <div class="summary-card border-start border-4 border-danger">
+                    <div class="text-muted fw-bold" style="font-size: 0.75rem;">KLASTER KRITIKAL</div>
+                    <h3 class="fw-bold mb-0 text-danger" id="valKritikal"><i class="fas fa-spinner fa-spin fs-5"></i></h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="summary-card border-start border-4 border-primary">
+                    <div class="text-muted fw-bold" style="font-size: 0.75rem;">TOTAL LAPORAN IDENTIK</div>
+                    <h3 class="fw-bold mb-0 text-primary" id="valTotalLaporan"><i class="fas fa-spinner fa-spin fs-5"></i></h3>
+                </div>
+            </div>
+            <div class="col-md-6 text-end">
+                <div class="input-group ms-auto" style="max-width: 400px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                    <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 ps-0" placeholder="Cari Klaster Insiden...">
+                    <button class="btn btn-primary px-4 fw-bold">Saring</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="dumasContainer">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;"></div>
+                <h5 class="text-muted fw-bold">Mesin NLP sedang merangkum pengaduan...</h5>
+            </div>
+        </div>
+    </main>
 
     <div class="modal fade" id="modalFotoDumas" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 bg-transparent shadow-none text-center">
-                <div class="modal-header border-0 pb-0 justify-content-end">
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body pt-0">
-                    <img id="imgDumasPreview" src="" class="img-fluid rounded shadow-lg border border-white border-4" style="max-height: 70vh;">
-                </div>
+                <div class="modal-header border-0 pb-0 justify-content-end"><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body pt-0"><img id="imgDumasPreview" src="" class="img-fluid rounded shadow-lg border border-white border-4" style="max-height: 70vh;"></div>
             </div>
         </div>
     </div>
 
     <script>
-        function lihatBuktiFoto(url) {
-            document.getElementById('imgDumasPreview').src = url;
-            new bootstrap.Modal(document.getElementById('modalFotoDumas')).show();
+        document.getElementById('govProfileName').innerText = `${govData.nama} (${govData.jabatan})`;
+        document.getElementById('govProfileNip').innerText = `NIP: ${govData.nip}`;
+        document.getElementById('govInitials').innerText = govData.nama.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+
+        function lihatBuktiFoto(url) { document.getElementById('imgDumasPreview').src = url; new bootstrap.Modal(document.getElementById('modalFotoDumas')).show(); }
+
+        async function loadDumasClusters() {
+            try {
+                const response = await fetch('http://localhost:3000/api/gov/dumas-clusters');
+                const result = await response.json();
+                const container = document.getElementById('dumasContainer');
+                
+                if (result.success && result.data.length > 0) {
+                    container.innerHTML = ''; let totalLaporan = 0, totalKritikal = 0;
+                    result.data.forEach(item => {
+                        totalLaporan += item.jumlah; if(item.tingkat === 'Kritikal') totalKritikal++;
+                        const cardBorder = item.tingkat === 'Kritikal' ? 'ticket-critical' : 'ticket-warning';
+                        const badgeLaporan = item.tingkat === 'Kritikal' ? 'bg-danger' : 'bg-warning text-dark';
+                        const nlpBorder = item.tingkat === 'Kritikal' ? 'border-primary' : 'border-warning';
+                        const wkt = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+
+                        container.innerHTML += `
+                            <div class="ticket-card ${cardBorder} p-4" id="${item.id}">
+                                <div class="d-flex justify-content-between align-items-start mb-3 border-bottom pb-3">
+                                    <div>
+                                        <span class="badge ${badgeLaporan} mb-2 px-2 py-1"><i class="fas fa-brain me-1"></i> AI CLUSTER: ${item.jumlah} LAPORAN IDENTIK</span>
+                                        <h5 class="fw-bold text-dark mb-1">${item.judul}</h5>
+                                        <div class="text-muted small fw-bold mt-1"><i class="fas fa-map-marker-alt me-1 text-primary"></i> Area: ${item.lokasi} <span class="mx-2">|</span> <i class="fas fa-store me-1 text-primary"></i> Mitra: <b class="text-dark">${item.vendor_name}</b></div>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge-ticket d-block mb-1 text-success fw-bold"><i class="fas fa-check-double"></i> ${item.validitas} Validitas</span>
+                                        <small class="text-muted fw-bold">Puncak Lapor: Hari ini, ${wkt} WIB</small>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 text-center border-end">
+                                        <img src="${item.foto}" class="img-evidence" alt="Bukti Foto" onclick="lihatBuktiFoto(this.src)">
+                                        <p class="small text-muted mt-2 mb-0"><i class="fas fa-camera me-1"></i> Foto Terbanyak</p>
+                                    </div>
+                                    <div class="col-md-6 ps-4 border-end">
+                                        <div class="nlp-box shadow-sm ${nlpBorder}">
+                                            <p class="text-dark small mb-2 fw-bold"><i class="fas fa-robot text-primary me-1"></i> Ringkasan Eksekutif AI (NLP Analysis):</p>
+                                            <p class="text-muted small mb-1" style="line-height: 1.5;">${item.analisis}</p>
+                                            <span class="badge bg-light text-dark border mt-1">ID Kasus: ${item.id}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-center">
+                                        <button class="btn btn-danger w-100 fw-bold mb-2 shadow-sm" onclick="validasiLaporan('${item.id}', '${item.vendor_name}')"><i class="fas fa-gavel me-2"></i> Validasi Sah & Terbitkan SP-1</button><br>
+                                        <button class="btn btn-outline-secondary w-100 btn-sm fw-bold" onclick="tolakSpam('${item.id}')"><i class="fas fa-ban me-1"></i> Tolak Laporan (Indikasi Spam)</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    document.getElementById('valTotalLaporan').innerHTML = `${totalLaporan} <span class="fs-6 text-muted fw-normal">Tiket</span>`; document.getElementById('valKritikal').innerHTML = `${totalKritikal} <span class="fs-6 text-muted fw-normal">Insiden</span>`;
+                } else {
+                    document.getElementById('valTotalLaporan').innerHTML = `0`; document.getElementById('valKritikal').innerHTML = `0`;
+                    container.innerHTML = `<div class="text-center py-5"><i class="fas fa-shield-check text-success opacity-50 mb-3" style="font-size:4rem;"></i><h5 class="text-dark fw-bold">Sistem Aman Terkendali.</h5><p class="text-muted">Tidak ada lonjakan laporan anomali masyarakat saat ini.</p></div>`;
+                }
+            } catch (error) { document.getElementById('dumasContainer').innerHTML = `<div class="alert alert-danger mx-auto text-center"><i class="fas fa-exclamation-triangle"></i> Gagal koneksi DB.</div>`; }
         }
 
-        // FUNGSI SAAT AUDITOR MENGKLIK "VALIDASI SAH & TERBITKAN SP-1"
         function validasiLaporan(clusterId, namaVendor) {
-            Swal.fire({
-                title: 'Otorisasi Penalti Vendor',
-                html: `
-                    <div class="text-start p-3 bg-danger bg-opacity-10 border border-danger rounded shadow-sm mt-2">
-                        <p class="mb-2 text-dark small fw-bold">Anda akan mensahkan hasil agregasi AI dan menindak tegas:</p>
-                        <h5 class="fw-bold text-danger mb-2">${namaVendor}</h5>
-                        <p class="text-muted small mb-0" style="line-height:1.4;">Tindakan ini akan <b>menghentikan Smart Contract Auto-Escrow</b>, mengurangi <b>Trust Score sebesar 15 Poin</b>, dan otomatis menerbitkan Surat Peringatan (SP-1).</p>
-                    </div>
-                `,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc3545',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: '<i class="fas fa-gavel me-1"></i> Eksekusi Penalti',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
+            Swal.fire({ title: 'Otorisasi Penalti Vendor', html: `<div class="text-start p-3 bg-danger bg-opacity-10 border border-danger rounded mt-2"><p class="mb-2 text-dark small fw-bold">Menindak tegas:</p><h5 class="fw-bold text-danger mb-2">${namaVendor}</h5><p class="text-muted small mb-0">Tindakan ini memotong <b>Trust Score 15 Poin</b> dan menerbitkan SP-1 On-Chain.</p></div>`, icon: 'warning', showCancelButton: true, confirmButtonColor: '#dc3545', confirmButtonText: 'Eksekusi Penalti'
+            }).then(async (result) => {
                 if (result.isConfirmed) {
-                    Swal.fire(
-                        'Dieksekusi Sistem!',
-                        `Trust Score <b>${namaVendor}</b> telah dikurangi secara On-Chain dan Surat Peringatan (SP-1) telah dikirimkan.`,
-                        'success'
-                    ).then(() => {
-                        // Hilangkan kartu yang sudah diproses agar UI terlihat hidup
-                        document.getElementById(clusterId).style.display = 'none';
-                    });
+                    Swal.fire({title: 'Mengeksekusi Penalti...', allowOutsideClick: false, didOpen: () => Swal.showLoading()});
+                    try {
+                        const res = await fetch('http://localhost:3000/api/gov/execute-penalty', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ vendor_name: namaVendor, cluster_id: clusterId }) }); const data = await res.json();
+                        if(data.success) { Swal.fire({ title: 'Dieksekusi Sistem!', html: `<b>TxHash (SP-1):</b><br><code class="text-primary bg-light p-2 rounded mt-2 d-block" style="word-break:break-all;">${data.tx_hash}</code>`, icon: 'success' }).then(() => { document.getElementById(clusterId).remove(); }); } 
+                        else Swal.fire('Gagal', 'Kesalahan server', 'error');
+                    } catch(e) { Swal.fire('Koneksi Terputus', 'Server Blockchain tidak merespon.', 'error'); }
                 }
             });
         }
+        function tolakSpam(clusterId) { Swal.fire({ title: 'Abaikan Laporan?', text: "Ditandai sebagai Spam.", icon: 'question', showCancelButton: true, confirmButtonText: 'Ya' }).then((res) => { if(res.isConfirmed) document.getElementById(clusterId).remove(); }); }
+        window.onload = () => { setTimeout(loadDumasClusters, 400); };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

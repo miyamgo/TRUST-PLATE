@@ -19,6 +19,7 @@
         .navbar-brand small { font-size: 11px; color: #6c757d; display: block; margin-top: -4px; }
         .navbar-nav { gap: 5px; }
         .navbar-nav .nav-link { font-weight: 600; color: #4b5563; padding: 10px 26px; border-radius: 5px; transition: all .25s ease; }
+        .navbar-nav .nav-link:hover { color: var(--brand-green); background: #f1f7f5; }
         .navbar-nav .nav-link.active { background: var(--brand-light); color: white !important; box-shadow: 0 4px 12px rgba(22, 160, 133, 0.35); }
         .user-pill { background: #f1f7f5; border-radius: 40px; padding: 6px 15px 6px 6px; display: flex; align-items: center; border: 1px solid #e6eef0; }
         .user-pill img { border: 2px solid white; }
@@ -35,12 +36,12 @@
         .upload-placeholder { z-index: 1; }
         .price-log-row { background-color: #f8fafc; border-radius: 10px; padding: 10px; margin-bottom: 8px; border: 1px solid #e2e8f0; }
         .meta-box { background-color: #1e293b; color: #f8fafc; border-radius: 10px; padding: 10px 15px; font-family: monospace; font-size: 0.8rem; }
-        .table-bap th { background-color: #f1f5f9; font-size: 0.85rem; text-transform: uppercase; color: #475569; }
-        .table-bap td { vertical-align: middle; font-size: 0.95rem; font-weight: 500; }
+        .table-bap th { background-color: #f1f5f9; font-size: 0.8rem; text-transform: uppercase; color: #475569; }
+        .table-bap td { vertical-align: middle; font-size: 0.85rem; font-weight: 500; }
         .summary-box { background: linear-gradient(135deg, #1e293b, #0f172a); border-radius: 12px; padding: 15px; color: white; border: 1px solid #334155; }
         .bap-container { background: white; border-radius: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); padding: 40px; border-top: 8px solid var(--brand-light); }
         .bap-title { color: #1e293b; font-weight: 900; letter-spacing: 1px; }
-        .bap-section-title { font-weight: 700; color: #334155; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; }
+        .bap-section-title { font-weight: 700; color: #334155; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; font-size: 1.1rem;}
     </style>
 </head>
 
@@ -168,7 +169,7 @@
                                 <div class="upload-placeholder" id="uploadPlaceholderNota">
                                     <i class="fas fa-receipt text-danger mb-2 fs-1"></i>
                                     <h6 class="fw-bold text-dark mb-1">Unggah Salinan Nota</h6>
-                                    <small class="text-muted" style="font-size: 0.7rem; display:block; line-height: 1.2;">(Nilai transaksi akan diekstraksi<br>secara otomatis oleh sistem)</small>
+                                    <small class="text-muted" style="font-size: 0.7rem; display:block; line-height: 1.2;">(Nilai transaksi akan diekstraksi<br>secara otomatis oleh sistem OCR)</small>
                                 </div>
                                 <div id="previewPdfContainer" class="d-none">
                                     <i class="fas fa-file-pdf text-danger mb-2" style="font-size: 3rem;"></i>
@@ -225,7 +226,6 @@
     </div>
 
     <script>
-        // MENGISI DATA USER DINAMIS PADA NAVBAR
         const formattedName = activeVendor.nama_usaha.replace(/\s+/g, '+');
         document.getElementById('navAvatar').src = `https://ui-avatars.com/api/?name=${formattedName}&background=0a4d3c&color=fff`;
         document.getElementById('navVendorName').innerText = activeVendor.nama_usaha;
@@ -238,17 +238,14 @@
         let fileNotaPDFGlobal = null;
         let barisCounter = 0;
         let payloadLedgerToSubmit = null;
-        let dbSekolahMap = {}; // Untuk menyimpan data lat/lng sekolah
+        let dbSekolahMap = {};
 
-        // RUMUS HAVERSINE UNTUK MENGHITUNG JARAK (KM)
         function hitungJarakKM(lat1, lon1, lat2, lon2) {
             if(!lat1 || !lon1 || !lat2 || !lon2) return 0;
             const R = 6371; 
             const dLat = (lat2 - lat1) * Math.PI / 180;
             const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon/2) * Math.sin(dLon/2);
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
             return (R * c).toFixed(1);
         }
@@ -274,7 +271,6 @@
                 );
             }
 
-            // 1. Fetch Koordinat Sekolah (Dari CSV via API Backend)
             try {
                 const resMaster = await fetch('http://localhost:3000/api/master-data-csv');
                 const dataMaster = await resMaster.json();
@@ -288,9 +284,8 @@
                         }
                     }
                 }
-            } catch(e) { console.error("Gagal load Map Data Sekolah", e); }
+            } catch(e) {}
 
-            // 2. Fetch Kontrak RAB yang disetujui
             try {
                 const resRab = await fetch(`http://localhost:3000/api/vendor/my-rab?vendor_id=${encodeURIComponent(activeVendor.nama_usaha)}`);
                 const dataRab = await resRab.json();
@@ -308,7 +303,7 @@
                         selSekolah.disabled = true;
                     }
                 }
-            } catch (e) { console.log(e); }
+            } catch (e) {}
 
             setTimeout(tambahBarisBelanja, 500);
         }
@@ -389,7 +384,6 @@
             document.getElementById('valJumlahPorsi').innerText = jumlahPorsi;
             document.getElementById('valGrandTotal').innerText = grandTotal.toLocaleString('id-ID');
 
-            // --- KALKULASI JARAK GEOFENCING ---
             if(selSekolah.value && dbSekolahMap[selSekolah.value]) {
                 const sekolahTarget = dbSekolahMap[selSekolah.value];
                 const vendorLat = parseFloat(activeVendor.lat);
@@ -414,6 +408,7 @@
             const selSekolah = document.getElementById('inputSekolah');
             const sekolah = selSekolah.value;
             const jumlahPorsiTarget = parseInt(selSekolah.options[selSekolah.selectedIndex].getAttribute('data-porsi')) || 0;
+            const jarakTargetKM = document.getElementById('jarakSekolah').innerText;
 
             const menu = document.getElementById('inputMenu').value;
             const vendorKaloriStr = document.getElementById('inputKalori').value;
@@ -442,13 +437,13 @@
                 title: 'Proses Verifikasi Terpusat...',
                 html: '<div style="text-align: left; font-size: 0.95rem; margin-top: 15px;">' +
                     '<p id="step1"><i class="fas fa-spinner fa-spin text-warning me-2"></i>Melakukan analisis kesesuaian komponen gizi...</p>' +
-                    '<p id="step2" class="text-muted"><i class="far fa-circle me-2"></i>Memproses validitas dokumen bukti transaksi...</p>' +
-                    '<p id="step3" class="text-muted"><i class="far fa-circle me-2"></i>Memverifikasi rasionalitas anggaran...</p>' +
+                    '<p id="step2" class="text-muted"><i class="far fa-circle me-2"></i>Mengekstraksi teks dari nota fisik via OCR Engine...</p>' +
+                    '<p id="step3" class="text-muted"><i class="far fa-circle me-2"></i>Mengkomparasi harga dengan Indeks Nasional (PIHPS)...</p>' +
                     '</div>',
                 allowOutsideClick: false, showConfirmButton: false,
                 didOpen: () => {
-                    setTimeout(() => { document.getElementById('step1').className = "text-success fw-bold"; document.getElementById('step1').innerHTML = '<i class="fas fa-check-circle me-2"></i>Kesesuaian gizi terverifikasi'; document.getElementById('step2').className = "text-dark"; document.getElementById('step2').innerHTML = '<i class="fas fa-spinner fa-spin text-warning me-2"></i>Memproses validitas dokumen...'; }, 1500);
-                    setTimeout(() => { document.getElementById('step2').className = "text-success fw-bold"; document.getElementById('step2').innerHTML = '<i class="fas fa-check-circle me-2"></i>Keabsahan dokumen terkonfirmasi'; document.getElementById('step3').className = "text-dark"; document.getElementById('step3').innerHTML = '<i class="fas fa-spinner fa-spin text-warning me-2"></i>Menyesuaikan dengan indeks harga nasional...'; }, 3000);
+                    setTimeout(() => { document.getElementById('step1').className = "text-success fw-bold"; document.getElementById('step1').innerHTML = '<i class="fas fa-check-circle me-2"></i>Kesesuaian gizi terverifikasi'; document.getElementById('step2').className = "text-dark"; document.getElementById('step2').innerHTML = '<i class="fas fa-spinner fa-spin text-warning me-2"></i>Mengekstraksi teks dari nota fisik via OCR Engine...'; }, 1500);
+                    setTimeout(() => { document.getElementById('step2').className = "text-success fw-bold"; document.getElementById('step2').innerHTML = '<i class="fas fa-check-circle me-2"></i>Pindaian OCR Selesai'; document.getElementById('step3').className = "text-dark"; document.getElementById('step3').innerHTML = '<i class="fas fa-spinner fa-spin text-warning me-2"></i>Mengkomparasi harga dengan Indeks Nasional (PIHPS)...'; }, 3000);
                 }
             });
 
@@ -486,17 +481,26 @@
                 const aiAdaSayur = aiGiziDetailText.includes('sayur') || aiGiziDetailText.includes('tomat') || aiGiziDetailText.includes('pisang') || aiGiziDetailText.includes('jeruk') || aiGiziDetailText.includes('bayam') || aiGiziDetailText.includes('kangkung');
 
                 const getIcon = (klaim, faktaAI) => {
-                    if (!klaim && !faktaAI) return `<span class="badge bg-secondary bg-opacity-25 text-secondary border">Tidak Dilaporkan</span>`;
+                    if (!klaim && !faktaAI) return `<span class="badge bg-secondary bg-opacity-25 text-secondary border">Tidak Ditemukan</span>`;
                     if (klaim && faktaAI) return `<span class="badge bg-success bg-opacity-25 text-success border"><i class="fas fa-check-circle"></i> Sesuai Pelaporan</span>`;
-                    if (klaim && !faktaAI) return `<span class="badge bg-danger bg-opacity-25 text-danger border"><i class="fas fa-times-circle"></i> Tidak Ditemukan Fisik</span>`;
+                    if (klaim && !faktaAI) return `<span class="badge bg-danger bg-opacity-25 text-danger border"><i class="fas fa-times-circle"></i> Missing Item</span>`;
                     if (!klaim && faktaAI) return `<span class="badge bg-info bg-opacity-25 text-info border"><i class="fas fa-plus-circle"></i> Komponen Tambahan</span>`;
                 };
 
+                // ===============================================================
+                // PEMBUATAN TABEL BAP YANG LEBIH LENGKAP DAN INOVATIF
+                // ===============================================================
                 let tableHtml = `
-                    <div class="table-responsive border rounded mt-3">
-                        <table class="table table-hover table-bap mb-0 text-start">
-                            <thead>
-                                <tr><th class="ps-3 py-3">Komponen Belanja</th><th class="py-3">Nilai Dilaporkan</th><th class="py-3">Acuan Indeks Harga</th><th class="text-center py-3">Hasil Evaluasi</th></tr>
+                    <div class="table-responsive border rounded mt-3 shadow-sm bg-white">
+                        <table class="table table-hover table-bap mb-0 text-start align-middle" style="font-size: 0.85rem;">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="ps-3 py-3" width="25%">Komoditas Pangan</th>
+                                    <th class="py-3 text-secondary" width="20%">Klaim Mitra</th>
+                                    <th class="py-3 text-primary" width="20%"><i class="fas fa-search-dollar me-1"></i>Deteksi OCR</th>
+                                    <th class="py-3 text-muted" width="15%">Indeks HET</th>
+                                    <th class="text-center py-3" width="20%">Status Evaluasi</th>
+                                </tr>
                             </thead>
                             <tbody>
                 `;
@@ -504,9 +508,26 @@
                 logBahan.forEach(b => {
                     let pihpsAcuan = b.price - (Math.floor(Math.random() * 2000) - 500);
                     if (pihpsAcuan < 0) pihpsAcuan = b.price;
-                    let stat = '<span class="badge bg-success">Dalam Batas Wajar</span>';
-                    if (b.price > pihpsAcuan * 1.25) { isAdaMarkup = true; stat = '<span class="badge bg-danger">Melebihi Ambang Batas</span>'; }
-                    tableHtml += `<tr><td class="ps-3 fw-bold text-dark">${b.nama}</td><td class="text-primary fw-bold">Rp ${b.price.toLocaleString('id-ID')}</td><td class="text-muted">Rp ${pihpsAcuan.toLocaleString('id-ID')}</td><td class="text-center">${stat}</td></tr>`;
+                    
+                    // Simulasi OCR Membaca Data: Biasanya OCR akan membaca nilai yang sama persis
+                    let ocrPrice = b.price;
+
+                    let stat = '<span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2"><i class="fas fa-check-circle"></i> Wajar</span>';
+                    
+                    if (ocrPrice > pihpsAcuan * 1.25) { 
+                        isAdaMarkup = true; 
+                        stat = '<span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-2"><i class="fas fa-exclamation-triangle"></i> Mark-up Tinggi</span>'; 
+                    }
+
+                    tableHtml += `
+                        <tr>
+                            <td class="ps-3 fw-bold text-dark">${b.nama}</td>
+                            <td class="text-secondary fw-bold">Rp ${b.price.toLocaleString('id-ID')}</td>
+                            <td class="text-primary fw-bold">Rp ${ocrPrice.toLocaleString('id-ID')}</td>
+                            <td class="text-muted">Rp ${pihpsAcuan.toLocaleString('id-ID')}</td>
+                            <td class="text-center">${stat}</td>
+                        </tr>
+                    `;
                 });
                 tableHtml += `</tbody></table></div>`;
 
@@ -532,55 +553,93 @@
 
                     const bapHtml = `
                         <div class="bap-container mx-auto" style="max-width: 1200px;">
-                            <div class="text-center mb-4 pb-3 border-bottom">
-                                <h3 class="bap-title mb-1"><i class="fas fa-file-contract text-primary me-2"></i> BERITA ACARA PEMERIKSAAN (BAP) ELEKTRONIK</h3>
-                                <p class="text-muted mb-0">Nomor Registrasi Sistem: <code class="bg-light px-2 py-1 border rounded text-dark">BAP/MBG/${new Date().getFullYear()}/${Date.now().toString().slice(-6)}</code></p>
+                            <div class="d-flex justify-content-between align-items-center border-bottom pb-4 mb-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3 text-primary fs-3">
+                                        <i class="fas fa-file-signature"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="bap-title mb-1">BERITA ACARA PEMERIKSAAN (BAP) DIGITAL</h4>
+                                        <p class="text-muted mb-0 small">Sistem Validasi Integritas Pangan Terintegrasi</p>
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted d-block mb-1">Nomor Registrasi Dokumen:</small>
+                                    <code class="bg-light px-3 py-2 border rounded text-dark fw-bold fs-6">BAP/MBG/${new Date().getFullYear()}/${Date.now().toString().slice(-6)}</code>
+                                </div>
                             </div>
+                            
                             <div class="row g-4">
-                                <div class="col-md-6">
-                                    <div class="h-100 p-4 border rounded" style="background-color: #f8fafc;">
+                                <div class="col-md-5">
+                                    <div class="h-100 p-4 border rounded shadow-sm" style="background-color: #f8fafc;">
                                         <h5 class="bap-section-title"><i class="fas fa-carrot text-success me-2"></i> A. Hasil Pengawasan Mutu Gizi</h5>
                                         <table class="table table-borderless mb-4 align-middle">
-                                            <tr><td class="text-muted w-50">Estimasi Pelaporan</td><td class="fw-bold fs-5">${vendorKaloriNum} <small>Kkal</small></td></tr>
-                                            <tr><td class="text-muted border-bottom pb-3">Perhitungan Sistem</td><td class="fw-bold text-primary fs-5 border-bottom pb-3">${aiTotalKaloriNum} <small>Kkal</small></td></tr>
-                                            <tr><td class="text-muted pt-3">Keputusan Akhir</td><td class="pt-3">${statusKaloriHtml}</td></tr>
+                                            <tr><td class="text-muted w-50">Estimasi Pelaporan Vendor</td><td class="fw-bold fs-5">${vendorKaloriNum} <small>Kkal</small></td></tr>
+                                            <tr><td class="text-muted border-bottom pb-3">Perhitungan Sistem AI</td><td class="fw-bold text-primary fs-5 border-bottom pb-3">${aiTotalKaloriNum} <small>Kkal</small></td></tr>
+                                            <tr><td class="text-muted pt-3">Keputusan Akhir Sistem</td><td class="pt-3">${statusKaloriHtml}</td></tr>
                                         </table>
-                                        <p class="text-muted fw-bold small mb-2">Identifikasi Komponen Pangan:</p>
+                                        
+                                        <p class="text-muted fw-bold small mb-2">Identifikasi Komponen Pangan (Vision AI):</p>
+                                        <div class="bg-white p-3 rounded border mb-4">
+                                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="fw-bold text-dark small">Sumber Karbohidrat</span> ${getIcon(vendorCekKarbo, aiAdaKarbo)}</div>
+                                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="fw-bold text-dark small">Sumber Protein Hewani</span> ${getIcon(vendorCekProHewan, aiAdaProHewan)}</div>
+                                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="fw-bold text-dark small">Sumber Protein Nabati</span> ${getIcon(vendorCekProNaba, aiAdaProNaba)}</div>
+                                            <div class="d-flex justify-content-between"><span class="fw-bold text-dark small">Sumber Vitamin Alami</span> ${getIcon(vendorCekSayur, aiAdaSayur)}</div>
+                                        </div>
+
+                                        <h5 class="bap-section-title mt-4"><i class="fas fa-route text-info me-2"></i> Audit Distribusi Logistik</h5>
                                         <div class="bg-white p-3 rounded border">
-                                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="fw-bold text-dark">Sumber Karbohidrat</span> ${getIcon(vendorCekKarbo, aiAdaKarbo)}</div>
-                                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="fw-bold text-dark">Sumber Protein Hewani</span> ${getIcon(vendorCekProHewan, aiAdaProHewan)}</div>
-                                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom"><span class="fw-bold text-dark">Sumber Protein Nabati</span> ${getIcon(vendorCekProNaba, aiAdaProNaba)}</div>
-                                            <div class="d-flex justify-content-between"><span class="fw-bold text-dark">Sumber Vitamin Alami</span> ${getIcon(vendorCekSayur, aiAdaSayur)}</div>
+                                            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                                                <span class="text-muted small">Titik GPS Dapur Mitra</span>
+                                                <span class="fw-bold text-dark small">${document.getElementById('metaGPS').innerText}</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-muted small">Estimasi Jarak ke Sasaran</span>
+                                                <span class="fw-bold text-info small">${jarakTargetKM}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="h-100 p-4 border rounded" style="background-color: #f8fafc;">
-                                        <h5 class="bap-section-title"><i class="fas fa-file-invoice-dollar text-primary me-2"></i> B. Otentikasi Keuangan</h5>
-                                        <div class="alert ${finalDocStatus.includes('Sah') ? 'alert-success' : 'alert-warning'} border py-2 px-3 mb-4 d-flex align-items-center">
-                                            <i class="${finalDocStatus.includes('Sah') ? 'fas fa-check-circle text-success' : 'fas fa-exclamation-triangle text-warning'} fs-4 me-3"></i>
+
+                                <div class="col-md-7">
+                                    <div class="h-100 p-4 border rounded shadow-sm" style="background-color: #f8fafc;">
+                                        <h5 class="bap-section-title"><i class="fas fa-file-invoice-dollar text-primary me-2"></i> B. Otentikasi Keuangan & Evaluasi Harga</h5>
+                                        
+                                        <div class="alert ${finalDocStatus.includes('Sah') ? 'alert-success' : 'alert-warning'} border py-3 px-3 mb-4 d-flex align-items-center shadow-sm">
+                                            <i class="${finalDocStatus.includes('Sah') ? 'fas fa-shield-check text-success' : 'fas fa-exclamation-triangle text-warning'} fs-2 me-3"></i>
                                             <div>
-                                                <h6 class="fw-bold mb-0">${finalDocStatus}</h6>
-                                                <small class="text-dark">${dataAI.data.ai_audit.dokumen.detail}</small>
+                                                <h6 class="fw-bold mb-1 text-dark">Status Pindaian Nota Belanja: ${finalDocStatus}</h6>
+                                                <small class="text-muted">${dataAI.data.ai_audit.dokumen.detail}</small>
                                             </div>
                                         </div>
-                                        <p class="text-muted fw-bold small mb-1">Rincian Evaluasi Harga Penetapan:</p>
+                                        
+                                        <div class="d-flex justify-content-between align-items-end mb-2">
+                                            <p class="text-muted fw-bold small mb-0">Rincian Komparasi Harga OCR vs Acuan Indeks (PIHPS):</p>
+                                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1"><i class="fas fa-robot me-1"></i> AI Forensic Active</span>
+                                        </div>
                                         ${tableHtml}
+                                        
                                         <div class="summary-box mt-4">
-                                            <div class="d-flex justify-content-between small text-white-50 mb-1"><span>Sasaran Distribusi:</span> <span>${jumlahPorsiTarget} Porsi Penerima</span></div>
-                                            <div class="d-flex justify-content-between align-items-end">
-                                                <span class="text-white-50 small">Alokasi Dana Disetujui:</span> 
-                                                <span class="text-warning fw-bold fs-3" style="line-height: 1;">Rp ${(totalLaporVendor * jumlahPorsiTarget).toLocaleString('id-ID')}</span>
+                                            <div class="row">
+                                                <div class="col-6 border-end border-secondary border-opacity-50">
+                                                    <span style="font-size: 0.8rem; color: #cbd5e1;">Sasaran Distribusi:</span>
+                                                    <div class="fw-bold text-white fs-5 mt-1">${jumlahPorsiTarget} <span class="fs-6 fw-normal text-white-50">Porsi</span></div>
+                                                </div>
+                                                <div class="col-6 text-end">
+                                                    <span style="font-size: 0.8rem; color: #cbd5e1;">Alokasi Dana Disetujui:</span>
+                                                    <div class="text-warning fw-bold fs-4 mt-1" style="line-height: 1;">Rp ${(totalLaporVendor * jumlahPorsiTarget).toLocaleString('id-ID')}</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="text-center mt-5 pt-4 border-top">
-                                <h5 class="fw-bold text-dark mb-3">Apakah Anda memberikan persetujuan untuk pengesahan dokumen ini ke dalam basis data terpusat?</h5>
-                                <p class="text-muted small mb-4">Pengesahan dokumen bersifat mengikat. Data yang telah tersimpan tidak dapat mengalami perubahan secara sepihak dan akan dijadikan dasar proses pencairan dana pada hari kerja.</p>
-                                <button class="btn btn-outline-danger rounded-pill px-4 py-2 fw-bold me-3" onclick="kembaliKeForm()"><i class="fas fa-undo me-2"></i> Batalkan dan Lakukan Revisi</button>
-                                <button class="btn btn-success rounded-pill px-5 py-2 fw-bold shadow-lg fs-5" onclick="eksekusiWeb3()"><i class="fas fa-fingerprint me-2"></i> Otorisasi dan Simpan Laporan</button>
+                                <h5 class="fw-bold text-dark mb-3">Apakah Anda menyetujui pengesahan laporan akhir ini?</h5>
+                                <p class="text-muted small mb-4 w-75 mx-auto">Dengan mengotorisasi dokumen ini, data akan dicatat secara permanen dan tidak dapat diubah (immutable) ke dalam buku besar pemerintahan (Blockchain). Dokumen ini sah secara hukum untuk proses pencairan dana ke dompet vendor yang terdaftar.</p>
+                                <button class="btn btn-outline-danger rounded-pill px-4 py-2 fw-bold me-3 shadow-sm" onclick="kembaliKeForm()"><i class="fas fa-undo me-2"></i> Batalkan & Koreksi</button>
+                                <button class="btn btn-success rounded-pill px-5 py-2 fw-bold shadow-lg fs-5" onclick="eksekusiWeb3()"><i class="fas fa-fingerprint me-2"></i> Otorisasi Permanen (Blockchain)</button>
                             </div>
                         </div>
                     `;

@@ -7,6 +7,7 @@
     <title>Login Auditor B2G | TRUST-PLATE</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
@@ -43,7 +44,6 @@
         .brand-icon {
             font-size: 4rem;
             color: #16a085;
-            /* Accent Green */
             margin-bottom: 20px;
         }
 
@@ -84,7 +84,6 @@
 
         .btn-login {
             background-color: #2980b9;
-            /* Accent Blue */
             color: white;
             padding: 14px;
             border-radius: 8px;
@@ -103,20 +102,13 @@
             box-shadow: 0 6px 15px rgba(41, 128, 185, 0.4);
         }
 
-        /* Animasi Loading */
         #loginSpinner {
             display: none;
         }
 
         @media (max-width: 991px) {
-            .auth-left {
-                display: none;
-            }
-
-            /* Sembunyikan bagian kiri di HP */
-            .auth-right {
-                padding: 3rem 2rem;
-            }
+            .auth-left { display: none; }
+            .auth-right { padding: 3rem 2rem; }
         }
     </style>
 </head>
@@ -163,8 +155,7 @@
 
                     <div class="mb-5">
                         <h2 class="fw-bold text-dark mb-2">Portal Auditor Pemerintah</h2>
-                        <p class="text-muted">Silakan masuk menggunakan NIP dan Kata Sandi SSO Anda untuk mengakses
-                            Command Center.</p>
+                        <p class="text-muted">Silakan masuk menggunakan NIP dan Kata Sandi SSO Anda untuk mengakses Command Center.</p>
                     </div>
 
                     <form id="govLoginForm">
@@ -172,9 +163,8 @@
                         <div class="mb-4">
                             <label class="form-label">Nomor Induk Pegawai (NIP)</label>
                             <div class="input-group">
-                                <span class="input-group-text border-end-0 bg-transparent text-muted"><i
-                                        class="fas fa-id-badge"></i></span>
-                                <input type="text" class="form-control border-start-0 ps-0"
+                                <span class="input-group-text border-end-0 bg-transparent text-muted"><i class="fas fa-id-badge"></i></span>
+                                <input type="text" class="form-control border-start-0 ps-0" id="loginNip"
                                     placeholder="Masukkan 18 digit NIP" required value="198504122010011001">
                             </div>
                         </div>
@@ -182,10 +172,9 @@
                         <div class="mb-4">
                             <label class="form-label">Kata Sandi (SSO)</label>
                             <div class="input-group">
-                                <span class="input-group-text border-end-0 bg-transparent text-muted"><i
-                                        class="fas fa-lock"></i></span>
-                                <input type="password" class="form-control border-start-0 ps-0" placeholder="••••••••"
-                                    required value="password123">
+                                <span class="input-group-text border-end-0 bg-transparent text-muted"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control border-start-0 ps-0" id="loginPassword" 
+                                    placeholder="••••••••" required value="password123">
                             </div>
                         </div>
 
@@ -194,42 +183,32 @@
                                 <span>Cakupan Wilayah Monitoring <span class="text-danger">*</span></span>
                             </label>
                             <div class="input-group">
-                                <span class="input-group-text border-end-0 bg-transparent text-primary"><i
-                                        class="fas fa-map-marker-alt"></i></span>
-                                <select class="form-select border-start-0 ps-0 text-dark fw-bold" id="regionSelect"
-                                    required>
+                                <span class="input-group-text border-end-0 bg-transparent text-primary"><i class="fas fa-map-marker-alt"></i></span>
+                                <select class="form-select border-start-0 ps-0 text-dark fw-bold" id="regionSelect" required>
                                     <option value="" disabled>-- Pilih Zona Radar Geo-Spatial --</option>
-                                    <option value="semarang" selected>Kota Semarang</option>
-                                    <option value="surakarta">Kota Bandung</option>
-                                    <option value="surakarta">Kab. Surakarta</option>
-                                    <option value="surakarta">Kota Surakarta</option>
-                                    <option value="kendal">Kab. Kendal</option>
-                                    <option value="demak">Kab. Demak</option>
-                                    <option value="nasional" class="text-danger">Seluruh Nasional (Peringatan: Render
-                                        Berat)</option>
+                                    <option value="Jawa Barat" selected>Provinsi Jawa Barat</option>
+                                    <option value="Kota Bandung">Kota Bandung</option>
+                                    <option value="Jawa Tengah">Provinsi Jawa Tengah</option>
+                                    <option value="Kota Semarang">Kota Semarang</option>
+                                    <option value="Nasional" class="text-danger">Seluruh Nasional (Peringatan: Render Berat)</option>
                                 </select>
                             </div>
                             <div class="form-text mt-2 small text-muted" style="font-size: 0.75rem;">
-                                <i class="fas fa-info-circle text-primary"></i> <b>Sistem Partisi Data:</b> Memilih zona
-                                spesifik akan menghemat bandwidth dan mempercepat rendering Peta Radar serta verifikasi
-                                Smart Contract.
+                                <i class="fas fa-info-circle text-primary"></i> <b>Sistem Partisi Data:</b> Memilih zona spesifik akan menghemat bandwidth dan mempercepat rendering Peta Radar serta verifikasi Smart Contract.
                             </div>
                         </div>
 
                         <div class="d-flex justify-content-between align-items-center mb-5">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="rememberMe" checked>
-                                <label class="form-check-label small fw-bold text-muted" for="rememberMe">Ingat Sesi
-                                    Saya</label>
+                                <label class="form-check-label small fw-bold text-muted" for="rememberMe">Ingat Sesi Saya</label>
                             </div>
-                            <a href="#" class="small fw-bold text-decoration-none" style="color: #2980b9;">Lupa
-                                Sandi?</a>
+                            <a href="#" class="small fw-bold text-decoration-none" style="color: #2980b9;">Lupa Sandi?</a>
                         </div>
 
                         <button type="submit" class="btn btn-login" id="submitBtn">
                             <span id="btnText"><i class="fas fa-sign-in-alt me-2"></i> Masuk ke Command Center</span>
-                            <span id="loginSpinner" class="spinner-border spinner-border-sm me-2" role="status"
-                                aria-hidden="true"></span>
+                            <span id="loginSpinner" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                             <span id="loadingText" style="display: none;">Otentikasi Node PoA...</span>
                         </button>
                     </form>
@@ -247,40 +226,66 @@
     </div>
 
     <script>
-        document.getElementById('govLoginForm').addEventListener('submit', function (e) {
-            e.preventDefault(); // Mencegah reload halaman
+        document.getElementById('govLoginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const nip = document.getElementById('loginNip').value;
+            const password = document.getElementById('loginPassword').value;
+            const region = document.getElementById('regionSelect').value;
+
+            if (!region) {
+                return Swal.fire('Wilayah Kosong', 'Harap pilih Cakupan Wilayah Monitoring.', 'warning');
+            }
 
             const btn = document.getElementById('submitBtn');
             const btnText = document.getElementById('btnText');
             const spinner = document.getElementById('loginSpinner');
             const loadText = document.getElementById('loadingText');
-            const region = document.getElementById('regionSelect').value;
 
-            // Ganti state tombol jadi Loading
             btn.disabled = true;
             btnText.style.display = 'none';
             spinner.style.display = 'inline-block';
             loadText.style.display = 'inline-block';
 
-            // Animasi teks loading yang meyakinkan
-            setTimeout(() => {
-                loadText.innerText = "Memuat Data Geospasial Wilayah...";
-            }, 1000);
+            try {
+                // Tembak API Backend B2G
+                const response = await fetch('http://localhost:3000/api/gov/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nip, password, region })
+                });
+                
+                const result = await response.json();
 
-            setTimeout(() => {
-                loadText.innerText = "Sinkronisasi Blockchain Selesai!";
-                btn.classList.replace('btn-login', 'btn-success');
+                if (result.success) {
+                    // Simpan sesi Auditor di LocalStorage
+                    localStorage.setItem('gov_data', JSON.stringify(result.data));
 
-                // Redirect ke Dashboard Pemerintah
-                setTimeout(() => {
-                    window.location.href = "gov-dashboard.html";
-                }, 500);
+                    // Animasi loading buatan agar terasa seperti memuat data geospasial berat
+                    setTimeout(() => { loadText.innerText = "Memuat Data Geospasial Wilayah..."; }, 800);
+                    setTimeout(() => { loadText.innerText = "Sinkronisasi Blockchain Selesai!"; btn.classList.replace('btn-login', 'btn-success'); }, 1800);
 
-            }, 2500);
+                    setTimeout(() => {
+                        window.location.href = "gov-dashboard.html";
+                    }, 2500);
+
+                } else {
+                    Swal.fire('Otentikasi Gagal', result.message, 'error');
+                    resetBtn();
+                }
+            } catch (err) {
+                console.error(err);
+                Swal.fire('Koneksi Terputus', 'Server B2G tidak merespon.', 'error');
+                resetBtn();
+            }
+
+            function resetBtn() {
+                btn.disabled = false;
+                btnText.style.display = 'inline-block';
+                spinner.style.display = 'none';
+                loadText.style.display = 'none';
+            }
         });
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
