@@ -7,33 +7,46 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
         :root { --gov-sidebar: #1a252f; --gov-bg: #f4f7f6; --accent-green: #16a085; --accent-blue: #0d6efd; --accent-red: #e74c3c; --accent-yellow: #f1c40f; --sidebar-width: 260px; }
-        body { background-color: var(--gov-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
+        
+        /* STANDAR MASTER DESKTOP: ANTI-MLEOT */
+        body { background-color: var(--gov-bg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: auto; }
+        
         .sidebar { background-color: var(--gov-sidebar); height: 100vh; color: white; padding-top: 20px; position: fixed; top: 0; left: 0; width: var(--sidebar-width); z-index: 1000; overflow-y: auto; }
         .sidebar-brand { text-align: center; margin-bottom: 40px; }
         .sidebar-brand i { color: var(--accent-green); font-size: 2.5rem; margin-bottom: 10px; }
         .sidebar-brand h4 { font-weight: 900; letter-spacing: 1px; margin-bottom: 0; }
         .sidebar-brand small { color: #7f8c8d; font-size: 0.65rem; letter-spacing: 1px; }
+        
         .nav-link { color: #bdc3c7; padding: 12px 20px; margin-bottom: 5px; font-weight: 500; font-size: 0.95rem; border-left: 4px solid transparent; transition: 0.3s; display: flex; align-items: center; white-space: nowrap; }
         .nav-link i.fas { width: 30px; text-align: center; font-size: 1.1rem; }
         .nav-link:hover { color: white; background-color: rgba(255, 255, 255, 0.05); }
         .nav-link.active { color: white; background-color: #2c3e50; border-left: 4px solid var(--accent-green); font-weight: 600; }
-        #main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; padding: 1.5rem 2rem; }
+        
+        /* MAIN CONTENT DI-LOCK LEBARNYA */
+        #main-content { margin-left: var(--sidebar-width); width: calc(100% - var(--sidebar-width)); min-height: 100vh; padding: 1.5rem 2rem; min-width: 1100px; }
+        
         .live-indicator { width: 8px; height: 8px; background-color: #2ecc71; border-radius: 50%; display: inline-block; animation: pulse-green 2s infinite; }
         @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); } 70% { box-shadow: 0 0 0 6px rgba(46, 204, 113, 0); } 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); } }
         
+        /* TABS ANTI KEGENCET */
         .nav-tabs .nav-link { color: #7f8c8d; font-weight: 600; border: none; border-bottom: 3px solid transparent; padding: 12px 20px; font-size: 0.95rem; background: transparent; white-space: nowrap; cursor: pointer; }
         .nav-tabs .nav-link.active { color: #1a252f; border-bottom: 3px solid var(--accent-blue); background: transparent; }
+        
         .card-dash { border: none; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); background-color: white; margin-bottom: 1.5rem; }
-        .table-alert th { background-color: #f8f9fa; font-size: 0.85rem; text-transform: uppercase; color: #7f8c8d; }
-        .table-alert td { vertical-align: middle; font-size: 0.9rem; }
-        .table-audit th { background-color: #e9ecef; font-size: 0.8rem; color: #495057; }
-        .table-audit td { font-size: 0.9rem; vertical-align: middle; }
+        
+        /* TABLE ANTI MLEOT */
+        .table-alert th { background-color: #f8f9fa; font-size: 0.85rem; text-transform: uppercase; color: #7f8c8d; white-space: nowrap; }
+        .table-alert td { vertical-align: middle; font-size: 0.9rem; white-space: nowrap; }
+        .table-audit th { background-color: #e9ecef; font-size: 0.8rem; color: #495057; white-space: nowrap; }
+        .table-audit td { font-size: 0.9rem; vertical-align: middle; white-space: nowrap; }
+        
         .img-bap { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; cursor: pointer; transition: 0.3s; }
         .img-bap:hover { transform: scale(1.02); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .detail-label { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: #7f8c8d; margin-bottom: 2px; display: block; }
@@ -64,26 +77,28 @@
     </nav>
 
     <main id="main-content">
-        <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 pb-3 border-bottom gap-3">
-            <div class="d-flex align-items-center flex-shrink-0 pe-md-4 border-md-end">
-                <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 48px; height: 48px; font-size: 1.2rem; font-weight: bold;" id="govInitials">--</div>
-                <div>
-                    <h5 class="fw-bold mb-1 text-dark" id="govProfileName">Memuat...</h5>
-                    <div class="d-flex align-items-center gap-2 mt-1">
-                        <span class="border text-muted px-2 py-0 rounded bg-white shadow-sm" style="font-size: 0.75rem; font-family: monospace;" id="govProfileNip">NIP: ...</span>
-                        <span class="text-success fw-bold" style="font-size: 0.75rem;"><span class="live-indicator me-1"></span> TERHUBUNG</span>
+        <div class="d-flex align-items-center mb-4 pb-3 border-bottom flex-nowrap justify-content-between">
+            <div class="d-flex align-items-center pe-4 border-end flex-shrink-0">
+                <div class="rounded-circle bg-dark text-white d-flex justify-content-center align-items-center me-3 shadow-sm" style="width: 55px; height: 55px; font-size: 1.4rem; font-weight: bold;" id="govInitials">--</div>
+                <div class="text-nowrap">
+                    <h4 class="fw-bold mb-1 text-dark" style="font-size: 1.25rem;" id="govProfileName">Memuat...</h4>
+                    <div class="d-flex align-items-center gap-3 mt-1">
+                        <span class="border text-muted px-2 py-1 rounded bg-white shadow-sm" style="font-size: 0.8rem; font-family: monospace;" id="govProfileNip">NIP: ...</span>
+                        <div class="d-flex flex-column justify-content-center">
+                            <span class="text-muted fw-bold text-nowrap" style="font-size: 0.65rem; letter-spacing: 0.5px;">STATUS NODE JARINGAN</span>
+                            <span class="text-success fw-bold text-nowrap" style="font-size: 0.85rem;"><span class="live-indicator me-1"></span> TERHUBUNG</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="d-flex flex-wrap align-items-center justify-content-between flex-grow-1 gap-3">
-                <div>
-                    <h3 class="fw-bold mb-1" style="color: #2c3e50; font-size: 1.4rem;">Manajemen Pengadaan & Verifikasi</h3>
-                    <p class="text-muted mb-0" style="font-size: 0.85rem;">Otorisasi Akun Mitra, Evaluasi Anggaran (RAB), dan Riwayat <em>Auto-Escrow</em>.</p>
-                </div>
+
+            <div class="flex-grow-1 px-4 text-nowrap">
+                <h2 class="fw-bold mb-1" style="color: #2c3e50;"><i class="fas fa-clipboard-check text-primary me-2"></i>Manajemen Pengadaan</h2>
+                <p class="text-muted mb-0" style="font-size: 0.85rem;">Otorisasi Akun Mitra, Evaluasi Anggaran (RAB), dan Riwayat <em>Auto-Escrow</em>.</p>
             </div>
         </div>
 
-        <ul class="nav nav-tabs mb-4" id="approvalTabs" role="tablist">
+        <ul class="nav nav-tabs mb-4 flex-nowrap" id="approvalTabs" role="tablist">
             <li class="nav-item" role="presentation"><button class="nav-link active" id="akun-tab" data-bs-toggle="tab" data-bs-target="#akun-pane" type="button" role="tab" onclick="loadPendingVendors()"><i class="fas fa-user-plus me-2 text-primary"></i> 1. Pendaftaran Mitra Baru</button></li>
             <li class="nav-item" role="presentation"><button class="nav-link" id="rab-tab" data-bs-toggle="tab" data-bs-target="#rab-pane" type="button" role="tab" onclick="loadRAB()"><i class="fas fa-file-invoice-dollar me-2 text-warning"></i> 2. Verifikasi Pengajuan</button></li>
             <li class="nav-item" role="presentation"><button class="nav-link" id="laporan-tab" data-bs-toggle="tab" data-bs-target="#laporan-pane" type="button" role="tab" onclick="loadPencairan()"><i class="fas fa-robot me-2 text-success"></i> 3. Pelaporan Harian</button></li>
@@ -164,10 +179,10 @@
                     <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i class="fas fa-folder-open text-warning me-2"></i> Arsip Dokumen Legalitas (Unduhan PDF)</h6>
                     <div class="bg-white p-4 rounded border shadow-sm mb-2">
                         <div class="row g-3">
-                            <div class="col-md-3"><button class="btn btn-outline-danger w-100 fw-bold py-2" onclick="simulasiBukaPDF('Sertifikat NIB')"><i class="fas fa-file-pdf fs-4 mb-2 d-block text-danger"></i> Dokumen NIB</button></div>
-                            <div class="col-md-3"><button class="btn btn-outline-danger w-100 fw-bold py-2" onclick="simulasiBukaPDF('Kartu NPWP')"><i class="fas fa-file-pdf fs-4 mb-2 d-block text-danger"></i> Kartu NPWP</button></div>
-                            <div class="col-md-3"><button class="btn btn-outline-danger w-100 fw-bold py-2" onclick="simulasiBukaPDF('Sertifikat Laik Sehat (SLS)')"><i class="fas fa-file-pdf fs-4 mb-2 d-block text-danger"></i> Izin Dinkes (SLS)</button></div>
-                            <div class="col-md-3"><button class="btn btn-outline-danger w-100 fw-bold py-2" onclick="simulasiBukaPDF('Pakta Integritas MBG')"><i class="fas fa-file-pdf fs-4 mb-2 d-block text-danger"></i> Pakta Integritas</button></div>
+                            <div class="col-md-3"><button class="btn btn-outline-danger w-100 fw-bold py-2 text-nowrap" onclick="simulasiBukaPDF('Sertifikat NIB')"><i class="fas fa-file-pdf fs-4 mb-2 d-block text-danger"></i> Dokumen NIB</button></div>
+                            <div class="col-md-3"><button class="btn btn-outline-danger w-100 fw-bold py-2 text-nowrap" onclick="simulasiBukaPDF('Kartu NPWP')"><i class="fas fa-file-pdf fs-4 mb-2 d-block text-danger"></i> Kartu NPWP</button></div>
+                            <div class="col-md-3"><button class="btn btn-outline-danger w-100 fw-bold py-2 text-nowrap" onclick="simulasiBukaPDF('Sertifikat Laik Sehat')"><i class="fas fa-file-pdf fs-4 mb-2 d-block text-danger"></i> Izin Dinkes</button></div>
+                            <div class="col-md-3"><button class="btn btn-outline-danger w-100 fw-bold py-2 text-nowrap" onclick="simulasiBukaPDF('Pakta Integritas')"><i class="fas fa-file-pdf fs-4 mb-2 d-block text-danger"></i> Pakta Integritas</button></div>
                         </div>
                     </div>
                     <div class="alert alert-info border-info d-flex align-items-center mt-3 mb-0 shadow-sm bg-white">
@@ -288,7 +303,7 @@
                 if (data.success && data.data.length > 0) {
                     listPendingVendors = data.data; tbody.innerHTML = '';
                     listPendingVendors.forEach((v, index) => {
-                        tbody.innerHTML += `<tr><td class="ps-4 fw-bold text-dark">${v.nama_usaha}</td><td><code class="text-dark bg-white px-2 py-1 rounded border shadow-sm">${v.nib}</code></td><td>${v.alamat}</td><td class="text-end pe-4"><button class="btn btn-sm btn-primary fw-bold px-3 shadow-sm" onclick="bukaDetailVendor(${index})"><i class="fas fa-search me-1"></i> Tinjau Berkas</button></td></tr>`;
+                        tbody.innerHTML += `<tr><td class="ps-4 fw-bold text-dark">${v.nama_usaha}</td><td><code class="text-dark bg-white px-2 py-1 rounded border shadow-sm">${v.nib}</code></td><td>${v.alamat}</td><td class="text-end pe-4"><button class="btn btn-sm btn-primary fw-bold px-3 shadow-sm text-nowrap" onclick="bukaDetailVendor(${index})"><i class="fas fa-search me-1"></i> Tinjau Berkas</button></td></tr>`;
                     });
                 } else { tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-muted">Tidak ada pendaftaran mitra baru.</td></tr>'; }
             } catch (e) { tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-danger">Gagal memuat data dari server.</td></tr>'; }
@@ -327,7 +342,7 @@
                     listPendingRAB = result.data; tbody.innerHTML = '';
                     listPendingRAB.forEach((item, index) => {
                         const statusBadge = item.status === 'Disetujui' ? 'bg-success' : item.status === 'Ditolak' ? 'bg-danger' : 'bg-warning text-dark';
-                        tbody.innerHTML += `<tr><td class="ps-4 fw-bold text-dark">${item.vendor_id.substring(0, 20)}...</td><td>${item.sekolah}</td><td><span class="badge bg-light text-dark border">${item.jumlah_porsi} Kuota</span></td><td class="fw-bold text-dark fs-6">Rp ${Number(item.total_anggaran).toLocaleString('id-ID')}</td><td><span class="badge ${statusBadge}">${item.status}</span> ${item.tx_hash ? `<br><small class="text-primary fw-bold" style="font-size:0.75rem;"><i class="fas fa-link"></i> Web3</small>` : ''}</td><td class="pe-4 text-end"><button class="btn btn-sm btn-primary fw-bold shadow-sm" onclick='bukaModalRAB(${index})'><i class="fas fa-search me-1"></i> Tinjau Audit</button></td></tr>`;
+                        tbody.innerHTML += `<tr><td class="ps-4 fw-bold text-dark">${item.vendor_id.substring(0, 20)}...</td><td>${item.sekolah}</td><td><span class="badge bg-light text-dark border">${item.jumlah_porsi} Kuota</span></td><td class="fw-bold text-dark fs-6">Rp ${Number(item.total_anggaran).toLocaleString('id-ID')}</td><td><span class="badge ${statusBadge}">${item.status}</span> ${item.tx_hash ? `<br><small class="text-primary fw-bold" style="font-size:0.75rem;"><i class="fas fa-link"></i> Web3</small>` : ''}</td><td class="pe-4 text-end"><button class="btn btn-sm btn-primary fw-bold shadow-sm text-nowrap" onclick='bukaModalRAB(${index})'><i class="fas fa-search me-1"></i> Tinjau Audit</button></td></tr>`;
                     });
                 } else { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-4 text-muted">Belum ada usulan anggaran baru.</td></tr>'; }
             } catch (error) { tbody.innerHTML = '<tr><td colspan=\"6\" class=\"text-center py-4 text-danger fw-bold\"><i class=\"fas fa-exclamation-triangle\"></i> Gagal berkomunikasi.</td></tr>'; }
@@ -387,11 +402,11 @@
                             <div class="card mb-3 shadow-sm" style="${cardBorder}">
                                 <div class="card-header bg-transparent py-3 border-bottom d-flex justify-content-between align-items-center"><div class="d-flex align-items-center">${badgeStatus}<span class="fw-bold text-dark me-2">${item.vendor_id}</span><span class="text-muted small">| ${formatTgl}</span></div><span class="text-primary fw-bold small" title="${item.tx_hash}"><i class="fas fa-link"></i> Tx: ${shortHash}</span></div>
                                 <div class="card-body py-3">
-                                    <div class="row align-items-center text-center text-md-start g-4">
+                                    <div class="row align-items-center text-center text-md-start g-4 flex-nowrap">
                                         <div class="col-md-2 text-center border-end"><img src="${fileUrlFull || 'https://via.placeholder.com/150?text=No+Image'}" class="img-bap shadow-sm border" onclick="bukaBukti('${fileUrlFull}', '${notaUrlFull}', '${item.vendor_id}', '${item.sekolah}', '${item.menu ? encodeURIComponent(item.menu) : '-'}', '${item.kalori}', '${item.gizi_status ? encodeURIComponent(item.gizi_status) : '-'}', '${item.harga_status ? encodeURIComponent(item.harga_status) : '-'}', '${item.tx_hash}')" alt="BAP"></div>
-                                        <div class="col-md-3 border-end"><p class="small fw-bold text-muted mb-1">Inspeksi Gizi</p><h6 class="${isGiziAman ? 'text-success' : 'text-danger'} fw-bold mb-1"><i class="fas ${isGiziAman ? 'fa-check-circle' : 'fa-times-circle'} me-1"></i> ${isGiziAman ? 'Memenuhi Standar' : 'Substandar'}</h6></div>
-                                        <div class="col-md-3"><p class="small fw-bold text-muted mb-1">Audit Keuangan</p><h6 class="${isHargaAman ? 'text-success' : 'text-danger'} fw-bold mb-1"><i class="fas ${isHargaAman ? 'fa-check-circle' : 'fa-search-dollar'} me-1"></i> ${isHargaAman ? 'Harga Rasional' : 'Mark-up Terdeteksi'}</h6></div>
-                                        <div class="col-md-4 d-flex flex-column justify-content-center pe-md-4"><button class="btn btn-outline-dark btn-sm fw-bold py-2 mb-2 w-100" onclick="bukaBukti('${fileUrlFull}', '${notaUrlFull}', '${item.vendor_id}', '${item.sekolah}', '${item.menu ? encodeURIComponent(item.menu) : '-'}', '${item.kalori}', '${item.gizi_status ? encodeURIComponent(item.gizi_status) : '-'}', '${item.harga_status ? encodeURIComponent(item.harga_status) : '-'}', '${item.tx_hash}')"><i class="fas fa-microscope me-1"></i> Tinjau Forensik BAP</button>${actionButtons}</div>
+                                        <div class="col-md-3 border-end"><p class="small fw-bold text-muted mb-1">Inspeksi Gizi</p><h6 class="${isGiziAman ? 'text-success' : 'text-danger'} fw-bold mb-1 text-nowrap"><i class="fas ${isGiziAman ? 'fa-check-circle' : 'fa-times-circle'} me-1"></i> ${isGiziAman ? 'Memenuhi Standar' : 'Substandar'}</h6></div>
+                                        <div class="col-md-3"><p class="small fw-bold text-muted mb-1">Audit Keuangan</p><h6 class="${isHargaAman ? 'text-success' : 'text-danger'} fw-bold mb-1 text-nowrap"><i class="fas ${isHargaAman ? 'fa-check-circle' : 'fa-search-dollar'} me-1"></i> ${isHargaAman ? 'Harga Rasional' : 'Mark-up Terdeteksi'}</h6></div>
+                                        <div class="col-md-4 d-flex flex-column justify-content-center pe-md-4"><button class="btn btn-outline-dark btn-sm fw-bold py-2 mb-2 w-100 text-nowrap" onclick="bukaBukti('${fileUrlFull}', '${notaUrlFull}', '${item.vendor_id}', '${item.sekolah}', '${item.menu ? encodeURIComponent(item.menu) : '-'}', '${item.kalori}', '${item.gizi_status ? encodeURIComponent(item.gizi_status) : '-'}', '${item.harga_status ? encodeURIComponent(item.harga_status) : '-'}', '${item.tx_hash}')"><i class="fas fa-microscope me-1"></i> Tinjau Forensik BAP</button>${actionButtons}</div>
                                     </div>
                                 </div>
                             </div>
